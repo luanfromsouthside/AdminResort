@@ -32,18 +32,18 @@ import { LoginComponent } from './login/login.component';
           name: 'user',
           token: {
             class: NbAuthJWTToken,
-            key: 'access_token'
+            key: 'token'
           },
-          baseEndpoint: 'http://localhost:8000/auth',
+          baseEndpoint: 'https://localhost:44344/api/Login',
           login: {
-            endpoint: '/login',
+            endpoint: '/User',
             method: 'post',
           }
         }),
       ],
       forms: {
         login: {
-          redirectDelay: 300, // delay before redirect after a successful login, while success message is shown to the user
+          redirectDelay: 100, // delay before redirect after a successful login, while success message is shown to the user
           strategy: 'user',  // strategy id key.
           rememberMe: false,   // whether to show or not the `rememberMe` checkbox
           showMessages: {     // show/not show success/error messages

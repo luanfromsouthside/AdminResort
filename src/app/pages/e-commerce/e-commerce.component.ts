@@ -6,14 +6,14 @@ import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
   templateUrl: './e-commerce.component.html',
 })
 export class ECommerceComponent {
-  user = {};
+  user:any;
   constructor(private authService: NbAuthService){
     this.authService.onTokenChange()
     .subscribe((token: NbAuthJWTToken) => {
       if(token.isValid()){
         this.user = token.getPayload();
-        console.log('is login');
-        console.log(this.user);
+        console.log('payload ');
+        console.log(this.user?.sub)
       }
     })
   }

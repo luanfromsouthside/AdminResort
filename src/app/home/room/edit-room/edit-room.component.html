@@ -1,0 +1,8 @@
+<p>edit-room works!</p>
+<ng-container *ngIf="room$ | async as room; else noRoom">
+    <h3> Room id: {{room.id}}</h3>
+    <p> Room name: {{room.name}}</p>
+</ng-container>
+<ng-template #noRoom>
+    No room
+</ng-template>

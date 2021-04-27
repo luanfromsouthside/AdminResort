@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-md-12">
+        <nb-card>
+            <nb-card-header>THÊM NHÂN VIÊN</nb-card-header>
+            <nb-card-body>
+                <form>
+                    <div class="form-group row">
+                        <label for="staffId" class="label col-sm-3 col-form-label">Mã số nhân viên: </label>
+                        <div class="col-sm-9">
+                            <input type="text" nbInput fullWidth id="staffId" placeholder="Staff ID"  [(ngModel)]="id">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="name" class="label col-sm-3 col-form-label">Họ tên: </label>
+                        <div class="col-sm-9">
+                            <input type="text" nbInput fullWidth id="name" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="gender" class="label col-sm-3 col-form-label">Giới tính: </label>
+                        <div class="col-sm-9" id="gender">
+                            <nb-radio-group>
+                                <nb-radio [value]="true">Nam</nb-radio>
+                                <nb-radio [value]="false">Nữ</nb-radio>
+                            </nb-radio-group>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="birth" class="label col-sm-3 col-form-label">Ngày sinh: </label>
+                        <div class="col-sm-9" id="birth">
+                            <input nbInput fullWidth placeholder="Birthday" [nbDatepicker]="dateTimePicker">
+                            <nb-datepicker #dateTimePicker></nb-datepicker>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="phone" class="label col-sm-3 col-form-label">SĐT: </label>
+                        <div class="col-sm-9">
+                            <input type="tel" nbInput fullWidth id="phone" placeholder="Phone number">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="permission" class="label col-sm-3 col-form-label">Chức vụ: </label>
+                        <div class="col-sm-9">
+                            <nb-select placeholder="Permission" shape="semi-round" id="permission">
+                                <nb-option value="Staff">Nhân viên</nb-option>
+                                <nb-option value="Admin">Admin</nb-option>
+                                <nb-option value="Warehouse">Nhân viên kho</nb-option>
+                                <nb-option value="Manager">Quản lý</nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-sm-3 col-sm-3">
+                            <button nbButton hero status="primary" (click)="onAdd($event)">THÊM MỚI</button>
+                        </div>
+                        <div class="offset-sm-3 col-sm-3">
+                            <button nbButton hero status="danger">NHẬP LẠI</button>
+                        </div>
+                    </div>
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

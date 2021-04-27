@@ -38,30 +38,31 @@ import {
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
+    NbDatepickerModule.forRoot(),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     HttpClientModule,
-    NbAuthModule.forRoot({
-      strategies: [
-        NbPasswordAuthStrategy.setup({
-          name:'user',
-          token: {
-            class: NbAuthJWTToken,
-            key: 'token'
-          },
-          baseEndpoint: 'http://example.com/app-api/v1',
-          login: {
-            endpoint: '/auth/sign-in',
-            method: 'post',
-            redirect: {
-              success: '',
-              failure: null
-            }
-          }
-        }),
-      ],
-      forms: {},
-    })
+    // NbAuthModule.forRoot({
+    //   strategies: [
+    //     NbPasswordAuthStrategy.setup({
+    //       name:'user',
+    //       token: {
+    //         class: NbAuthJWTToken,
+    //         key: 'token'
+    //       },
+    //       baseEndpoint: 'http://example.com/app-api/v1',
+    //       login: {
+    //         endpoint: '/auth/sign-in',
+    //         method: 'post',
+    //         redirect: {
+    //           success: '',
+    //           failure: null
+    //         }
+    //       }
+    //     }),
+    //   ],
+    //   forms: {},
+    // })
   ],
   bootstrap: [AppComponent],
 })

@@ -11,17 +11,17 @@ import {
 
 export const routes: Routes = [
   {
-    path: 'pages',
-    loadChildren: () => import('./pages/pages.module')
-      .then(m => m.PagesModule),
+    path: 'home',
+    loadChildren: () => import('./home/home.module')
+      .then(m => m.HomeModule)
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module')
       .then(m => m.AuthModule)
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home' },
 ];
 
 const config: ExtraOptions = {
