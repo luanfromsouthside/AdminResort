@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { StaffService } from '../../../data/staff.service';
 import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-list-staff',
@@ -62,12 +63,17 @@ export class ListStaffComponent implements OnInit {
   constructor(
     private dialog: NbDialogService,
     private staffService: StaffService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
     this.staffService.ListStaff.subscribe(src => {
       this.source.load(src)
     });
+  }
+
+  staffSelect(row: any){
+    this.router.navigateByUrl('/home/staff/detail/' + row.data.id)
   }
 
   onDeleteConfirm(event): void {

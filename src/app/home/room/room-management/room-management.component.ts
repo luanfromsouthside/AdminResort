@@ -1,12 +1,7 @@
 import { Router } from '@angular/router';
-import { IRoom } from './../../../model/room.model';
 import { RoomServicesService } from './../../../data/room-services.service';
-import { filter } from 'rxjs/operators';
-import { RoomData } from '../../../data/mock-data/room-data';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
 @Component({
   selector: 'ngx-room-management',
   templateUrl: './room-management.component.html',

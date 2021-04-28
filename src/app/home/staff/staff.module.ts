@@ -1,3 +1,5 @@
+import { PermissionPipe } from './../../pipe/permission.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -6,6 +8,7 @@ import { StaffComponent } from './staff.component';
 import { ListStaffComponent } from './list-staff/list-staff.component';
 import { 
   NbActionsModule, 
+  NbAlertModule, 
   NbButtonModule, 
   NbCardModule,
   NbDatepickerModule,
@@ -18,11 +21,18 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { AddStaffComponent } from './add-staff/add-staff.component';
 import { DetailStaffComponent } from './detail-staff/detail-staff.component';
 import { DialogModule } from '../../dialog/dialog.module';
-import { FormsModule } from '@angular/forms';
+import { UpdateStaffComponent } from './update-staff/update-staff.component';
 
 
 @NgModule({
-  declarations: [StaffComponent, ListStaffComponent, AddStaffComponent, DetailStaffComponent],
+  declarations: [
+    StaffComponent,
+    ListStaffComponent,
+    AddStaffComponent,
+    DetailStaffComponent, 
+    UpdateStaffComponent,
+    PermissionPipe
+    ],
   imports: [
     CommonModule,
     StaffRoutingModule,
@@ -34,10 +44,12 @@ import { FormsModule } from '@angular/forms';
     NbActionsModule,
     NbUserModule,
     NbSelectModule,
-    FormsModule,
     NbRadioModule,
     NbDatepickerModule,
     DialogModule,
+    NbAlertModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class StaffModule { }

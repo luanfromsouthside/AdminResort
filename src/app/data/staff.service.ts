@@ -18,4 +18,27 @@ export class StaffService {
   getByID(id: string):Observable<Staff>{
     return this.ListStaff.pipe(map(staff => staff.find(s => s.id == id)));
   }
+
+  addStaff(staff: Staff) {
+    StaffData.push(staff);
+  }
+
+  removeStaff(staffID: string) {
+    StaffData.forEach((item,index) => {
+      if(item.id === staffID) delete StaffData[index];
+    })
+  }
+
+  updateStaff(staff: Staff) {
+    StaffData.forEach((item,index) => {
+      if(item.id === staff.id) {
+        item.name = staff.name;
+        item.gender = staff.gender;
+        item.birth = staff.birth;
+        item.phone = staff.phone;
+        item.password = staff.password;
+        item.permission = staff.permission;
+      }
+    })
+  }
 }

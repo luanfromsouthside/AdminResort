@@ -1,3 +1,4 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NbMenuModule } from '@nebular/theme';
 import { ThemeModule } from './../@theme/theme.module';
 import { NgModule } from '@angular/core';

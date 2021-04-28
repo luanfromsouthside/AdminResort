@@ -1,41 +1,23 @@
 <div class="row">
     <div class="col-md-12">
-        <nb-card>
-            <nb-card-header>THÊM NHÂN VIÊN</nb-card-header>
+        <nb-card status="success" *ngIf="staff$ | async as staff; else noStaff">
+            <nb-card-header>CẬP NHẬT NHÂN VIÊN {{ staff.id }}</nb-card-header>
             <nb-card-body>
-                <form novalidate (ngSubmit)="onSubmit()" [formGroup]="formAddStaff">
-                    <div class="form-group row">
-                        <label for="staffId" class="label col-sm-3 col-form-label">Mã số nhân viên: </label>
-                        <div class="col-sm-9">
-                            <input type="text" formControlName="id" nbInput fullWidth id="staffId"
-                                placeholder="Staff ID">
-                        </div>
-                    </div>
-                    <nb-alert *ngIf="formAddStaff.get('id').invalid && formAddStaff.controls.id?.touched"
-                        status="danger">
-                        <span *ngIf="formAddStaff.get('id').errors.required">ID is required</span>
-                        <span *ngIf="formAddStaff.get('id').errors?.minlength">
-                            Staff ID at least {{ formAddStaff.get('id').errors?.minlength.requiredLength }} characters
-                        </span>
-                        <span *ngIf="formAddStaff.get('id').errors?.maxlength">
-                            Staff ID at most {{ formAddStaff.get('id').errors?.maxlength.requiredLength }} characters
-                        </span>
-                    </nb-alert>
-
+                <form novalidate (ngSubmit)="onSubmit(staff.id)" [formGroup]="frUpdateStaff">
                     <div class="form-group row">
                         <label for="name" class="label col-sm-3 col-form-label">Họ tên: </label>
                         <div class="col-sm-9">
                             <input type="text" formControlName="name" nbInput fullWidth id="name" placeholder="Name">
                         </div>
                     </div>
-                    <nb-alert *ngIf="formAddStaff.get('name').invalid && formAddStaff.get('name').touched"
+                    <nb-alert *ngIf="frUpdateStaff.get('name').invalid && frUpdateStaff.get('name').touched"
                         status="danger">
-                        <span *ngIf="formAddStaff.get('name').errors.required">Name is required</span>
-                        <span *ngIf="formAddStaff.get('name').errors?.minlength">
-                            Name at least {{ formAddStaff.get('name').errors?.minlength.requiredLength }} characters
+                        <span *ngIf="frUpdateStaff.get('name').errors.required">Name is required</span>
+                        <span *ngIf="frUpdateStaff.get('name').errors?.minlength">
+                            Name at least {{ frUpdateStaff.get('name').errors?.minlength.requiredLength }} characters
                         </span>
-                        <span *ngIf="formAddStaff.get('name').errors?.maxlength">
-                            Name at most {{ formAddStaff.get('name').errors?.maxlength.requiredLength }} characters
+                        <span *ngIf="frUpdateStaff.get('name').errors?.maxlength">
+                            Name at most {{ frUpdateStaff.get('name').errors?.maxlength.requiredLength }} characters
                         </span>
                     </nb-alert>
 
@@ -53,13 +35,13 @@
                         <label for="birth" class="label col-sm-3 col-form-label">Ngày sinh: </label>
                         <div class="col-sm-9" id="birth">
                             <input formControlName="birth" nbInput fullWidth placeholder="Birthday"
-                                [nbDatepicker]="dateTimePicker" disabled>
+                                [nbDatepicker]="dateTimePicker">
                             <nb-datepicker #dateTimePicker></nb-datepicker>
                         </div>
                     </div>
-                    <nb-alert *ngIf="formAddStaff.get('birth').invalid && formAddStaff.get('birth').touched"
+                    <nb-alert *ngIf="frUpdateStaff.get('birth').invalid && frUpdateStaff.get('birth').touched"
                         status="danger">
-                        <span *ngIf="formAddStaff.get('birth').errors.required">Birth is required</span>
+                        <span *ngIf="frUpdateStaff.get('birth').errors.required">Birth is required</span>
                     </nb-alert>
 
                     <div class="form-group row">
@@ -69,14 +51,14 @@
                                 placeholder="Password">
                         </div>
                     </div>
-                    <nb-alert *ngIf="formAddStaff.get('password').invalid && formAddStaff.get('password').touched"
+                    <nb-alert *ngIf="frUpdateStaff.get('password').invalid && frUpdateStaff.get('password').touched"
                         status="danger">
-                        <span *ngIf="formAddStaff.get('password').errors.required">Password is required</span>
-                        <span *ngIf="formAddStaff.get('password').errors?.minlength">
-                            Password at least {{ formAddStaff.get('password').errors?.minlength.requiredLength }} characters
+                        <span *ngIf="frUpdateStaff.get('password').errors.required">Password is required</span>
+                        <span *ngIf="frUpdateStaff.get('password').errors?.minlength">
+                            Password at least {{ frUpdateStaff.get('password').errors?.minlength.requiredLength }} characters
                         </span>
-                        <span *ngIf="formAddStaff.get('password').errors?.maxlength">
-                            Password at most {{ formAddStaff.get('password').errors?.maxlength.requiredLength }} characters
+                        <span *ngIf="frUpdateStaff.get('password').errors?.maxlength">
+                            Password at most {{ frUpdateStaff.get('password').errors?.maxlength.requiredLength }} characters
                         </span>
                     </nb-alert>
 
@@ -87,10 +69,10 @@
                                 placeholder="Phone number">
                         </div>
                     </div>
-                    <nb-alert *ngIf="formAddStaff.get('phone').invalid && formAddStaff.get('phone').touched"
+                    <nb-alert *ngIf="frUpdateStaff.get('phone').invalid && frUpdateStaff.get('phone').touched"
                         status="danger">
-                        <span *ngIf="formAddStaff.get('phone').errors.required">Phone is required</span>
-                        <span *ngIf="formAddStaff.get('phone').errors?.pattern">
+                        <span *ngIf="frUpdateStaff.get('phone').errors.required">Phone is required</span>
+                        <span *ngIf="frUpdateStaff.get('phone').errors?.pattern">
                             Phone is invalid
                         </span>
                     </nb-alert>
@@ -110,10 +92,10 @@
 
                     <div class="form-group row">
                         <div class="offset-sm-3 col-sm-3">
-                            <button nbButton hero status="primary" type="submit" disabled="formAddStaff.invalid">THÊM MỚI</button>
+                            <button nbButton hero status="primary" type="submit">CẬP NHẬT</button>
                         </div>
                         <div class="offset-sm-3 col-sm-3">
-                            <button nbButton hero status="danger" (click)="resetForm($event)">NHẬP LẠI</button>
+                            <button nbButton hero status="danger" (click)="resetForm()">NHẬP LẠI</button>
                         </div>
                     </div>
                 </form>
@@ -121,3 +103,9 @@
         </nb-card>
     </div>
 </div>
+
+<ng-template #noStaff>
+    <nb-card status="danger">
+        <nb-card-header>Staff does not exist</nb-card-header>
+    </nb-card>
+</ng-template>
