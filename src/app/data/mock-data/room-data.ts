@@ -1,5 +1,5 @@
-import { IRoom } from './../../model/room.model';
-export const RoomData: IRoom[] = [
+import { Room } from './../../model/room.model';
+export const RoomData: Room[] = [
     {
         id: '01',
         name: 'Room 1',

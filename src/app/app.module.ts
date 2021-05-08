@@ -1,4 +1,6 @@
-import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
+import { RoleProvider } from './data/role.provider';
+import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
+import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy, NbPasswordAuthStrategyOptions } from '@nebular/auth';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
@@ -8,19 +10,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { CoreModule } from './@core/core.module';
+import { of as observableOf } from 'rxjs/observable/of'
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
-  NbChatModule,
   NbDatepickerModule,
   NbDialogModule,
+  NbLayoutModule,
   NbMenuModule,
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+// import { LayoutService } from './@core/utils';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,34 +38,41 @@ import {
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
-    NbChatModule.forRoot({
-      messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
-    }),
     NbDatepickerModule.forRoot(),
-    CoreModule.forRoot(),
+    NbLayoutModule,
     ThemeModule.forRoot(),
     HttpClientModule,
-    // NbAuthModule.forRoot({
-    //   strategies: [
-    //     NbPasswordAuthStrategy.setup({
-    //       name:'user',
-    //       token: {
-    //         class: NbAuthJWTToken,
-    //         key: 'token'
-    //       },
-    //       baseEndpoint: 'http://example.com/app-api/v1',
-    //       login: {
-    //         endpoint: '/auth/sign-in',
-    //         method: 'post',
-    //         redirect: {
-    //           success: '',
-    //           failure: null
-    //         }
-    //       }
-    //     }),
-    //   ],
-    //   forms: {},
-    // })
+    NbAuthModule.forRoot({
+      strategies: [
+        NbPasswordAuthStrategy.setup({
+          name: 'user',
+          
+        }),
+      ],
+      forms: {}
+    }),
+    NbSecurityModule.forRoot({
+      accessControl: {
+        guest: {
+          view: ['news', 'comments'],
+        },
+        user: {
+          parent: 'guest',
+          create: 'comments',
+        },
+        moderator: {
+          parent: 'user',
+          create: 'news',
+          remove: '*',
+        },
+      }
+    })
+  ],
+  providers: [
+    {
+      provide: NbRoleProvider,
+      useClass: RoleProvider
+    }
   ],
   bootstrap: [AppComponent],
 })

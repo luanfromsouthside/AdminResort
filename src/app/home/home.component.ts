@@ -7,12 +7,12 @@ import { MENU_ITEMS } from './home-menu';
   styleUrls: ['home.component.scss'],
   template:`
   <ngx-one-column-layout>
-    <nb-menu [items]="menu"></nb-menu>
+    <nb-menu [items]="menu" autoCollapse="true"></nb-menu>
     <router-outlet></router-outlet>
-  </ngx-one-column-layout>
-  `,
+  </ngx-one-column-layout>`
 })
 export class HomeComponent implements OnInit{
+  menu = MENU_ITEMS;
   constructor(private iconsLibrary: NbIconLibraries){}
 
   ngOnInit() {
@@ -20,6 +20,4 @@ export class HomeComponent implements OnInit{
     this.iconsLibrary.registerFontPack( 'far', { packClass: 'far', iconClassPrefix: 'fa' });
     this.iconsLibrary.registerFontPack('fas', {packClass: 'fas', iconClassPrefix: 'fa' });
   }
-
-  menu = MENU_ITEMS;
 }

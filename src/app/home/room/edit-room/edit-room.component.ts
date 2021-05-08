@@ -1,4 +1,4 @@
-import { IRoom } from './../../../model/room.model';
+import { Room } from './../../../model/room.model';
 import { Observable } from 'rxjs';
 import { RoomServicesService } from './../../../data/room-services.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +11,7 @@ import { pluck, switchMap, filter } from 'rxjs/operators';
   styleUrls: ['./edit-room.component.scss']
 })
 export class EditRoomComponent implements OnInit {
-  room$: Observable<IRoom>
+  room$: Observable<Room>
 
   constructor(private readonly route: ActivatedRoute, private readonly services: RoomServicesService) { }
 

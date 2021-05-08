@@ -1,38 +1,57 @@
 <nb-card status="success" *ngIf="staff$ | async as staff; else noStaff">
     <nb-card-header>Thông tin nhân viên: {{staff.id}}</nb-card-header>
     <nb-card-body>
-        <div class="row">
-            <div class="col-4">Tên nhân viên:</div>
-            <div class="col-6">{{ staff.name }}</div>
-        </div>
-        <div class="row">
-            <div class="col-4">Giới tính:</div>
-            <div class="col-6">{{ staff.gender ? "Nam" : "Nữ" }}</div>
-        </div>
-        <div class="row">
-            <div class="col-4">Ngày sinh:</div>
-            <div class="col-6">{{ staff.birth | date:'mediumDate' }}</div>
-        </div>
-        <div class="row">
-            <div class="col-4">Số diện thoại:</div>
-            <div class="col-6">{{ staff.phone }}</div>
-        </div>
-        <div class="row">
-            <div class="col-4">Chức vụ:</div>
-            <div class="col-6">{{ staff.permission | perm }}</div>
-        </div>
+        <nb-list>
+            <nb-list-item>
+                <div class="col-4">
+                    <i class="fas fa-user"></i>
+                    Tên nhân viên:
+                </div>
+                <div class="col-6">{{ staff.name }}</div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="col-4">
+                    <i class="fas fa-venus-mars"></i>
+                    Giới tính:
+                </div>
+                <div class="col-6">{{ staff.gender ? "Nam" : "Nữ" }}</div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="col-4">
+                    <i class="fas fa-birthday-cake"></i>
+                    Ngày sinh:
+                </div>
+                <div class="col-6">{{ staff.birth | date:'mediumDate' }}</div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="col-4">
+                    <i class="fas fa-phone"></i>
+                    Số diện thoại:
+                </div>
+                <div class="col-6">{{ staff.phone }}</div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="col-4">
+                    <i class="fas fa-id-card-alt"></i>
+                    Chức vụ:
+                </div>
+                <div class="col-6">{{ staff.permission | perm }}</div>
+            </nb-list-item>
+        </nb-list>
     </nb-card-body>
     <nb-card-footer>
         <div class="row">
             <div class="col-md-4 col-12">
-                <button fullWidth nbButton shape="semi-round" status="info" (click)="onUpdate(staff.id)"><i class="fas fa-edit"></i>&emsp;Cập nhật thông tin </button>
+                <button hero fullWidth nbButton shape="semi-round" status="info" (click)="onUpdate(staff.id)"><i
+                        class="fas fa-edit"></i>&emsp;Cập nhật thông tin </button>
             </div>
             <div class="offset-md-4 col-md-4 col-12">
-                <button fullWidth nbButton shape="semi-round" status="danger" (click)="onRemove(staff.id)"><i class="fas fa-user-times"></i>&emsp;Xóa nhân viên </button>
+                <button hero fullWidth nbButton shape="semi-round" status="danger" (click)="onRemove(staff.id)"><i
+                        class="fas fa-user-times"></i>&emsp;Xóa nhân viên </button>
             </div>
         </div>
-        
-        
+
+
     </nb-card-footer>
 </nb-card>
 <ng-template #noStaff>

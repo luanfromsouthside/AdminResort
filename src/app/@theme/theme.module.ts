@@ -12,6 +12,7 @@ import {
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
+  NbCardModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -28,6 +29,7 @@ import {
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
+  PermissionPipe
 } from './pipes';
 import {
   OneColumnLayoutComponent,
@@ -52,6 +54,7 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  NbCardModule
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -68,6 +71,7 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
+  PermissionPipe
 ];
 
 @NgModule({
@@ -82,7 +86,7 @@ export class ThemeModule {
       providers: [
         ...NbThemeModule.forRoot(
           {
-            name: 'cosmic',
+            name: 'default',
           },
           [ DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME ],
         ).providers,

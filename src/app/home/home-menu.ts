@@ -4,6 +4,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Phòng',
         icon: { icon: 'home', pack: 'fas' },
+        expanded: true,
         children: [
             {
                 title: 'Danh sách phòng',
@@ -18,7 +19,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
     {
         title: 'Hóa đơn',
         icon: { icon: 'file-invoice-dollar', pack: 'fas'},
-        link: 'home/bill'
+        children: [
+            {
+                title:'Danh sách hóa đơn',
+                
+            },
+            {
+                title: 'Đặt phòng'
+            },
+            {
+                title: 'Thanh toán'
+            }
+        ]
     },
     {
         title: 'Nhân viên',
@@ -31,6 +43,32 @@ export const MENU_ITEMS: NbMenuItem[] = [
             {
                 title: 'Thêm nhân viên',
                 link: '/home/staff/add'
+            }
+        ]
+    },
+    {
+        title: 'Khách hàng',
+        icon: {icon: 'users', pack: 'fas'},
+        children: [
+            {
+                title: 'Danh sách khách hàng',
+                link: '/home/user'
+            },
+            {
+                title: 'Thêm khách hàng',
+                link: '/home/user/add'
+            }
+        ]
+    },
+    {
+        title: 'Vật tư',
+        icon: { icon: 'tv', pack: 'fas'},
+        children: [
+            {
+                title: 'Danh sách vật tư'
+            },
+            {
+                title: 'Thêm vật tư'
             }
         ]
     }

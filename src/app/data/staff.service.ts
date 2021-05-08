@@ -30,7 +30,7 @@ export class StaffService {
   }
 
   updateStaff(staff: Staff) {
-    StaffData.forEach((item,index) => {
+    StaffData.forEach((item) => {
       if(item.id === staff.id) {
         item.name = staff.name;
         item.gender = staff.gender;

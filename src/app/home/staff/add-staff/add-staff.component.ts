@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'ngx-add-staff',
   templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss']
 })
 export class AddStaffComponent implements OnInit {
   formAddStaff: FormGroup;
+  listRoles = [
+    { value: "Staff", name: "Nhân viên"},
+    { value: "Admin", name: "Quản lý"},
+    { value: "Warehouse", name: "Nhân viên kho"},
+    { value: "Manager", name: "Quản lý"}
+  ]
   constructor(
     private readonly staffService:StaffService,
     private fb: FormBuilder) { }
@@ -36,13 +41,13 @@ export class AddStaffComponent implements OnInit {
       ]],
       gender: [true, [Validators.required]],
       birth: ['', [Validators.required]],
-      permission: ['Staff', [Validators.required]],
+      permission: ['', [Validators.required]],
     })
   }
 
-  onSubmit() {
+  addStaff() {
     console.log(this.formAddStaff.value)
-    console.log(this.formAddStaff.get('phone').errors)
+
   }
 
   resetForm(event) {

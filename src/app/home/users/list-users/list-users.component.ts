@@ -1,17 +1,17 @@
-import { NbDialogService } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
-import { StaffService } from '../../../data/staff.service';
-import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
 import { Router } from '@angular/router';
+import { NbDialogService } from '@nebular/theme';
+import { LocalDataSource } from 'ng2-smart-table';
+import { CustomerService } from '../../../data/customer.service';
+import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
 
 @Component({
-  selector: 'ngx-list-staff',
-  templateUrl: './list-staff.component.html',
-  styleUrls: ['./list-staff.component.scss']
+  selector: 'ngx-list-users',
+  templateUrl: './list-users.component.html',
+  styleUrls: ['./list-users.component.scss']
 })
-export class ListStaffComponent implements OnInit {
+export class ListUsersComponent implements OnInit {
   settings = {
     actions:{
       add: false,
@@ -29,7 +29,7 @@ export class ListStaffComponent implements OnInit {
         filter: false
       },
       name: {
-        title: 'Tên nhân viên',
+        title: 'Tên khách hàng',
         type: 'string',
         filter: false
       },
@@ -52,43 +52,35 @@ export class ListStaffComponent implements OnInit {
         valuePrepareFunction: (gender)=>{
           return gender?"Nam":"Nữ"
         }
-      },
-      permission: {
-        title: 'Chức vụ',
-        type: 'string'
       }
     }
   }
   source: LocalDataSource = new LocalDataSource()
   constructor(
-    private dialog: NbDialogService,
-    private staffService: StaffService,
-    private router: Router
+    private readonly customerService: CustomerService,
+    private readonly router: Router,    
+    private readonly dialog: NbDialogService,
     ) { }
 
   ngOnInit(): void {
-    this.loadSrc();
-  }
-
-  loadSrc() {
-    this.staffService.ListStaff.subscribe(src => {
+    this.customerService.ListCustomer.subscribe(src => {
       this.source.load(src)
-    });
+    })
   }
 
-  staffSelect(row: any){
-    this.router.navigateByUrl('/home/staff/detail/' + row.data.id)
+  customerSelect(row: any){
+    this.router.navigateByUrl('/home/user/details/' + row.data.id)
   }
 
   onDeleteConfirm(event): void {
     this.dialog.open(DialogResultComponent, {
       context: {
-        title: 'Are you want to remove this staff?',
-        content: "Staff " + event.data.id
+        title: 'Are you want to remove this customer?',
+        content: `Customer ${event.data?.id}`
       }
     }).onClose.subscribe(result  => {
       if(result){
-        this.staffService.removeStaff(event.data.id)
+        this.customerService.removeCustomer(event.data.id)
         event.confirm.resolve();
       }
       else event.confirm.reject()

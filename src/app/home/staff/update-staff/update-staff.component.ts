@@ -11,7 +11,6 @@ import { filter, pluck, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'ngx-update-staff',
   templateUrl: './update-staff.component.html',
-  styleUrls: ['./update-staff.component.scss']
 })
 export class UpdateStaffComponent implements OnInit {
   frUpdateStaff: FormGroup;
@@ -24,11 +23,10 @@ export class UpdateStaffComponent implements OnInit {
     private readonly router: Router) { }
 
   ngOnInit(): void {
-    this.staff$ = this.route.params.pipe(
-      pluck('id'),
-      switchMap(id => this.staffService.getByID(id)),
-      filter(staff => !!staff)
-    )
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      this.staff$ = this.staffService.getByID(id);
+    })
     this.staff$.subscribe(s => {
       this.frUpdateStaff = this.fb.group({
         name: [s.name, [
@@ -55,17 +53,20 @@ export class UpdateStaffComponent implements OnInit {
     this.frUpdateStaff.reset();
   }
 
-  onSubmit(id: string) {
-    this.dialog.open(DialogResultComponent,{
-      context: {
-        title: `Cập nhật nhân viên ${id}?`
-      }
-    }).onClose.subscribe(result => {
-      if(result) {
-        this.update();
-        this.router.navigateByUrl('/home/staff');
-      }
-    })
+  updateStaff() {
+    this.staff$.subscribe((s) => {
+      this.dialog.open(DialogResultComponent,{
+        context: {
+          title: `Cập nhật nhân viên ${s.id}?`
+        }
+      }).onClose.subscribe(result => {
+        if(result) {
+          this.update();
+          this.router.navigateByUrl('/home/staff');
+        }
+      })
+    });
+    
   }
 
   update() {

@@ -1,0 +1,38 @@
+<nb-card status="success" *ngIf="customer$ | async as customer; else nocustomer">
+    <nb-card-header>Thông tin khách hàng: {{customer.id}}</nb-card-header>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-4">Tên khách hàng:</div>
+            <div class="col-6">{{ customer.name }}</div>
+        </div>
+        <div class="row">
+            <div class="col-4">Giới tính:</div>
+            <div class="col-6">{{ customer.gender ? "Nam" : "Nữ" }}</div>
+        </div>
+        <div class="row">
+            <div class="col-4">Ngày sinh:</div>
+            <div class="col-6">{{ customer.birth | date:'mediumDate' }}</div>
+        </div>
+        <div class="row">
+            <div class="col-4">Số diện thoại:</div>
+            <div class="col-6">{{ customer.phone }}</div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <button hero fullWidth nbButton shape="semi-round" status="info" (click)="onUpdate(customer.id)"><i class="fas fa-edit"></i>&emsp;Cập nhật thông tin </button>
+            </div>
+            <div class="offset-md-4 col-md-4 col-12">
+                <button hero fullWidth nbButton shape="semi-round" status="danger" (click)="onRemove(customer.id)"><i class="fas fa-customer-times"></i>&emsp;Xóa khách hàng </button>
+            </div>
+        </div>
+        
+        
+    </nb-card-footer>
+</nb-card>
+<ng-template #nocustomer>
+    <nb-card status="danger">
+        <nb-card-header>customer does not exist</nb-card-header>
+    </nb-card>
+</ng-template>

@@ -1,4 +1,4 @@
-import { PermissionPipe } from './../../pipe/permission.pipe';
+import { ThemeModule } from './../../@theme/theme.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,8 +14,11 @@ import {
   NbDatepickerModule,
   NbIconModule, 
   NbInputModule, 
+  NbLayoutModule, 
+  NbListModule, 
   NbRadioModule, 
   NbSelectModule,
+  NbSidebarModule,
   NbUserModule } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { AddStaffComponent } from './add-staff/add-staff.component';
@@ -31,8 +34,7 @@ import { UpdateStaffComponent } from './update-staff/update-staff.component';
     AddStaffComponent,
     DetailStaffComponent, 
     UpdateStaffComponent,
-    PermissionPipe
-    ],
+  ],
   imports: [
     CommonModule,
     StaffRoutingModule,
@@ -50,6 +52,10 @@ import { UpdateStaffComponent } from './update-staff/update-staff.component';
     NbAlertModule,
     FormsModule,
     ReactiveFormsModule,
+    NbListModule,
+    ThemeModule.forRoot(),
+    NbLayoutModule,
+    NbSidebarModule.forRoot()
   ]
 })
 export class StaffModule { }

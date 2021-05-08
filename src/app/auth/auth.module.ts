@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { AuthRoutingModule } from './auth-routing.module';
-import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
+import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy, NbTokenLocalStorage, NbTokenStorage } from '@nebular/auth';
 import { 
   NbAlertModule,
   NbButtonModule,
@@ -67,8 +67,8 @@ import { LoginComponent } from './login/login.component';
             maxLength: 50,
           },
         }
-        }
-    })
-  ]
+      }
+    }),
+  ],
 })
 export class AuthModule { }

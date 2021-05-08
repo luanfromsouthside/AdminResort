@@ -10,7 +10,6 @@ import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-resu
 @Component({
   selector: 'ngx-detail-staff',
   templateUrl: './detail-staff.component.html',
-  styleUrls: ['./detail-staff.component.scss']
 })
 export class DetailStaffComponent implements OnInit {
   staff$: Observable<Staff>;
@@ -26,6 +25,7 @@ export class DetailStaffComponent implements OnInit {
       switchMap(id => this.staffService.getByID(id)),
       filter(staff => !!staff)
     )
+    console.log(this.staff$)
   }
 
   onRemove(id: string) {
