@@ -25,7 +25,6 @@ export class DetailStaffComponent implements OnInit {
       switchMap(id => this.staffService.getByID(id)),
       filter(staff => !!staff)
     )
-    console.log(this.staff$)
   }
 
   onRemove(id: string) {

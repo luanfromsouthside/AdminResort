@@ -61,13 +61,8 @@
             </p>
         </ng-container>
     </div>
-
-    <div class="form-control-group accept-group">
-        <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
-    </div>
-
     <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || !form.valid"
-        [class.btn-pulse]="submitted">
+        [class.btn-pulse]="submitted" (click)="navigate()">
         Log In
     </button>
 </form>

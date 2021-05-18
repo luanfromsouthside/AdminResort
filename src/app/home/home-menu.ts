@@ -2,10 +2,14 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
     {
-        title: 'Phòng',
+        title: ' Phòng',
         icon: { icon: 'home', pack: 'fas' },
         expanded: true,
         children: [
+            {
+                title: 'Loại phòng',
+                link: '/home/room/roomtype'
+            },
             {
                 title: 'Danh sách phòng',
                 link: '/home/room/management'
@@ -17,7 +21,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ]
     },
     {
-        title: 'Hóa đơn',
+        title: ' Hóa đơn',
         icon: { icon: 'file-invoice-dollar', pack: 'fas'},
         children: [
             {
@@ -33,7 +37,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ]
     },
     {
-        title: 'Nhân viên',
+        title: ' Nhân viên',
         icon: { icon: 'id-card', pack: 'far' },
         children: [
             {
@@ -47,7 +51,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ]
     },
     {
-        title: 'Khách hàng',
+        title: ' Khách hàng',
         icon: {icon: 'users', pack: 'fas'},
         children: [
             {
@@ -61,14 +65,44 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ]
     },
     {
-        title: 'Vật tư',
+        title: ' Dịch vụ',
+        icon: {icon: 'concierge-bell', pack: 'fas'},
+        children: [
+            {
+                title: 'Danh sách dịch vụ',
+                link: '/home/service'
+            },
+            {
+                title: 'Thêm dịch vụ',
+                link: '/home/service/add'
+            }
+        ]
+    },
+    {
+        title: ' Vật tư',
         icon: { icon: 'tv', pack: 'fas'},
         children: [
             {
-                title: 'Danh sách vật tư'
+                title: 'Danh sách vật tư',
+                link: '/home/supply'
             },
             {
-                title: 'Thêm vật tư'
+                title: 'Thêm vật tư',
+                link: '/home/supply/add'
+            }
+        ]
+    },
+    {
+        title: ' Voucher',
+        icon: { icon: 'gift', pack: 'fas'},
+        children: [
+            {
+                title: 'Danh sách voucher',
+                link: '/home/voucher'
+            },
+            {
+                title: 'Thêm voucher',
+                link: '/home/voucher/add'
             }
         ]
     }

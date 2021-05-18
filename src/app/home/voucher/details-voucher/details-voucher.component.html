@@ -1,0 +1,50 @@
+<nb-card status="success" *ngIf="voucher$ | async as voucher; else noVoucher">
+    <nb-card-header>Thông tin voucher: {{ voucher.code }}</nb-card-header>
+    <nb-card-body>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>
+                        Điều kiện:
+                    </td>
+                    <td >
+                         {{ voucher.condition }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Giảm giá:
+                    </td>
+                    <td>
+                        {{ voucher.discount }} %
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Thời hạn:
+                    </td>
+                    <td>
+                        From: {{ voucher.fromDate | date:'dd/MM/yyyy' }} to: {{ voucher.toDate | date:'dd/MM/yyyy ' }} 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <button hero fullWidth nbButton shape="semi-round" status="info" (click)="onUpdate(voucher.code)"><i
+                        class="fas fa-edit"></i>&emsp;Cập nhật voucher </button>
+            </div>
+            <div class="offset-md-4 col-md-4 col-12">
+                <button hero fullWidth nbButton shape="semi-round" status="danger" (click)="onRemove(voucher.code)"><i
+                        class="fas fa-ban"></i>&emsp;Xóa voucher </button>
+            </div>
+        </div>
+    </nb-card-footer>
+</nb-card>
+<ng-template #noVoucher>
+    <nb-card status="danger">
+        <nb-card-header>Voucher does not exist</nb-card-header>
+    </nb-card>
+</ng-template>

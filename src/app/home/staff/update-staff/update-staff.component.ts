@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Staff } from '../../../model/staff.model';
-import { filter, pluck, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-update-staff',
@@ -62,7 +61,7 @@ export class UpdateStaffComponent implements OnInit {
       }).onClose.subscribe(result => {
         if(result) {
           this.update();
-          this.router.navigateByUrl('/home/staff');
+          this.router.navigateByUrl(`/home/staff/details/${s.id}`);
         }
       })
     });

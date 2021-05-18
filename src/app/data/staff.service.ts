@@ -20,7 +20,7 @@ export class StaffService {
   }
 
   addStaff(staff: Staff) {
-    StaffData.push(staff);
+    return StaffData.push(staff) - StaffData.length
   }
 
   removeStaff(staffID: string) {
@@ -40,5 +40,9 @@ export class StaffService {
         item.permission = staff.permission;
       }
     })
+  }
+
+  search(key: string) {
+    return StaffData.filter(s => s.name.includes(key))
   }
 }

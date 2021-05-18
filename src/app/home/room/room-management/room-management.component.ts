@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'ngx-room-management',
   templateUrl: './room-management.component.html',
-  styleUrls: ['./room-management.component.scss']
 })
 export class RoomManagementComponent implements OnInit {
   settings = {

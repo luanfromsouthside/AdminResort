@@ -15,7 +15,7 @@ export class CustomerService {
   }
 
   getByID(id: string):Observable<Customer>{
-    return this.ListCustomer.pipe(map(Customer => Customer.find(s => s.id == id)));
+    return this.ListCustomer.pipe(map(Customer => Customer.find(u => u.id == id)));
   }
 
   addCustomer(Customer: Customer) {
@@ -38,5 +38,9 @@ export class CustomerService {
         item.password = Customer.password;
       }
     })
+  }
+
+  search(key: string) {
+    return CustomerData.filter(cus => cus.name.includes(key))
   }
 }

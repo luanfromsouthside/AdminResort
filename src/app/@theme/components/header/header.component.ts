@@ -1,9 +1,10 @@
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMediaBreakpointsService, NbMenuService, NbSearchService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
-import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { LayoutService } from '../../layout.service';
+import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -44,7 +45,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private themeService: NbThemeService,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
-              private authService: NbAuthService) {
+              private authService: NbAuthService,
+              private search: NbSearchService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -70,6 +73,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
+
+    this.search.onSearchSubmit()
+      .subscribe((data: any) => {
+        const url = this.router.url.split('/')[2].split('?')[0]
+        this.router.navigate([`home/${url}`], { queryParams: { search: data.term }})
+        // console.log(this.router.url)
+        //console.log(this.router.url.split('/')[2].split('?')[0]);
+      })
+    this.menuService.onItemClick()
+      .pipe(
+        map(({ item: { title } }) => title),
+      )
+      .subscribe(title => title == 'Log out' ? this.router.navigateByUrl('/auth') : null);
   }
 
   ngOnDestroy() {
@@ -89,7 +105,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateHome() {
-    this.menuService.navigateHome();
-    return false;
+    this.router.navigateByUrl('/home')
   }
+  
+  
 }

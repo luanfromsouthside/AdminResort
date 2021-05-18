@@ -1,3 +1,4 @@
+import { InnerHTMLPipe } from './pipes/inner-html.pipe';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -71,7 +72,8 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
-  PermissionPipe
+  PermissionPipe,
+  InnerHTMLPipe
 ];
 
 @NgModule({

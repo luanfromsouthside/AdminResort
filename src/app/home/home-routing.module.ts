@@ -1,3 +1,4 @@
+import { NotFound404Component } from './not-found404/not-found404.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
@@ -23,10 +24,21 @@ const routes: Routes = [{
     },
     {
       path: 'service',
-      loadChildren: () => import('./services/services.module')
-      .then(m => m.ServicesModule)
+      loadChildren: () => import('./service/service.module')
+      .then(m => m.ServiceModule)
     },
-    { path: '', redirectTo: 'room', pathMatch: 'full'}
+    {
+      path: 'supply',
+      loadChildren: () => import('./supply/supply.module')
+      .then(m => m.SupplyModule)
+    },
+    {
+      path: 'voucher',
+      loadChildren: () => import('./voucher/voucher.module')
+      .then(m => m.VoucherModule)
+    },
+    { path: '', redirectTo: 'room', pathMatch: 'full'},
+    { path: '**', component: NotFound404Component }
   ]
 }];
 

@@ -1,3 +1,4 @@
+import { ThemeModule } from './../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,7 +9,7 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { AddUsersComponent } from './add-users/add-users.component';
 import { DetailUsersComponent } from './detail-users/detail-users.component';
 import { UpdateUsersComponent } from './update-users/update-users.component';
-import { NbCardModule, NbIconModule, NbInputModule, NbButtonModule, NbActionsModule, NbUserModule, NbSelectModule, NbRadioModule, NbDatepickerModule, NbAlertModule } from '@nebular/theme';
+import { NbCardModule, NbIconModule, NbInputModule, NbButtonModule, NbActionsModule, NbUserModule, NbSelectModule, NbRadioModule, NbDatepickerModule, NbAlertModule, NbLayoutModule, NbSidebarModule, NbListModule } from '@nebular/theme';
 import { DialogModule } from '../../dialog/dialog.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -32,6 +33,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NbAlertModule,
     FormsModule,
     ReactiveFormsModule,
+    NbListModule,
+    ThemeModule.forRoot(),
+    NbLayoutModule,
+    NbSidebarModule.forRoot()
   ]
 })
 export class UsersModule { }

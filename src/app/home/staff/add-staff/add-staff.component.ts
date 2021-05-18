@@ -1,6 +1,6 @@
-import { FormBuilder, FormGroup, MinLengthValidator, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StaffService } from './../../../data/staff.service';
-import { Staff } from './../../../model/staff.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -17,7 +17,8 @@ export class AddStaffComponent implements OnInit {
   ]
   constructor(
     private readonly staffService:StaffService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private readonly router: Router) { }
 
   ngOnInit(): void {
     this.formAddStaff = this.fb.group({
@@ -46,12 +47,26 @@ export class AddStaffComponent implements OnInit {
   }
 
   addStaff() {
-    console.log(this.formAddStaff.value)
-
+    this.staffService.addStaff({
+      id : this.formAddStaff.get('id').value,
+      name : this.formAddStaff.get('name').value,
+      password : this.formAddStaff.get('password').value,
+      phone : this.formAddStaff.get('phone').value,
+      gender : this.formAddStaff.get('gender').value,
+      birth : this.formAddStaff.get('birth').value,
+      permission : this.formAddStaff.get('permission').value,
+    });
+    // this.router.navigateByUrl(`home/user/details/${this.formAddStaff.get('id').value}`);
+    this.router.navigateByUrl(`home/staff`)
+    
   }
 
   resetForm(event) {
     event.preventDefault();
     this.formAddStaff.reset()
+  }
+
+  getConfig(ctrl: string):boolean {
+    return this.formAddStaff.get(ctrl).invalid && this.formAddStaff.get(ctrl).touched
   }
 }

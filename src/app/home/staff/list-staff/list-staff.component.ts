@@ -4,12 +4,11 @@ import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { StaffService } from '../../../data/staff.service';
 import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ngx-list-staff',
-  templateUrl: './list-staff.component.html',
-  styleUrls: ['./list-staff.component.scss']
+  templateUrl: './list-staff.component.html'
 })
 export class ListStaffComponent implements OnInit {
   settings = {
@@ -63,21 +62,22 @@ export class ListStaffComponent implements OnInit {
   constructor(
     private dialog: NbDialogService,
     private staffService: StaffService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit(): void {
-    this.loadSrc();
-  }
-
-  loadSrc() {
     this.staffService.ListStaff.subscribe(src => {
       this.source.load(src)
-    });
+    })
+    this.route.queryParams
+    .subscribe(params => {
+      if(typeof(params.search) === 'string') this.onSearch(params.search)
+    })
   }
 
   staffSelect(row: any){
-    this.router.navigateByUrl('/home/staff/detail/' + row.data.id)
+    this.router.navigateByUrl('/home/staff/details/' + row.data.id)
   }
 
   onDeleteConfirm(event): void {
@@ -95,16 +95,25 @@ export class ListStaffComponent implements OnInit {
     })
   }
 
-  onSearch(query: string = ''){
-    this.source.setFilter([
-      {
-        field: 'id',
-        search: query
-      },
-      {
-        field: 'name',
-        search: query
-      },
-    ], false)
+  onSearch(query){
+    if(query.trim().length === 0) {
+      this.source.reset()
+      this.staffService.ListStaff.subscribe(src => {
+        this.source.load(src)
+      })      
+    }
+    else {
+      query = query.trim()
+      this.source.setFilter([
+        {
+          field: 'id',
+          search: query
+        },
+        {
+          field: 'name',
+          search: query
+        },
+      ], false)
+    }
   }
 }

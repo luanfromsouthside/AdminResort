@@ -1,0 +1,42 @@
+<nb-card status="success" *ngIf="supply$ | async as supply; else noSup">
+    <nb-card-header>Thông tin vật tư: {{ supply.id }}</nb-card-header>
+    <nb-card-body>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>
+                        Tên vật tư:
+                    </td>
+                    <td>
+                        {{ supply.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Số lượng:
+                    </td>
+                    <td>
+                        {{ supply.total }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <button hero fullWidth nbButton shape="semi-round" status="info" (click)="onUpdate(supply.id)"><i
+                        class="fas fa-edit"></i>&emsp;Cập nhật vật tư </button>
+            </div>
+            <div class="offset-md-4 col-md-4 col-12">
+                <button hero fullWidth nbButton shape="semi-round" status="danger" (click)="onRemove(supply.id)"><i
+                        class="fas fa-user-times"></i>&emsp;Xóa vật tư </button>
+            </div>
+        </div>
+    </nb-card-footer>
+</nb-card>
+<ng-template #noSup>
+    <nb-card status="danger">
+        <nb-card-header>Supply does not exist</nb-card-header>
+    </nb-card>
+</ng-template>

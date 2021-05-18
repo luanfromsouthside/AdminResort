@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CustomerService } from '../../../data/customer.service';
@@ -8,8 +8,7 @@ import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-resu
 
 @Component({
   selector: 'ngx-list-users',
-  templateUrl: './list-users.component.html',
-  styleUrls: ['./list-users.component.scss']
+  templateUrl: './list-users.component.html'
 })
 export class ListUsersComponent implements OnInit {
   settings = {
@@ -60,11 +59,16 @@ export class ListUsersComponent implements OnInit {
     private readonly customerService: CustomerService,
     private readonly router: Router,    
     private readonly dialog: NbDialogService,
+    private readonly route: ActivatedRoute
     ) { }
 
   ngOnInit(): void {
     this.customerService.ListCustomer.subscribe(src => {
       this.source.load(src)
+    })
+    this.route.queryParams
+    .subscribe(params => {
+      if(typeof(params.search) === 'string') this.onSearch(params.search)
     })
   }
 
@@ -87,16 +91,25 @@ export class ListUsersComponent implements OnInit {
     })
   }
 
-  onSearch(query: string = ''){
-    this.source.setFilter([
-      {
-        field: 'id',
-        search: query
-      },
-      {
-        field: 'name',
-        search: query
-      },
-    ], false)
+  onSearch(query){
+    if(query.trim().length === 0) {
+      this.source.reset()
+      this.customerService.ListCustomer.subscribe(src => {
+        this.source.load(src)
+      })      
+    }
+    else {
+      query = query.trim()
+      this.source.setFilter([
+        {
+          field: 'id',
+          search: query
+        },
+        {
+          field: 'name',
+          search: query
+        },
+      ], false)
+    }
   }
 }

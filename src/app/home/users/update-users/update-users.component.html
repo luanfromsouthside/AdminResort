@@ -1,1 +1,99 @@
-<p>update-users works!</p>
+<div class="row">
+    <div class="col-md-12">
+        <nb-card status="success" *ngIf="user$ | async as user; else noUser">
+            <nb-card-header>CẬP NHẬT KHÁCH HÀNG {{ user.id }}</nb-card-header>
+            <nb-card-body>
+                <form novalidate [formGroup]="frmUpdateUser">
+                    <div class="form-group row">
+                        <label for="name" class="label col-sm-3 col-form-label">Họ tên: </label>
+                        <div class="col-sm-9">
+                            <input type="text" formControlName="name" nbInput fullWidth id="name" placeholder="Name">
+                        </div>
+                    </div>
+                    <nb-alert *ngIf="frmUpdateUser.get('name').invalid && frmUpdateUser.get('name').touched"
+                        status="danger">
+                        <span *ngIf="frmUpdateUser.get('name').errors.required">Name is required</span>
+                        <span *ngIf="frmUpdateUser.get('name').errors?.minlength">
+                            Name at least {{ frmUpdateUser.get('name').errors?.minlength.requiredLength }} characters
+                        </span>
+                        <span *ngIf="frmUpdateUser.get('name').errors?.maxlength">
+                            Name at most {{ frmUpdateUser.get('name').errors?.maxlength.requiredLength }} characters
+                        </span>
+                    </nb-alert>
+
+                    <div class="form-group row">
+                        <label for="gender" class="label col-sm-3 col-form-label">Giới tính: </label>
+                        <div class="col-sm-9" id="gender">
+                            <nb-radio-group formControlName="gender">
+                                <nb-radio [value]="true">Nam</nb-radio>
+                                <nb-radio [value]="false">Nữ</nb-radio>
+                            </nb-radio-group>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="birth" class="label col-sm-3 col-form-label">Ngày sinh: </label>
+                        <div class="col-sm-9" id="birth">
+                            <input formControlName="birth" nbInput fullWidth placeholder="Birthday"
+                                [nbDatepicker]="dateTimePicker">
+                            <nb-datepicker #dateTimePicker></nb-datepicker>
+                        </div>
+                    </div>
+                    <nb-alert *ngIf="frmUpdateUser.get('birth').invalid && frmUpdateUser.get('birth').touched"
+                        status="danger">
+                        <span *ngIf="frmUpdateUser.get('birth').errors.required">Birth is required</span>
+                    </nb-alert>
+
+                    <div class="form-group row">
+                        <label for="pass" class="label col-sm-3 col-form-label">Mật khẩu: </label>
+                        <div class="col-sm-9">
+                            <input type="password" formControlName="password" nbInput fullWidth id="pass"
+                                placeholder="Password">
+                        </div>
+                    </div>
+                    <nb-alert *ngIf="frmUpdateUser.get('password').invalid && frmUpdateUser.get('password').touched"
+                        status="danger">
+                        <span *ngIf="frmUpdateUser.get('password').errors.required">Password is required</span>
+                        <span *ngIf="frmUpdateUser.get('password').errors?.minlength">
+                            Password at least {{ frmUpdateUser.get('password').errors?.minlength.requiredLength }} characters
+                        </span>
+                        <span *ngIf="frmUpdateUser.get('password').errors?.maxlength">
+                            Password at most {{ frmUpdateUser.get('password').errors?.maxlength.requiredLength }} characters
+                        </span>
+                    </nb-alert>
+
+                    <div class="form-group row">
+                        <label for="phone" class="label col-sm-3 col-form-label">SĐT: </label>
+                        <div class="col-sm-9">
+                            <input type="tel" formControlName="phone" nbInput fullWidth id="phone"
+                                placeholder="Phone number">
+                        </div>
+                    </div>
+                    <nb-alert *ngIf="frmUpdateUser.get('phone').invalid && frmUpdateUser.get('phone').touched"
+                        status="danger">
+                        <span *ngIf="frmUpdateUser.get('phone').errors.required">Phone is required</span>
+                        <span *ngIf="frmUpdateUser.get('phone').errors?.pattern">
+                            Phone is invalid
+                        </span>
+                    </nb-alert>
+                </form>
+            </nb-card-body>
+            <nb-card-footer>
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <button nbButton fullWidth hero status="primary" (click)="updateUser()" [disabled]="frmUpdateUser.invalid">CẬP NHẬT</button>
+                    </div>
+                    <div class="offset-md-4 col-md-4 col-12">
+                        <button nbButton fullWidth hero status="danger" (click)="resetForm()">NHẬP LẠI</button>
+                    </div>
+                </div>
+            </nb-card-footer>
+        </nb-card>
+    </div>
+</div>
+
+<ng-template #noUser>
+    <nb-card status="danger">
+        <nb-card-header>User does not exist</nb-card-header>
+    </nb-card>
+</ng-template>

@@ -5,13 +5,13 @@
             <nb-card-body>
                 <form novalidate [formGroup]="formAddStaff">
                     <div class="form-group row">
-                        <label for="StaffId" class="label col-sm-3 col-form-label">Mã số khách hàng: </label>
+                        <label for="StaffId" class="label col-sm-3 col-form-label">Mã số nhân viên: </label>
                         <div class="col-sm-9">
                             <input type="text" 
                             formControlName="id" 
                             nbInput fullWidth id="StaffId"
                             placeholder="Staff ID"
-                            [status]="formAddStaff.get('id').invalid && formAddStaff.controls.id?.touched ? 'danger' : 'basic'">
+                            [status]="getConfig('id') ? 'danger' : 'basic'">
                         </div>
                     </div>
                     <nb-alert *ngIf="formAddStaff.get('id').invalid && formAddStaff.controls.id?.touched"

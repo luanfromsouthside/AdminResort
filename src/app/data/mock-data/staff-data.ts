@@ -64,4 +64,31 @@ export const StaffData: Staff[] = [
         password: '1234567',
         permission: 'Admin'
     },
+    {
+        id: 'Staff008',
+        name: 'Nhân Viên 8',
+        birth: new Date('2000-03-13'),
+        phone: '0963386045',
+        gender: true,
+        password: '1234567',
+        permission: 'Admin'
+    },
+    {
+        id: 'Staff009',
+        name: 'Nhân Viên 9',
+        birth: new Date('2000-03-13'),
+        phone: '0963386045',
+        gender: true,
+        password: '1234567',
+        permission: 'Admin'
+    },
+    {
+        id: 'Staff010',
+        name: 'Nhân Viên 7',
+        birth: new Date('2000-03-13'),
+        phone: '0963386045',
+        gender: true,
+        password: '1234567',
+        permission: 'Admin'
+    },
 ]

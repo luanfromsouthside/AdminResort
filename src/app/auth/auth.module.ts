@@ -9,6 +9,7 @@ import {
   NbAlertModule,
   NbButtonModule,
   NbCheckboxModule,
+  NbContextMenuModule,
   NbInputModule
 } from '@nebular/theme';
 import { LoginComponent } from './login/login.component';
@@ -43,7 +44,7 @@ import { LoginComponent } from './login/login.component';
       ],
       forms: {
         login: {
-          redirectDelay: 100, // delay before redirect after a successful login, while success message is shown to the user
+          redirectDelay: 20, // delay before redirect after a successful login, while success message is shown to the user
           strategy: 'user',  // strategy id key.
           rememberMe: false,   // whether to show or not the `rememberMe` checkbox
           showMessages: {     // show/not show success/error messages

@@ -1,3 +1,4 @@
+import { RoomTypeComponent } from './room-type/room-type.component';
 import { EditRoomComponent } from './edit-room/edit-room.component';
 import { RoomManagementComponent } from './room-management/room-management.component';
 import { RoomComponent } from './room.component';
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path:'edit/:id',
         component: EditRoomComponent
+      },
+      {
+        path:'roomtype',
+        component: RoomTypeComponent
       },
       {
         path: '',

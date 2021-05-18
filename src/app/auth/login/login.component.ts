@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { NbLoginComponent } from '@nebular/auth';
 
 @Component({
@@ -7,4 +8,10 @@ import { NbLoginComponent } from '@nebular/auth';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends NbLoginComponent {
+  
+  
+  navigate(){
+    this.router.navigateByUrl('/home')
+  }
+  
 }
