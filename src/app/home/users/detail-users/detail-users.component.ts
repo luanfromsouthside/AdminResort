@@ -35,7 +35,7 @@ export class DetailUsersComponent implements OnInit {
       }
     }).onClose.subscribe(result => {
       if(result) {
-        this.customerService.removeCustomer(id)
+        //this.customerService.removeCustomer(id)
         this.router.navigateByUrl("/home/user")
       }
     })

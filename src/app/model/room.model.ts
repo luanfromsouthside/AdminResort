@@ -1,7 +1,8 @@
 export interface Room {
     id: string;
     name: string;
-    type: string;
+    typeID: string;
     adult: number;
     child: number;
+    price: number;
 }

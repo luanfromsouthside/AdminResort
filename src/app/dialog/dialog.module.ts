@@ -6,7 +6,10 @@ import { DialogResultComponent } from './dialog-result/dialog-result.component';
 
 
 @NgModule({
-  declarations: [DialogResultComponent],
+  declarations: [
+    DialogResultComponent, 
+    //DialogDistributionComponent
+  ],
   imports: [
     CommonModule,
     NbCardModule,

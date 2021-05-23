@@ -1,3 +1,4 @@
+import { RoomService } from './data/room.service';
 import { RoleProvider } from './data/role.provider';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy, NbPasswordAuthStrategyOptions } from '@nebular/auth';
@@ -10,7 +11,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { of as observableOf } from 'rxjs/observable/of'
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,25 +46,43 @@ import {
       strategies: [
         NbPasswordAuthStrategy.setup({
           name: 'user',
-          
+          token: {
+            class: NbAuthJWTToken,
+            key: 'token'
+          },
+          baseEndpoint: 'https://localhost:44344/api/Auth',
+          login: {
+            endpoint: '/staff',
+            method: 'post',
+          }
         }),
       ],
-      forms: {}
-    }),
-    NbSecurityModule.forRoot({
-      accessControl: {
-        guest: {
-          view: ['news', 'comments'],
+      forms: {
+        login: {
+          redirectDelay: 20, // delay before redirect after a successful login, while success message is shown to the user
+          strategy: 'user',  // strategy id key.
+          rememberMe: false,   // whether to show or not the `rememberMe` checkbox
+          showMessages: {     // show/not show success/error messages
+            success: true,
+            error: true,
+          },
+          redirect: {
+            success: '../home',
+            failure: null
+          },
         },
-        user: {
-          parent: 'guest',
-          create: 'comments',
-        },
-        moderator: {
-          parent: 'user',
-          create: 'news',
-          remove: '*',
-        },
+        validation: {
+          password: {
+            required: true,
+            minLength: 6,
+            maxLength: 18,
+          },
+          username: {
+            required: true,
+            minLength: 4,
+            maxLength: 50,
+          },
+        }
       }
     })
   ],

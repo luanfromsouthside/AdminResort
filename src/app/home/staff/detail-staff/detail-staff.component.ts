@@ -12,7 +12,7 @@ import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-resu
   templateUrl: './detail-staff.component.html',
 })
 export class DetailStaffComponent implements OnInit {
-  staff$: Observable<Staff>;
+  staff: Staff;
   constructor(
     private route: ActivatedRoute, 
     private staffService: StaffService,
@@ -20,23 +20,36 @@ export class DetailStaffComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.staff$ = this.route.params.pipe(
-      pluck('id'),
-      switchMap(id => this.staffService.getByID(id)),
-      filter(staff => !!staff)
-    )
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id')
+      this.staffService.getByID(id)
+      .subscribe((res:any) => {
+        //this.staff = <Staff>res
+        this.staff = res.staff
+      })
+    })
   }
 
   onRemove(id: string) {
     this.dialog.open(DialogResultComponent, {
       context: {
-        title: `Are you want to remove staff ${id}?`,
-        content: ""
+        title: `Are you want to remove staff?`,
+        content: `ID: ${id}`
       }
     }).onClose.subscribe(result => {
       if(result) {
         this.staffService.removeStaff(id)
-        this.router.navigateByUrl("/home/staff")
+        .subscribe(
+          res => { this.router.navigateByUrl('/home/staff')},
+          err => {
+            this.dialog.open(DialogResultComponent, {
+              context: {
+                title: 'Error remove',
+                content: err.error
+              }
+            })
+          }
+        )
       }
     })
   }

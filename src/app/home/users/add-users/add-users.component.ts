@@ -36,6 +36,7 @@ export class AddUsersComponent implements OnInit {
       ]],
       gender: [true, [Validators.required]],
       birth: ['', [Validators.required]],
+      email: ['', [Validators.email]]
     })
   }
 
@@ -46,7 +47,8 @@ export class AddUsersComponent implements OnInit {
       birth: this.formAddUser.get('birth').value,
       gender: this.formAddUser.get('gender').value,
       password: this.formAddUser.get('password').value,
-      phone: this.formAddUser.get('phone').value
+      phone: this.formAddUser.get('phone').value,
+      email: this.formAddUser.get('email').value
     });
     this.router.navigateByUrl('/home/user')
   }

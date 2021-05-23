@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
+import { RoomService } from './../../../data/room.service';
 import { Router } from '@angular/router';
-import { RoomServicesService } from './../../../data/room-services.service';
-import { LocalDataSource } from 'ng2-smart-table';
+import { LocalDataSource, ServerDataSource } from 'ng2-smart-table';
 import { Component, OnInit } from '@angular/core';
+//import { RoomService } from '../../../shared/room.service';
 @Component({
   selector: 'ngx-room-management',
   templateUrl: './room-management.component.html',
@@ -28,10 +30,13 @@ export class RoomManagementComponent implements OnInit {
         type: 'string',
         filter: false
       },
-      type: {
+      roomType: {
         title: 'Room type',
         type: 'string',
-        filter: false     
+        filter: false ,
+        valuePrepareFunction: (data: any) => {
+          return data.nameType
+        }    
       },
       adult: {
         title: 'Adult',
@@ -40,19 +45,25 @@ export class RoomManagementComponent implements OnInit {
       child: {
         title: 'Child',
         type: 'number'
+      },
+      price: {
+        title: 'price',
+        type: 'number'
       }
     }
   }
 
-  source: LocalDataSource = new LocalDataSource()
-  constructor(private readonly roomData: RoomServicesService, private router: Router) { 
+  source: ServerDataSource;
+  constructor(
+    private readonly roomService: RoomService, 
+    private router: Router,
+    private http: HttpClient) { 
   }
 
   ngOnInit(): void {
-    this.roomData.ListRoom$.subscribe(
-      rooms => this.source.load(rooms)
-    )
+    this.source = this.roomService.SrcDataTable
   }
+
   editRoom(room: any):void {
     this.router.navigateByUrl("/home/room/edit/"+room.data.id)
   }

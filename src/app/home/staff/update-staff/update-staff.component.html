@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <nb-card status="success" *ngIf="staff$ | async as staff; else noStaff">
+        <nb-card status="success" *ngIf="staff != undefined; else noStaff">
             <nb-card-header>CẬP NHẬT NHÂN VIÊN {{ staff.id }}</nb-card-header>
             <nb-card-body>
                 <form novalidate [formGroup]="frUpdateStaff">
@@ -78,14 +78,28 @@
                     </nb-alert>
 
                     <div class="form-group row">
+                        <label for="email" class="label col-sm-3 col-form-label">Email: </label>
+                        <div class="col-sm-9">
+                            <input type="tel" formControlName="email" nbInput fullWidth id="email"
+                                placeholder="Email">
+                        </div>
+                    </div>
+                    <nb-alert *ngIf="frUpdateStaff.get('email').invalid && frUpdateStaff.get('email').touched"
+                        status="danger">
+                        <span *ngIf="frUpdateStaff.get('email').errors?.email">
+                            Email is invalid
+                        </span>
+                    </nb-alert>
+
+                    <div class="form-group row">
                         <label for="permission" class="label col-sm-3 col-form-label">Chức vụ: </label>
                         <div class="col-sm-9">
                             <nb-select formControlName="permission" placeholder="Permission" shape="semi-round"
                                 id="permission">
-                                <nb-option value="Staff">Nhân viên</nb-option>
-                                <nb-option value="Admin">Admin</nb-option>
-                                <nb-option value="Warehouse">Nhân viên kho</nb-option>
-                                <nb-option value="Manager">Quản lý</nb-option>
+                                <nb-option value="STAFF">Nhân viên</nb-option>
+                                <nb-option value="ADMIN">Admin</nb-option>
+                                <nb-option value="WAREHOUSE">Nhân viên kho</nb-option>
+                                <nb-option value="MANAGER">Quản lý</nb-option>
                             </nb-select>
                         </div>
                     </div>
@@ -97,7 +111,7 @@
                         <button nbButton fullWidth hero status="primary" (click)="updateStaff()" [disabled]="frUpdateStaff.invalid">CẬP NHẬT</button>
                     </div>
                     <div class="offset-md-4 col-md-4 col-12">
-                        <button nbButton fullWidth hero status="danger" (click)="resetForm()">NHẬP LẠI</button>
+                        <button nbButton fullWidth hero status="danger" (click)="initForm()">NHẬP LẠI</button>
                     </div>
                 </div>
             </nb-card-footer>

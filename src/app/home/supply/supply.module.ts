@@ -12,10 +12,11 @@ import { NbCardModule, NbIconModule, NbInputModule, NbButtonModule, NbActionsMod
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DialogModule } from '../../dialog/dialog.module';
+import { DistributionSupplyComponent } from './distribution-supply/distribution-supply.component';
 
 
 @NgModule({
-  declarations: [SupplyComponent, ListSuppliesComponent, DetailsSupplyComponent, UpdateSupplyComponent, AddSupplyComponent],
+  declarations: [SupplyComponent, ListSuppliesComponent, DetailsSupplyComponent, UpdateSupplyComponent, AddSupplyComponent, DistributionSupplyComponent],
   imports: [
     CommonModule,
     SupplyRoutingModule,

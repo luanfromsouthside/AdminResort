@@ -1,5 +1,7 @@
+import { ServerDataSource } from 'ng2-smart-table';
+import { HttpClient } from '@angular/common/http';
+import { BaseEndpoint } from './base-endpoint.api';
 import { map } from 'rxjs/operators';
-import { StaffData } from './mock-data/staff-data';
 import { Staff } from './../model/staff.model';
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
@@ -7,42 +9,33 @@ import { of, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class StaffService {
+export class StaffService extends BaseEndpoint {
 
-  constructor() { }
-
-  get ListStaff() {
-    return of<Staff[]>(StaffData)
+  constructor(private http: HttpClient) {
+    super('Staff');
   }
 
-  getByID(id: string):Observable<Staff>{
-    return this.ListStaff.pipe(map(staff => staff.find(s => s.id == id)));
+  get SrcDataTable() {
+    return new ServerDataSource(this.http, { endPoint: this.Root_URL })
+  }
+
+  get ListStaff() {
+    return this.http.get(this.Root_URL)
+  }
+
+  getByID(id: string) {
+    return this.http.get<Staff>(this.Root_URL + id)
   }
 
   addStaff(staff: Staff) {
-    return StaffData.push(staff) - StaffData.length
-  }
-
-  removeStaff(staffID: string) {
-    StaffData.forEach((item,index) => {
-      if(item.id === staffID) delete StaffData[index];
-    })
+    return this.http.post(this.Root_URL + 'add', staff, { responseType: 'text' })
   }
 
   updateStaff(staff: Staff) {
-    StaffData.forEach((item) => {
-      if(item.id === staff.id) {
-        item.name = staff.name;
-        item.gender = staff.gender;
-        item.birth = staff.birth;
-        item.phone = staff.phone;
-        item.password = staff.password;
-        item.permission = staff.permission;
-      }
-    })
+    return this.http.post(this.Root_URL +'update', staff, { responseType: 'text' })
   }
 
-  search(key: string) {
-    return StaffData.filter(s => s.name.includes(key))
+  removeStaff(id: string) {
+    return this.http.delete(this.Root_URL + id, { responseType: 'text' })
   }
 }

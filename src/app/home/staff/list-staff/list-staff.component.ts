@@ -54,11 +54,14 @@ export class ListStaffComponent implements OnInit {
       },
       permission: {
         title: 'Chức vụ',
-        type: 'string'
+        type: 'string',
+        valuePrepareFunction: (permission) => {
+          return permission.name;
+        }
       }
     }
   }
-  source: LocalDataSource = new LocalDataSource()
+  source: any;
   constructor(
     private dialog: NbDialogService,
     private staffService: StaffService,
@@ -67,9 +70,7 @@ export class ListStaffComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.staffService.ListStaff.subscribe(src => {
-      this.source.load(src)
-    })
+    this.source = this.staffService.SrcDataTable;
     this.route.queryParams
     .subscribe(params => {
       if(typeof(params.search) === 'string') this.onSearch(params.search)
@@ -89,7 +90,10 @@ export class ListStaffComponent implements OnInit {
     }).onClose.subscribe(result  => {
       if(result){
         this.staffService.removeStaff(event.data.id)
-        event.confirm.resolve();
+        .subscribe(
+          res => { this.source = this.staffService.SrcDataTable },
+          err => { console.log(err) }
+        )
       }
       else event.confirm.reject()
     })
@@ -98,9 +102,7 @@ export class ListStaffComponent implements OnInit {
   onSearch(query){
     if(query.trim().length === 0) {
       this.source.reset()
-      this.staffService.ListStaff.subscribe(src => {
-        this.source.load(src)
-      })      
+      this.source = this.staffService.SrcDataTable  
     }
     else {
       query = query.trim()

@@ -54,7 +54,7 @@ export class ListUsersComponent implements OnInit {
       }
     }
   }
-  source: LocalDataSource = new LocalDataSource()
+  source: any
   constructor(
     private readonly customerService: CustomerService,
     private readonly router: Router,    
@@ -64,7 +64,7 @@ export class ListUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerService.ListCustomer.subscribe(src => {
-      this.source.load(src)
+      this.source = this.customerService.SrcDataTable
     })
     this.route.queryParams
     .subscribe(params => {
@@ -84,7 +84,7 @@ export class ListUsersComponent implements OnInit {
       }
     }).onClose.subscribe(result  => {
       if(result){
-        this.customerService.removeCustomer(event.data.id)
+        //this.customerService.removeCustomer(event.data.id)
         event.confirm.resolve();
       }
       else event.confirm.reject()
@@ -94,9 +94,7 @@ export class ListUsersComponent implements OnInit {
   onSearch(query){
     if(query.trim().length === 0) {
       this.source.reset()
-      this.customerService.ListCustomer.subscribe(src => {
-        this.source.load(src)
-      })      
+      this.source = this.customerService.SrcDataTable    
     }
     else {
       query = query.trim()

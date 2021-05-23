@@ -1,3 +1,6 @@
+import { logging } from 'protractor';
+import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
+import { NbDialogService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StaffService } from './../../../data/staff.service';
@@ -10,15 +13,16 @@ import { Component, OnInit } from '@angular/core';
 export class AddStaffComponent implements OnInit {
   formAddStaff: FormGroup;
   listRoles = [
-    { value: "Staff", name: "Nhân viên"},
-    { value: "Admin", name: "Quản lý"},
-    { value: "Warehouse", name: "Nhân viên kho"},
-    { value: "Manager", name: "Quản lý"}
+    { value: "STAFF", name: "Nhân viên"},
+    { value: "ADMIN", name: "Quản lý"},
+    { value: "WAREHOUSE", name: "Nhân viên kho"},
+    { value: "MANAGER", name: "Quản lý"}
   ]
   constructor(
     private readonly staffService:StaffService,
     private fb: FormBuilder,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private dialog: NbDialogService) { }
 
   ngOnInit(): void {
     this.formAddStaff = this.fb.group({
@@ -43,6 +47,9 @@ export class AddStaffComponent implements OnInit {
       gender: [true, [Validators.required]],
       birth: ['', [Validators.required]],
       permission: ['', [Validators.required]],
+      email: [null, [
+        Validators.email
+      ]]
     })
   }
 
@@ -54,11 +61,23 @@ export class AddStaffComponent implements OnInit {
       phone : this.formAddStaff.get('phone').value,
       gender : this.formAddStaff.get('gender').value,
       birth : this.formAddStaff.get('birth').value,
-      permission : this.formAddStaff.get('permission').value,
-    });
-    // this.router.navigateByUrl(`home/user/details/${this.formAddStaff.get('id').value}`);
-    this.router.navigateByUrl(`home/staff`)
-    
+      permissionID : this.formAddStaff.get('permission').value,
+      email: this.formAddStaff.get('email').value
+    })
+    .subscribe(
+      res => { 
+        this.router.navigateByUrl('/home/staff/details/' + this.formAddStaff.get('id').value)
+      },
+      err => {
+        this.dialog.open(DialogResultComponent, {
+          context: {
+            title: 'Error when create',
+            content: err.error
+            
+          }
+        })
+      }
+    )
   }
 
   resetForm(event) {

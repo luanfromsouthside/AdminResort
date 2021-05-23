@@ -98,6 +98,19 @@
                         </span>
                     </nb-alert>
                     <div class="form-group row">
+                        <label for="email" class="label col-sm-3 col-form-label">Email: </label>
+                        <div class="col-sm-9">
+                            <input type="tel" formControlName="email" nbInput fullWidth id="email"
+                                placeholder="Email">
+                        </div>
+                    </div>
+                    <nb-alert *ngIf="formAddStaff.get('email').invalid && formAddStaff.get('email').touched"
+                        status="danger">
+                        <span *ngIf="formAddStaff.get('email').errors?.email">
+                            Email is invalid
+                        </span>
+                    </nb-alert>
+                    <div class="form-group row">
                         <label for="permission" class="label col-sm-3 col-form-label">Chức vụ: </label>
                         <div class="col-sm-9">
                             <nb-select formControlName="permission" placeholder="Permission" shape="semi-round"

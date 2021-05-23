@@ -13,7 +13,7 @@ import { Staff } from '../../../model/staff.model';
 })
 export class UpdateStaffComponent implements OnInit {
   frUpdateStaff: FormGroup;
-  staff$: Observable<Staff>;
+  staff: Staff;
   constructor(
     private fb: FormBuilder,
     private readonly staffService: StaffService,
@@ -24,27 +24,33 @@ export class UpdateStaffComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      this.staff$ = this.staffService.getByID(id);
-    })
-    this.staff$.subscribe(s => {
-      this.frUpdateStaff = this.fb.group({
-        name: [s.name, [
-          Validators.required,
-          Validators.maxLength(50)
-        ]],
-        password: [s.password, [
-          Validators.required, 
-          Validators.minLength(6),
-          Validators.maxLength(20)
-        ]],
-        phone: [s.phone, [
-          Validators.required,
-          Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)
-        ]],
-        gender: [s.gender, [Validators.required]],
-        birth: [s.birth, [Validators.required]],
-        permission: [s.permission, [Validators.required]],
+      this.staffService.getByID(id)
+      .subscribe((res:any) => {
+        this.staff = res.staff
+        this.initForm()
       })
+    })
+  }
+
+  initForm() {
+    this.frUpdateStaff = this.fb.group({
+      name: [this.staff.name, [
+        Validators.required,
+        Validators.maxLength(50)
+      ]],
+      password: [this.staff.password, [
+        Validators.required, 
+        Validators.minLength(6),
+        Validators.maxLength(20)
+      ]],
+      phone: [this.staff.phone, [
+        Validators.required,
+        Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)
+      ]],
+      gender: [this.staff.gender, [Validators.required]],
+      birth: [this.staff.birth, [Validators.required]],
+      permission: [this.staff.permissionID, [Validators.required]],
+      email: [this.staff.email, [Validators.email]]
     })
   }
 
@@ -53,30 +59,36 @@ export class UpdateStaffComponent implements OnInit {
   }
 
   updateStaff() {
-    this.staff$.subscribe((s) => {
-      this.dialog.open(DialogResultComponent,{
-        context: {
-          title: `Cập nhật nhân viên ${s.id}?`
-        }
-      }).onClose.subscribe(result => {
-        if(result) {
-          this.update();
-          this.router.navigateByUrl(`/home/staff/details/${s.id}`);
-        }
-      })
-    });
-    
+    this.dialog.open(DialogResultComponent,{
+      context: {
+        title: `Cập nhật nhân viên ${this.staff.id}?`
+      }
+    }).onClose.subscribe(result => {
+      if(result) {
+        this.update();
+      }
+    })
   }
 
   update() {
-    this.staff$.subscribe(s => {
-      s.name = this.frUpdateStaff.get('name').value;
-      s.birth = this.frUpdateStaff.get('birth').value;
-      s.password = this.frUpdateStaff.get('password').value;
-      s.phone = this.frUpdateStaff.get('phone').value;
-      s.gender = this.frUpdateStaff.get('gender').value;
-      s.permission = this.frUpdateStaff.get('permission').value;
-      this.staffService.updateStaff(s);
+    this.staff.name = this.frUpdateStaff.get('name').value
+    this.staff.birth = this.frUpdateStaff.get('birth').value
+    this.staff.gender = this.frUpdateStaff.get('gender').value
+    this.staff.phone = this.frUpdateStaff.get('phone').value
+    this.staff.permissionID = this.frUpdateStaff.get('permission').value
+    this.staff.email = this.frUpdateStaff.get('email').value
+    this.staff.password = this.frUpdateStaff.get('password').value
+    this.staffService.updateStaff(this.staff)
+    .subscribe(res => {
+      this.router.navigateByUrl('/home/staff/details/' + this.staff.id)
+    },
+    err => {
+      this.dialog.open(DialogResultComponent, {
+        context: {
+          title: 'Error update',
+          content: err.error
+        }
+      })
     })
   }
 }

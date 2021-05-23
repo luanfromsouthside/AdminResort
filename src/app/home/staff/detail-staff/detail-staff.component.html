@@ -1,4 +1,4 @@
-<nb-card status="success" *ngIf="staff$ | async as staff; else noStaff">
+<nb-card status="success" *ngIf="staff != undefined; else noStaff">
     <nb-card-header>Thông tin nhân viên: {{staff.id}}</nb-card-header>
     <nb-card-body>
         <nb-list>
@@ -35,7 +35,7 @@
                     <i class="fas fa-id-card-alt"></i>
                     Chức vụ:
                 </div>
-                <div class="col-6">{{ staff.permission | perm }}</div>
+                <div class="col-6">{{ staff.permissionID | perm }}</div>
             </nb-list-item>
         </nb-list>
     </nb-card-body>

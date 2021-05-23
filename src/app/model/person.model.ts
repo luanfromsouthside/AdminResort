@@ -5,4 +5,5 @@ export interface Person {
     gender: boolean;
     password: string;
     phone: string;
+    email: string;
 }

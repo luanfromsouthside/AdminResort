@@ -1,5 +1,5 @@
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
+import { NbAuthService, NbAuthJWTToken, NbAuthOAuth2JWTToken } from '@nebular/auth';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSearchService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
@@ -53,13 +53,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.currentTheme = this.themeService.currentTheme;
-    // this.authService.onTokenChange()
-    //   .subscribe((token: NbAuthJWTToken) => {
-    //     if(token.isValid()){
-    //       this.user = token.getPayload();
-    //     }
-    //   })
-    this.user = { 'name': "Staff"}
+    this.user = { name : 'Thanh Luan'}
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+        if(token.isValid()){
+          // this.user = token
+          // console.log(token)
+          // console.log(token.toString())
+          this.user = token.getPayload()
+        }
+      })
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
       .pipe(
@@ -85,7 +88,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         map(({ item: { title } }) => title),
       )
-      .subscribe(title => title == 'Log out' ? this.router.navigateByUrl('/auth') : null);
+      .subscribe(title => {
+        if(title == 'Log out'){
+          this.authService.logout('user')
+          this.authService.getToken().subscribe(token=> console.log(token))
+          this.router.navigateByUrl('/auth')
+        }
+      });
   }
 
   ngOnDestroy() {

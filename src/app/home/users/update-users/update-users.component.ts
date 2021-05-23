@@ -56,7 +56,7 @@ export class UpdateUsersComponent implements OnInit {
       u.password = this.frmUpdateUser.get('password').value;
       u.phone = this.frmUpdateUser.get('phone').value;
       u.gender = this.frmUpdateUser.get('gender').value;
-      this.userService.updateCustomer(u);
+      //this.userService.updateCustomer(u);
     })
   }
 
