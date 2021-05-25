@@ -73,7 +73,6 @@ export class AddStaffComponent implements OnInit {
           context: {
             title: 'Error when create',
             content: err.error
-            
           }
         })
       }

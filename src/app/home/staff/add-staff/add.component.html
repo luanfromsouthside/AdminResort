@@ -28,7 +28,12 @@
                     <div class="form-group row">
                         <label for="name" class="label col-sm-3 col-form-label">Họ tên: </label>
                         <div class="col-sm-9">
-                            <input type="text" formControlName="name" nbInput fullWidth id="name" placeholder="Name">
+                            <input 
+                                type="text" 
+                                formControlName="name" 
+                                nbInput fullWidth 
+                                id="name" placeholder="Name"
+                                [status]="getConfig('name') ? 'danger' : 'basic'">
                         </div>
                     </div>
                     <nb-alert *ngIf="formAddStaff.get('name').invalid && formAddStaff.get('name').touched"
@@ -55,8 +60,12 @@
                     <div class="form-group row">
                         <label for="birth" class="label col-sm-3 col-form-label">Ngày sinh: </label>
                         <div class="col-sm-9" id="birth">
-                            <input formControlName="birth" nbInput fullWidth placeholder="Birthday"
-                                [nbDatepicker]="dateTimePicker">
+                            <input 
+                                formControlName="birth" 
+                                nbInput fullWidth 
+                                placeholder="Birthday"
+                                [nbDatepicker]="dateTimePicker"
+                                [status]="getConfig('birth') ? 'danger' : 'basic'">
                             <nb-datepicker #dateTimePicker></nb-datepicker>
                         </div>
                     </div>
@@ -68,8 +77,12 @@
                     <div class="form-group row">
                         <label for="pass" class="label col-sm-3 col-form-label">Mật khẩu: </label>
                         <div class="col-sm-9">
-                            <input type="password" formControlName="password" nbInput fullWidth id="pass"
-                                placeholder="Password">
+                            <input 
+                                type="password" 
+                                formControlName="password" 
+                                nbInput fullWidth id="pass"
+                                placeholder="Password"
+                                [status]="getConfig('password') ? 'danger' : 'basic'">
                         </div>
                     </div>
                     <nb-alert *ngIf="formAddStaff.get('password').invalid && formAddStaff.get('password').touched"
@@ -86,8 +99,13 @@
                     <div class="form-group row">
                         <label for="phone" class="label col-sm-3 col-form-label">SĐT: </label>
                         <div class="col-sm-9">
-                            <input type="tel" formControlName="phone" nbInput fullWidth id="phone"
-                                placeholder="Phone number">
+                            <input 
+                                type="tel" 
+                                formControlName="phone" 
+                                nbInput fullWidth 
+                                id="phone"
+                                placeholder="Phone number"
+                                [status]="getConfig('phone') ? 'danger' : 'basic'">
                         </div>
                     </div>
                     <nb-alert *ngIf="formAddStaff.get('phone').invalid && formAddStaff.get('phone').touched"
@@ -100,8 +118,12 @@
                     <div class="form-group row">
                         <label for="email" class="label col-sm-3 col-form-label">Email: </label>
                         <div class="col-sm-9">
-                            <input type="tel" formControlName="email" nbInput fullWidth id="email"
-                                placeholder="Email">
+                            <input 
+                                type="email" 
+                                formControlName="email" 
+                                nbInput fullWidth id="email"
+                                placeholder="Email"
+                                [status]="getConfig('email') ? 'danger' : 'basic'">
                         </div>
                     </div>
                     <nb-alert *ngIf="formAddStaff.get('email').invalid && formAddStaff.get('email').touched"
@@ -113,12 +135,16 @@
                     <div class="form-group row">
                         <label for="permission" class="label col-sm-3 col-form-label">Chức vụ: </label>
                         <div class="col-sm-9">
-                            <nb-select formControlName="permission" placeholder="Permission" shape="semi-round"
-                                id="permission">
-                                <nb-option value="Staff">Nhân viên</nb-option>
-                                <nb-option value="Admin">Admin</nb-option>
-                                <nb-option value="Warehouse">Nhân viên kho</nb-option>
-                                <nb-option value="Manager">Quản lý</nb-option>
+                            <nb-select 
+                                formControlName="permission" 
+                                placeholder="Permission" 
+                                shape="semi-round"
+                                id="permission"
+                                [status]="getConfig('permission') ? 'danger' : 'basic'">
+                                <nb-option value="STAFF">Nhân viên</nb-option>
+                                <nb-option value="ADMIN">Admin</nb-option>
+                                <nb-option value="WAREHOUSE">Nhân viên kho</nb-option>
+                                <nb-option value="MANAGER">Quản lý</nb-option>
                             </nb-select>
                         </div>
                     </div>

@@ -1,33 +1,30 @@
 <nb-card status="success" *ngIf="service$ | async as service; else noSer">
     <nb-card-header>Thông tin dịch vụ: {{ service.id }}</nb-card-header>
     <nb-card-body>
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>
-                        Tên dịch vụ:
-                    </td>
-                    <td>
-                        {{ service.name }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Giá dịch vụ:
-                    </td>
-                    <td>
-                        {{ service.price }} $
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Mô tả:
-                    </td>
-                    <td [innerHTML]="service.description | innerHtmlPipe">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <nb-list>
+            <nb-list-item>
+                <div class="col-4">
+                    Tên dịch vụ:
+                </div>
+                <div class="col-8">
+                    {{ service.name }}
+                </div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="col-4">
+                    Giá dịch vụ:
+                </div>
+                <div class="col-8">
+                    {{ service.price }} $
+                </div>
+            </nb-list-item>
+            <nb-list-item>
+                Mô tả dịch vụ: 
+            </nb-list-item>
+            <nb-list-item>
+                <div  [innerHTML]="service.description | innerHtmlPipe"></div>
+            </nb-list-item>
+        </nb-list>
     </nb-card-body>
     <nb-card-footer>
         <div class="row">

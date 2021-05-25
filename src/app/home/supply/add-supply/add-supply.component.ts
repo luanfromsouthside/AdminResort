@@ -1,3 +1,5 @@
+import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { SupplyService } from './../../../data/supply.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,7 +14,9 @@ export class AddSupplyComponent implements OnInit {
   constructor(
     private readonly supplyService:SupplyService,
     private fb: FormBuilder,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private readonly dialog: NbDialogService,
+    private readonly toast: NbToastrService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -37,8 +41,20 @@ export class AddSupplyComponent implements OnInit {
       id : this.form.get('id').value,
       name : this.form.get('name').value,
       total : this.form.get('total').value
-    })
-    this.router.navigateByUrl('/home/supply')
+    }).subscribe(
+      res => {
+        this.toast.show('Create success', 'ADD', {status:'success'})
+        this.router.navigateByUrl('/home/supply/details/' + this.form.get('id').value)
+      },
+      err => {
+        this.dialog.open(DialogResultComponent, {
+          context: {
+            title: 'Error when create',
+            content: err.error
+          }
+        })
+      }
+    )
   }
 
   getConfig(ctrl: string):boolean {

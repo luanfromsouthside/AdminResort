@@ -94,6 +94,23 @@
                             Phone is invalid
                         </span>
                     </nb-alert>
+                    <div class="form-group row">
+                        <label for="email" class="label col-sm-3 col-form-label">Email: </label>
+                        <div class="col-sm-9">
+                            <input 
+                                type="email" 
+                                formControlName="email" 
+                                nbInput fullWidth id="email"
+                                placeholder="Email"
+                                [status]="getConfig('email') ? 'danger' : 'basic'">
+                        </div>
+                    </div>
+                    <nb-alert *ngIf="formAddUser.get('email').invalid && formAddUser.get('email').touched"
+                        status="danger">
+                        <span *ngIf="formAddUser.get('email').errors?.email">
+                            Email is invalid
+                        </span>
+                    </nb-alert>
                 </form>
             </nb-card-body>
             <nb-card-footer>

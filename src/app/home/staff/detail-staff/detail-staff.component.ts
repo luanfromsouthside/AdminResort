@@ -24,7 +24,6 @@ export class DetailStaffComponent implements OnInit {
       const id = params.get('id')
       this.staffService.getByID(id)
       .subscribe((res:any) => {
-        //this.staff = <Staff>res
         this.staff = res.staff
       })
     })

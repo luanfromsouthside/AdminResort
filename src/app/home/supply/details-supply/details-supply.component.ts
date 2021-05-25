@@ -12,7 +12,7 @@ import { Supply } from '../../../model/supply.model';
   templateUrl: './details-supply.component.html'
 })
 export class DetailsSupplyComponent implements OnInit {
-  supply$: Observable<Supply>;
+  supply: Supply;
   constructor(
     private route: ActivatedRoute, 
     private supplyService: SupplyService,
@@ -20,15 +20,21 @@ export class DetailsSupplyComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.supply$ = this.route.params.pipe(
-      pluck('id'),
-      switchMap(id => this.supplyService.getByID(id)),
-      filter(supply => !!supply)
-    )
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id')
+      this.supplyService.getByID(id)
+      .subscribe(res => {
+        this.supply = res
+      })
+    })
   }
 
   onUpdate(id: string) {
     this.router.navigateByUrl(`/home/supply/update/${id}`)
+  }
+
+  distribution() {
+    this.router.navigateByUrl(`/home/supply/distribution/${this.supply.id}`)
   }
 
   onRemove(id: string) {

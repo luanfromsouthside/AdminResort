@@ -14,22 +14,21 @@ export class ListSuppliesComponent implements OnInit {
       edit: false,
       delete:false
     },
-    hideSubHeader: true,
     columns: {
       id: {
         title: 'ID',
         type: 'string',
-        filter: false
+        filter: true
       },
       name: {
         title: 'Tên vật tư',
         type: 'string',
-        filter: false
+        filter: true
       },
       total: {
         title: 'Số lượng',
         type: 'number',
-        filter: false
+        filter: true
       },
     }
   }
@@ -46,33 +45,19 @@ export class ListSuppliesComponent implements OnInit {
     })
     this.route.queryParams
     .subscribe(params => {
-      if(typeof(params.search) === 'string') this.onSearch(params.search)
+      if(typeof(params.search) === 'string') {
+        //search params
+      }
+    })
+  }
+
+  loadSrc() {
+    this.supplyService.List.subscribe(src => {
+      this.source.load(src)
     })
   }
 
   rowSelect(row: any):void {
     this.router.navigateByUrl('/home/supply/details/' + row.data.id)
-  }
-
-  onSearch(query){
-    if(query.trim().length === 0) {
-      this.source.reset()
-      this.supplyService.List.subscribe(src => {
-        this.source.load(src)
-      })      
-    }
-    else {
-      query = query.trim()
-      this.source.setFilter([
-        {
-          field: 'id',
-          search: query
-        },
-        {
-          field: 'name',
-          search: query
-        }
-      ], false)
-    }
   }
 }

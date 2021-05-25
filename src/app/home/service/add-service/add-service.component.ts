@@ -1,3 +1,5 @@
+import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { ServiceService } from './../../../data/service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -12,7 +14,9 @@ export class AddServiceComponent implements OnInit {
   constructor(
     private readonly ServiceService:ServiceService,
     private fb: FormBuilder,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private readonly toast: NbToastrService,
+    private readonly dialog: NbDialogService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -41,8 +45,20 @@ export class AddServiceComponent implements OnInit {
       name : this.form.get('name').value,
       description : this.form.get('description').value,
       price : this.form.get('price').value
-    })
-    this.router.navigateByUrl('/home/service')
+    }).subscribe(
+      res => {
+        this.toast.show('Add success', 'ADD', { status: 'success'}),
+        this.router.navigateByUrl('/home/service')
+      },
+      err => {
+        this.dialog.open(DialogResultComponent, {
+          context: {
+            title: 'ERROR',
+            content: err.error
+          }
+        })
+      }
+    )
   }
 
   getConfig(ctrl: string):boolean {

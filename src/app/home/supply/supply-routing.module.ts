@@ -1,3 +1,4 @@
+import { DistributionSupplyComponent } from './distribution-supply/distribution-supply.component';
 import { UpdateSupplyComponent } from './update-supply/update-supply.component';
 import { DetailsSupplyComponent } from './details-supply/details-supply.component';
 import { AddSupplyComponent } from './add-supply/add-supply.component';
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'update/:id',
         component: UpdateSupplyComponent
+      },
+      {
+        path: 'distribution/:id',
+        component: DistributionSupplyComponent
       }
     ]
   }

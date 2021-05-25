@@ -15,12 +15,8 @@ export class StaffService extends BaseEndpoint {
     super('Staff');
   }
 
-  get SrcDataTable() {
-    return new ServerDataSource(this.http, { endPoint: this.Root_URL })
-  }
-
   get ListStaff() {
-    return this.http.get(this.Root_URL)
+    return this.http.get<Staff[]>(this.Root_URL)
   }
 
   getByID(id: string) {

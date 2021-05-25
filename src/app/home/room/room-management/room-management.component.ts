@@ -53,7 +53,7 @@ export class RoomManagementComponent implements OnInit {
     }
   }
 
-  source: ServerDataSource;
+  source: LocalDataSource = new LocalDataSource();
   constructor(
     private readonly roomService: RoomService, 
     private router: Router,
@@ -61,11 +61,19 @@ export class RoomManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.source = this.roomService.SrcDataTable
+    this.loadSrc()
+  }
+
+  loadSrc() {
+    this.source.reset()
+    this.roomService.ListRooms
+    .subscribe(
+      res => {this.source.load(res)}
+    )
   }
 
   editRoom(room: any):void {
-    this.router.navigateByUrl("/home/room/edit/"+room.data.id)
+    this.router.navigateByUrl("/home/room/details/"+room.data.id)
   }
 
   onDeleteConfirm(event): void {
@@ -80,14 +88,6 @@ export class RoomManagementComponent implements OnInit {
     this.source.setFilter([
       {
         field: 'id',
-        search: query
-      },
-      {
-        field: 'name',
-        search: query
-      },
-      {
-        field: 'type',
         search: query
       },
     ], false)

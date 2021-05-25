@@ -1,3 +1,5 @@
+import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { VoucherService } from './../../../data/voucher.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -12,7 +14,9 @@ export class AddVoucherComponent implements OnInit {
   constructor(
     private voucherService: VoucherService,
     private fb: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly toast: NbToastrService,
+    private readonly dialog: NbDialogService
   ) { }
 
   ngOnInit(): void {
@@ -47,8 +51,24 @@ export class AddVoucherComponent implements OnInit {
       toDate: this.getValueFrm('toDate'),
       condition: this.getValueFrm('condition'),
       discount: this.getValueFrm('discount')
-    })
-    this.router.navigateByUrl('/home/voucher')
+    }).subscribe(
+      res => {
+        this.toast.show('Add success', 'ADD', { status: 'success'}),
+        this.router.navigateByUrl('/home/voucher/details/' + this.getValueFrm('code'))
+      },
+      err => {
+        this.dialog.open(DialogResultComponent, {
+          context: {
+            title: 'ERROR',
+            content: err.error
+          }
+        })
+      }
+    )
+  }
+
+  getDate() {
+    return new Date()
   }
 
   getValueFrm(ctrl: string) {

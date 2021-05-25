@@ -1,66 +1,37 @@
+import { HttpClient } from '@angular/common/http';
+import { BaseEndpoint } from './base-endpoint.api';
 import { Injectable } from '@angular/core';
 import { Service } from '../model/service.model';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { id } from '@swimlane/ngx-charts';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceService {
-  ServiceData: Service[] = [
-    {
-      id:'SPA',
-      name: 'Spa thư giãn',
-      description: 'demo',
-      price: 450000
-    },
-    {
-      id:'GYM',
-      name: 'Thể hình',
-      description: 'Dịch vụ thể hình',
-      price: 649000
-    },
-    {
-      id:'RESTAURANT',
-      name: 'Nhà hàng',
-      description: 'Chất lượng 5*, đầu bếp Mỹ',
-      price: 1150000
-    },
-    {
-      id:'YOGA',
-      name: 'Dịch vụ yoga',
-      description: 'YOGA fitness for customer',
-      price: 950000
-    }
-  ]
+export class ServiceService extends BaseEndpoint{
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+    super('Service')
+  }
 
   get List() {
-    return of<Service[]>(this.ServiceData)
+    return this.http.get<Service[]>(this.Root_URL)
   }
 
   getByID(id: string):Observable<Service>{
-    return this.List.pipe(map(service => service.find(s => s.id === id)))
+    return this.http.get<Service>(this.Root_URL + id)
   }
 
   addService(Service: Service) {
-    return this.ServiceData.push(Service)
+    return this.http.post(this.Root_URL + 'create', Service, { responseType: 'text'})
   }
 
   removeService(ServiceID: string) {
-    this.ServiceData.forEach((item,index) => {
-      if(item.id === ServiceID) delete this.ServiceData[index];
-    })
+    return this.http.delete(this.Root_URL + id, {responseType:'text'})
   }
 
   updateService(service: Service) {
-    this.ServiceData.forEach((item) => {
-      if(item.id === service.id) {
-        item.name = service.name;
-        item.description = service.description;
-        item.price = service.price;
-      }
-    })
+    return this.http.post(this.Root_URL + 'edit', service, {responseType:'text'})
   }
 }

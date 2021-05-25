@@ -1,34 +1,32 @@
-<nb-card status="success" *ngIf="voucher$ | async as voucher; else noVoucher">
+<nb-card status="success" *ngIf="voucher != undefined; else noVoucher">
     <nb-card-header>Thông tin voucher: {{ voucher.code }}</nb-card-header>
     <nb-card-body>
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>
-                        Điều kiện:
-                    </td>
-                    <td >
-                         {{ voucher.condition }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Giảm giá:
-                    </td>
-                    <td>
-                        {{ voucher.discount }} %
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Thời hạn:
-                    </td>
-                    <td>
-                        From: {{ voucher.fromDate | date:'dd/MM/yyyy' }} to: {{ voucher.toDate | date:'dd/MM/yyyy ' }} 
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <nb-list>
+            <nb-list-item>
+                <div class="col-4">
+                    Điều kiện áp dụng:
+                </div>
+                <div class="col-8">
+                    &#x2265; {{ voucher.condition }}
+                </div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="col-4">
+                    Giảm giá:
+                </div>
+                <div class="col-8">
+                    {{ voucher.discount }} %
+                </div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="col-4">
+                    Thời hạn áp dụng:
+                </div>
+                <div class="col-8">
+                    From: {{ voucher.fromDate | date:'dd/MM/yyyy' }} to: {{ voucher.toDate | date:'dd/MM/yyyy ' }} 
+                </div>
+            </nb-list-item>
+        </nb-list>
     </nb-card-body>
     <nb-card-footer>
         <div class="row">

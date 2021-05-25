@@ -1,3 +1,5 @@
+import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { CustomerService } from '../../../data/customer.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,7 +14,9 @@ export class AddUsersComponent implements OnInit {
   constructor(
     private readonly customerService: CustomerService,
     private fb: FormBuilder,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private toast: NbToastrService,
+    private dialog: NbDialogService) { }
 
   ngOnInit(): void {
     this.formAddUser = this.fb.group({
@@ -49,12 +53,28 @@ export class AddUsersComponent implements OnInit {
       password: this.formAddUser.get('password').value,
       phone: this.formAddUser.get('phone').value,
       email: this.formAddUser.get('email').value
-    });
-    this.router.navigateByUrl('/home/user')
+    }).subscribe(
+      res => {
+        this.toast.show('ADD CUSTOMER', 'Add new success', {status:'success'})
+        this.router.navigateByUrl('/home/user')
+      },
+      err => {
+        this.dialog.open(DialogResultComponent,{
+          context: {
+            title: 'ERROR CREATE!!!',
+            content: err.error
+          }
+        })
+      }
+    )
   }
 
   resetForm() {
     this.formAddUser.reset()
+  }
+
+  getConfig(ctrl: string) {
+    return this.formAddUser.get(ctrl).invalid && this.formAddUser.get(ctrl).touched
   }
 
 }

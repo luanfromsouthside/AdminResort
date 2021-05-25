@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../../../data/customer.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { Customer } from '../../../model/customer.model';
 import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
 
@@ -19,7 +19,8 @@ export class UpdateUsersComponent implements OnInit {
     private readonly userService: CustomerService,
     private readonly route: ActivatedRoute,
     private readonly dialog: NbDialogService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly toast: NbToastrService
     ) { }
 
   ngOnInit(): void {
@@ -44,7 +45,8 @@ export class UpdateUsersComponent implements OnInit {
           Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)
         ]],
         gender: [u.gender, [Validators.required]],
-        birth: [u.birth, [Validators.required]],
+        birth: [new Date(u.birth), [Validators.required]],
+        email: [u.email, [Validators.email]]
       })
     })
   }
@@ -56,7 +58,17 @@ export class UpdateUsersComponent implements OnInit {
       u.password = this.frmUpdateUser.get('password').value;
       u.phone = this.frmUpdateUser.get('phone').value;
       u.gender = this.frmUpdateUser.get('gender').value;
-      //this.userService.updateCustomer(u);
+      u.email = this.frmUpdateUser.get('email').value;
+      this.userService.updateCustomer(u)
+      .subscribe(
+        res => {
+          this.toast.show('Update complete', 'UPDATE', {status: 'success'})
+          this.router.navigateByUrl('/home/user/details/' + u.id)
+        },
+        err => {
+          this.toast.show(err.error, 'Error update', {status: 'danger'})
+        }
+      )
     })
   }
 
@@ -82,6 +94,11 @@ export class UpdateUsersComponent implements OnInit {
       this.frmUpdateUser.get('password').setValue(u.password);
       this.frmUpdateUser.get('phone').setValue(u.phone);
       this.frmUpdateUser.get('gender').setValue(u.gender);
+      this.frmUpdateUser.get('email').setValue(u.email)
     })
+  }
+
+  getConfig(ctrl: string) {
+    return this.frmUpdateUser.get(ctrl).invalid && this.frmUpdateUser.get(ctrl).touched
   }
 }

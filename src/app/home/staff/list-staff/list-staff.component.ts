@@ -1,7 +1,7 @@
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
+import { LocalDataSource, ServerDataSource } from 'ng2-smart-table';
 import { StaffService } from '../../../data/staff.service';
 import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,12 +20,14 @@ export class ListStaffComponent implements OnInit {
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
+    },pager: {
+      display: true 
     },
     columns: {
       id: {
         title: 'ID',
         type: 'string',
-        filter: false
+        filter: true
       },
       name: {
         title: 'Tên nhân viên',
@@ -61,20 +63,28 @@ export class ListStaffComponent implements OnInit {
       }
     }
   }
-  source: any;
+  source: LocalDataSource = new LocalDataSource();
   constructor(
     private dialog: NbDialogService,
     private staffService: StaffService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toast: NbToastrService
     ) { }
 
   ngOnInit(): void {
-    this.source = this.staffService.SrcDataTable;
+    this.loadSrc()
     this.route.queryParams
     .subscribe(params => {
       if(typeof(params.search) === 'string') this.onSearch(params.search)
     })
+  }
+
+  loadSrc() {
+    this.source.reset()
+    this.staffService.ListStaff.subscribe(
+      res => {this.source.load(res)}
+    )
   }
 
   staffSelect(row: any){
@@ -91,8 +101,12 @@ export class ListStaffComponent implements OnInit {
       if(result){
         this.staffService.removeStaff(event.data.id)
         .subscribe(
-          res => { this.source = this.staffService.SrcDataTable },
-          err => { console.log(err) }
+          res => { 
+            this.loadSrc()
+          },
+          err => { 
+            this.toast.show(err.error, 'Error delete', {status: 'danger'})
+          }
         )
       }
       else event.confirm.reject()
@@ -101,21 +115,15 @@ export class ListStaffComponent implements OnInit {
 
   onSearch(query){
     if(query.trim().length === 0) {
-      this.source.reset()
-      this.source = this.staffService.SrcDataTable  
+      this.loadSrc()
     }
     else {
-      query = query.trim()
       this.source.setFilter([
         {
           field: 'id',
           search: query
         },
-        {
-          field: 'name',
-          search: query
-        },
-      ], false)
+      ])
     }
   }
 }

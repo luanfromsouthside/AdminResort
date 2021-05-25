@@ -28,7 +28,7 @@
                                 formControlName="fromDate" 
                                 nbInput fullWidth placeholder="From Date"
                                 [nbDatepicker]="fromDate" [status]="getConfig('fromDate') ? 'danger' : 'basic'">
-                            <nb-datepicker #fromDate></nb-datepicker>
+                            <nb-datepicker #fromDate [min]="getDate()"></nb-datepicker>
                         </div>
                     </div>
                     <nb-alert *ngIf="form.get('fromDate').invalid && form.get('fromDate').touched"
@@ -50,7 +50,7 @@
                     <div class="form-group row">
                         <label for="Condition" class="label col-sm-3 col-form-label">Điều kiện: </label>
                         <div class="col-sm-9">
-                            <input type="text" 
+                            <input type="number" 
                             formControlName="condition" 
                             nbInput fullWidth id="Condition"
                             placeholder="Condition"
@@ -61,13 +61,13 @@
                         status="danger">
                         <span *ngIf="form.get('condition').errors.required">Condition is required</span>
                         <span *ngIf="form.get('condition').errors?.min">
-                            Condition at min {{ form.get('condition').errors?.min.required }}
+                            Condition at min {{ form.get('condition').errors?.min.min }}
                         </span>
                     </nb-alert>
                     <div class="form-group row">
                         <label for="discount" class="label col-sm-3 col-form-label">Giảm giá: </label>
                         <div class="col-sm-9">
-                            <input type="text" 
+                            <input type="number" 
                             formControlName="discount" 
                             nbInput fullWidth id="discount"
                             placeholder="discount"
@@ -78,10 +78,10 @@
                         status="danger">
                         <span *ngIf="form.get('discount').errors.required">Discount is required</span>
                         <span *ngIf="form.get('discount').errors?.min">
-                            Discount at min {{ form.get('discount').errors?.min.required }}
+                            Discount at min {{ form.get('discount').errors?.min.min }}
                         </span>
                         <span *ngIf="form.get('discount').errors?.max">
-                            Discount at max {{ form.get('discount').errors?.max.required }}
+                            Discount at max {{ form.get('discount').errors?.max.min }}
                         </span>
                     </nb-alert>
                 </form>

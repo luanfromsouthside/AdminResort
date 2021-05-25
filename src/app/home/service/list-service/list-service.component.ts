@@ -16,22 +16,21 @@ export class ListServiceComponent implements OnInit {
       edit: false,
       delete:false
     },
-    hideSubHeader: true,
     columns: {
       id: {
         title: 'ID',
         type: 'string',
-        filter: false
+        filter: true
       },
       name: {
         title: 'Tên dịch vụ',
         type: 'string',
-        filter: false
+        filter: true
       },
       price: {
         title: 'Giá',
         type: 'number',
-        filter: false
+        filter: true
       },
       description: {
         title: 'Mô tả',
@@ -47,42 +46,20 @@ export class ListServiceComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.svService.List.subscribe(src => {
-      this.source.load(src);
-    })
+    this.loadSrc()
     this.route.queryParams
     .subscribe(params => {
-      if(typeof(params.search) === 'string') this.onSearch(params.search)
+      if(typeof(params.search) === 'string') {}
+    })
+  }
+
+  loadSrc() {
+    this.svService.List.subscribe(src => {
+      this.source.load(src);
     })
   }
 
   rowSelect(row: any):void {
     this.router.navigateByUrl('/home/service/details/' + row.data.id)
-  }
-
-  onSearch(query){
-    if(query.trim().length === 0) {
-      this.source.reset()
-      this.svService.List.subscribe(src => {
-        this.source.load(src)
-      })      
-    }
-    else {
-      query = query.trim()
-      this.source.setFilter([
-        {
-          field: 'id',
-          search: query
-        },
-        {
-          field: 'name',
-          search: query
-        },
-        {
-          field: 'price',
-          search: query
-        }
-      ], false)
-    }
   }
 }

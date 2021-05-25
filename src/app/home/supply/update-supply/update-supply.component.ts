@@ -3,7 +3,7 @@ import { Supply } from './../../../model/supply.model';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
 
@@ -16,15 +16,16 @@ export class UpdateSupplyComponent implements OnInit {
   supply$: Observable<Supply>;
   listType: any[] = [
     {value:'none',name:'Giữ nguyên số lượng'},
-    {value:'new',name:'Cập nhật số lượng'},
-    {value:'add',name:'Nhập thêm số lượng'},
+    {value:'newcount',name:'Cập nhật số lượng'},
+    {value:'addcount',name:'Nhập thêm số lượng'},
   ]
   constructor(
     private fb: FormBuilder,
     private readonly supplyService: SupplyService,
     private readonly route: ActivatedRoute,
     private readonly dialog: NbDialogService,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private readonly toast: NbToastrService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -56,21 +57,29 @@ export class UpdateSupplyComponent implements OnInit {
         }
       }).onClose.subscribe(result => {
         if(result) {
-          this.update(s.id);
-          this.router.navigateByUrl(`/home/supply/details/${s.id}`);
+          this.update(s.id)
         }
       })
     });
   }
 
   update(idSup: string) {
-      let s: Supply = {
-        id : idSup,
-        name : this.form.get('name').value,
-        total : this.form.get('total').value
+      let model = {
+        id: idSup,
+        name: this.form.get('name').value,
+        editType: this.form.get('type').value,
+        count: this.form.get('total').value
       }
-      let type = this.form.get('type').value;
-      this.supplyService.updateSupply(s,type);
+      this.supplyService.updateSupply(model)
+      .subscribe(
+        res => {
+          this.toast.show('Edit success', 'EDIT', { status: 'success'})
+          this.router.navigateByUrl('/home/supply/details/' + model.id)
+        },
+        err => {
+          this.toast.show('Edit failed', 'EDIT', { status: 'danger' })
+        }
+      );
   }
 
   resetForm() {

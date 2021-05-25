@@ -12,10 +12,11 @@ import { RoomTypeComponent } from './room-type/room-type.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DialogModule } from '../../dialog/dialog.module';
+import { RoomDetailComponent } from './room-detail/room-detail.component';
 
 
 @NgModule({
-  declarations: [RoomComponent, RoomManagementComponent, AddRoomComponent, EditRoomComponent, RoomTypeComponent],
+  declarations: [RoomComponent, RoomManagementComponent, AddRoomComponent, EditRoomComponent, RoomTypeComponent, RoomDetailComponent],
   imports: [
     CommonModule,
     RoomRoutingModule,

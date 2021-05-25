@@ -12,7 +12,7 @@ import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-resu
   templateUrl: './detail-users.component.html',
 })
 export class DetailUsersComponent implements OnInit {
-  customer$: Observable<Customer>;
+  customer: Customer;
   constructor(
     private route: ActivatedRoute, 
     private customerService: CustomerService,
@@ -20,29 +20,28 @@ export class DetailUsersComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.customer$ = this.route.params.pipe(
-      pluck('id'),
-      switchMap(id => this.customerService.getByID(id)),
-      filter(user => !!user)
-    )
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id')
+      this.customerService.getByID(id)
+      .subscribe(res => this.customer = res)
+    })
   }
 
-  onRemove(id: string) {
+  onRemove() {
     this.dialog.open(DialogResultComponent, {
       context: {
         title: `Are you want to remove user ?`,
-        content: `User ${id}`
+        content: `User ${this.customer.id}`
       }
     }).onClose.subscribe(result => {
       if(result) {
-        //this.customerService.removeCustomer(id)
         this.router.navigateByUrl("/home/user")
       }
     })
   }
  
-  onUpdate(id: string) {
-    this.router.navigateByUrl("/home/user/update/" + id)
+  onUpdate() {
+    this.router.navigateByUrl("/home/user/update/" + this.customer.id)
   }
 
 }

@@ -45,9 +45,9 @@
                         </span>
                     </nb-alert>
                     <div class="form-group row">
-                        <label for="Price" class="label col-sm-3 col-form-label">Tên dịch vụ: </label>
+                        <label for="Price" class="label col-sm-3 col-form-label">Giá dịch vụ: </label>
                         <div class="col-sm-9">
-                            <input type="text" 
+                            <input type="number" 
                             formControlName="price" 
                             nbInput fullWidth id="Price"
                             placeholder="Service price"
@@ -56,13 +56,13 @@
                     </div>
                     <nb-alert *ngIf="getConfig('price')"
                         status="danger">
-                        <span *ngIf="form.get('price').errors.required">price is required</span>
+                        <span *ngIf="form.get('price').errors.required">Price is required</span>
                         <span *ngIf="form.get('price').errors?.min">
-                            Price at least {{ form.get('price').errors?.min.required }} characters
+                            Price at min {{ form.get('price').errors?.min.min }}
                         </span>
                     </nb-alert>
                     <div class="form-group row">
-                        <label for="Description" class="label col-sm-3 col-form-label">Tên dịch vụ: </label>
+                        <label for="Description" class="label col-sm-3 col-form-label">Mô tả: </label>
                         <div class="col-sm-9">
                             <ckeditor
                             [config]="{ extraPlugins: 'divarea', height: '200' }"

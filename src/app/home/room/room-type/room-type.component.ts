@@ -1,8 +1,9 @@
-import { NbDialogService } from '@nebular/theme';
+import { filter } from 'rxjs/operators';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { RoomTypeService } from './../../../data/room-type.service';
 import { RoomType } from './../../../model/room-type.model';
 import { Component, OnInit } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
+import { LocalDataSource, ServerDataSource } from 'ng2-smart-table';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
 
@@ -39,6 +40,15 @@ export class RoomTypeComponent implements OnInit {
         title: 'Tên loại phòng',
         type: 'string',
         filter: false
+      },
+      rooms : {
+        title: 'Số phòng',
+        type: 'number',
+        valuePrepareFunction: (data: any[]) => {
+          return data.length
+        },
+        filter: false,
+        editable: false
       }
     }
   }
@@ -48,23 +58,40 @@ export class RoomTypeComponent implements OnInit {
     private roomTypeService: RoomTypeService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: NbDialogService
+    private dialog: NbDialogService,
+    private toast: NbToastrService
     ) { }
 
   ngOnInit(): void {
-    this.roomTypeService.List.subscribe(src => this.source.load(src))
+    this.loadSrc()
+  }
+
+  loadSrc() {
+    this.source.reset()
+    this.roomTypeService.List
+    .subscribe(res => {
+      this.source.load(res)
+    })
   }
 
   onDeleteConfirm(event) {
     this.dialog.open(DialogResultComponent, {
       context: {
         title: `Are you want to remove service?`,
-        content: `Service id: ${event.data.id}`
+        content: `Room Type id: ${event.data.id}`
       }
     }).onClose.subscribe(result => {
       if(result) {
         this.roomTypeService.removeRoomType(event.data.id)
-        this.onSearch('')
+        .subscribe(
+          res => {
+            this.loadSrc()
+            this.showToast('Delete', 'Delete success', {status: 'success'})
+          },
+          err => {
+            this.toast.show(err.error, 'Error', {status:'danger'})
+          }
+        )
       }
     })
   }
@@ -75,8 +102,18 @@ export class RoomTypeComponent implements OnInit {
       alert(val.get(false))
     }
     else{
-      this.roomTypeService.updateRoomType(event.newData)
-      this.onSearch('')
+      this.roomTypeService.updateRoomType({id: event.newData.id, nameType: event.newData.nameType })
+      .subscribe(
+        res => {
+          event.confirm.resolve();
+          this.loadSrc()
+          this.showToast('Edit', 'Edit success', {status: 'success'})
+        },
+        err => {
+          event.confirm.reject();
+          this.toast.show('Error', err.error, {status: 'danger'})
+        }
+      )
     }
   }
 
@@ -84,11 +121,19 @@ export class RoomTypeComponent implements OnInit {
     const val = this.validate(true, event.newData)
     if(val.has(false)) {
       alert(val.get(false))
-      this.onSearch('')
     }
     else{
       this.roomTypeService.addRoomType(event.newData)
-      this.onSearch('')
+      .subscribe(
+        res => {
+          event.confirm.resolve();
+          this.loadSrc()
+          this.showToast('ADD', 'Add success', {status: 'success'})
+        },
+        err => {
+          this.showToast('ADD', err.error, {status: 'danger'})
+        }
+      )
     }
   }
 
@@ -107,10 +152,7 @@ export class RoomTypeComponent implements OnInit {
 
   onSearch(query) {
     if(query.trim().length === 0) {
-      this.source.reset()
-      this.roomTypeService.List.subscribe(src => {
-        this.source.load(src)
-      })      
+      this.loadSrc()
     }
     else {
       query = query.trim()
@@ -119,11 +161,11 @@ export class RoomTypeComponent implements OnInit {
           field: 'id',
           search: query
         },
-        {
-          field: 'name',
-          search: query
-        }
       ], false)
     }
+  }
+
+  showToast(title: string, content: string, option: any){
+    this.toast.show(content, title, option)
   }
 }

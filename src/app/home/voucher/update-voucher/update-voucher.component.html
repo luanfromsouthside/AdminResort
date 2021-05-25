@@ -1,4 +1,4 @@
-<nb-card status="success" *ngIf="voucher$ | async as voucher; else noVoucher">
+<nb-card status="success" *ngIf="voucher != undefined; else noVoucher">
     <nb-card-header>Cập nhật voucher: {{ voucher.code }}</nb-card-header>
     <nb-card-body>
         <form novalidate [formGroup]="form">
@@ -9,7 +9,7 @@
                         formControlName="fromDate" 
                         nbInput fullWidth placeholder="From Date"
                         [nbDatepicker]="fromDate" [status]="getConfig('fromDate') ? 'danger' : 'basic'">
-                    <nb-datepicker #fromDate></nb-datepicker>
+                    <nb-datepicker #fromDate [min]="getDate(voucher.fromDate)"></nb-datepicker>
                 </div>
             </div>
             <nb-alert *ngIf="form.get('fromDate').invalid && form.get('fromDate').touched"
@@ -31,7 +31,7 @@
             <div class="form-group row">
                 <label for="Condition" class="label col-sm-3 col-form-label">Điều kiện: </label>
                 <div class="col-sm-9">
-                    <input type="text" 
+                    <input type="number" 
                     formControlName="condition" 
                     nbInput fullWidth id="Condition"
                     placeholder="Condition"
@@ -48,7 +48,7 @@
             <div class="form-group row">
                 <label for="discount" class="label col-sm-3 col-form-label">Giảm giá: </label>
                 <div class="col-sm-9">
-                    <input type="text" 
+                    <input type="number" 
                     formControlName="discount" 
                     nbInput fullWidth id="discount"
                     placeholder="discount"

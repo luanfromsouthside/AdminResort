@@ -15,40 +15,23 @@ export class CustomerService extends BaseEndpoint {
     super('Customer')
   }
   get ListCustomer() {
-    return this.http.get<Customer>(this.Root_URL)
+    return this.http.get<Customer[]>(this.Root_URL)
   }
 
   getByID(id: string):Observable<Customer>{
-    return this.http.get<Customer>(this.Root_URL + `/${id}`)
+    return this.http.get<Customer>(this.Root_URL + id)
   }
 
   addCustomer(Customer: Customer) {
-    this.http.post(this.Root_URL + '/create', Customer)
+    //console.log(Customer)
+    return this.http.post(this.Root_URL + 'create', Customer, {responseType: 'text'})
   }
 
-  get SrcDataTable() {
-    return new ServerDataSource(this.http, { endPoint: this.Root_URL })
+  updateCustomer(customer: Customer) {
+    return this.http.post(this.Root_URL + 'update', customer, {responseType: 'text'})
   }
 
-  // removeCustomer(CustomerID: string) {
-  //   CustomerData.forEach((item,index) => {
-  //     if(item.id === CustomerID) delete CustomerData[index];
-  //   })
-  // }
-
-  // updateCustomer(Customer: Customer) {
-  //   CustomerData.forEach((item,index) => {
-  //     if(item.id === Customer.id) {
-  //       item.name = Customer.name;
-  //       item.gender = Customer.gender;
-  //       item.birth = Customer.birth;
-  //       item.phone = Customer.phone;
-  //       item.password = Customer.password;
-  //     }
-  //   })
-  // }
-
-  // search(key: string) {
-  //   return CustomerData.filter(cus => cus.name.includes(key))
-  // }
+  deleteCustomer(id: string) {
+    return this.http.delete(this.Root_URL + id, { responseType: 'text' })
+  }
 }

@@ -1,54 +1,37 @@
+import { BaseEndpoint } from './base-endpoint.api';
+import { HttpClient } from '@angular/common/http';
 import { RoomType } from './../model/room-type.model';
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ServerDataSource } from 'ng2-smart-table';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoomTypeService {
-  RTData:RoomType[]=[
-    {
-      id:"VIP",
-      nameType: "Phòng V.I.P",
-      rooms: null
-    },
-    {
-      id:"NORMAL",
-      nameType: "Phòng thường",
-      rooms: null
-    },
-    {
-      id:"COUPLE",
-      nameType: "Phòng đôi",
-      rooms: null
-    },
-  ]
-  constructor() { }
-
-  get List() {
-    return of<RoomType[]>(this.RTData)
+export class RoomTypeService extends BaseEndpoint{
+  constructor(private http: HttpClient) 
+  {
+    super('RoomType')
   }
 
-  getByID(id: string):Observable<RoomType>{
-    return this.List.pipe(map(RoomType => RoomType.find(s => s.id === id)))
+  get List() {
+    return this.http.get<RoomType[]>(this.Root_URL)
+  }
+
+  getByID(id: string){
+    return this.http.get<RoomType>(this.Root_URL + id);
   }
 
   addRoomType(RoomType: RoomType) {
-    return this.RTData.push(RoomType)
+    return this.http.post(this.Root_URL + 'create', RoomType, { responseType: 'text' })
   }
 
-  removeRoomType(RoomTypeID: string) {
-    this.RTData.forEach((item,index) => {
-      if(item.id === RoomTypeID) delete this.RTData[index];
-    })
+  removeRoomType(id: string) {
+    return this.http.delete(this.Root_URL + id, { responseType: 'text' })
   }
 
   updateRoomType(RoomType: RoomType) {
-    this.RTData.forEach((item) => {
-      if(item.id === RoomType.id) {
-        item.nameType = RoomType.nameType
-      }
-    })
+    return this.http.post(this.Root_URL +'edit', RoomType, { responseType: 'text' })
   }
 }

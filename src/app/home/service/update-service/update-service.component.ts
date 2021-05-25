@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiceService } from '../../../data/service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
 
@@ -19,7 +19,8 @@ export class UpdateServiceComponent implements OnInit {
     private readonly svService: ServiceService,
     private readonly route: ActivatedRoute,
     private readonly dialog: NbDialogService,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private readonly toast: NbToastrService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -64,7 +65,21 @@ export class UpdateServiceComponent implements OnInit {
       s.name = this.form.get('name').value;
       s.description = this.form.get('description').value;
       s.price = this.form.get('price').value;
-      this.svService.updateService(s);
+      this.svService.updateService(s)
+      .subscribe(
+        res => {
+          this.toast.show('Edit success', 'EDIT', { status: 'success'})
+          this.router.navigateByUrl('/home/service/details/' + s.id)
+        },
+        err => {
+          this.dialog.open(DialogResultComponent, {
+            context: {
+              title: 'ERROR',
+              content: err.error
+            }
+          })
+        }
+      );
     })
   }
 

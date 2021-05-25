@@ -16,7 +16,6 @@ export class ListVouchersComponent implements OnInit {
       add: false,
       edit: false,
     },
-    hideSubHeader: true,
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
@@ -25,7 +24,6 @@ export class ListVouchersComponent implements OnInit {
       code: {
         title: 'Mã Voucher',
         type: 'string',
-        filter: false
       },
       fromDate: {
         title: 'Ngày bắt đầu',
@@ -75,10 +73,10 @@ export class ListVouchersComponent implements OnInit {
     })
     this.route.queryParams
     .subscribe(params => {
-      if(typeof(params.search) === 'string') this.onSearch(params.search)
+      if(typeof(params.search) === 'string') {}
     })
   }
-  customerSelect(row: any){
+  voucherSelect(row: any){
     this.router.navigateByUrl('/home/voucher/details/' + row.data.code)
   }
 
@@ -95,35 +93,5 @@ export class ListVouchersComponent implements OnInit {
       }
       else event.confirm.reject()
     })
-  }
-
-  onSearch(query){
-    if(query.trim().length === 0) {
-      this.source.reset()
-      this.voucherService.List.subscribe(src => {
-        this.source.load(src)
-      })      
-    }
-    else {
-      query = query.trim()
-      this.source.setFilter([
-        {
-          field: 'code',
-          search: query
-        },
-        {
-          field: 'condition',
-          search: query
-        },
-        {
-          field : 'fromDate',
-          search: query
-        },
-        {
-          field : 'toDate',
-          search: query
-        },
-      ], false)
-    }
   }
 }

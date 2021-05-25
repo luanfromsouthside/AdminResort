@@ -47,7 +47,7 @@
                     <div class="form-group row">
                         <label for="Total" class="label col-sm-3 col-form-label">Số lượng: </label>
                         <div class="col-sm-9">
-                            <input type="text" 
+                            <input type="number" 
                             formControlName="total" 
                             nbInput fullWidth id="Total"
                             placeholder="Supply total"
@@ -58,7 +58,7 @@
                         status="danger">
                         <span *ngIf="form.get('total').errors.required">Total is required</span>
                         <span *ngIf="form.get('total').errors?.min">
-                            Total at least {{ form.get('total').errors?.min.required }} characters
+                            Total at min {{ form.get('total').errors?.min.min }} characters
                         </span>
                     </nb-alert>
                 </form>

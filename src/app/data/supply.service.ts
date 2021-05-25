@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { BaseEndpoint } from './base-endpoint.api';
 import { Supply } from './../model/supply.model';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
@@ -6,61 +8,29 @@ import { Observable, of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SupplyService {
-  SuppliesData : Supply[] = [
-    {
-      id: 'TV',
-      name: 'Tivi',
-      total: 45
-    },
-    {
-      id: 'BED',
-      name: 'Tivi',
-      total: 45
-    },
-    {
-      id: 'KINGBED',
-      name: 'Tivi',
-      total: 45
-    },
-    {
-      id: 'TABLET',
-      name: 'Tivi',
-      total: 45
-    },
-    {
-      id: 'PHONE',
-      name: 'Tivi',
-      total: 45
-    },
-  ]
-  constructor() { }
+export class SupplyService extends BaseEndpoint{
 
-  get List() {
-    return of<Supply[]>(this.SuppliesData)
+  constructor(private http: HttpClient) {
+    super('Supply')
   }
 
-  getByID(id: string):Observable<Supply>{
-    return this.List.pipe(map(Supply => Supply.find(s => s.id === id)))
+  get List() {
+    return this.http.get<Supply[]>(this.Root_URL)
+  }
+
+  getByID(id: string) {
+    return this.http.get<Supply>(this.Root_URL + id)
   }
 
   addSupply(Supply: Supply) {
-    return this.SuppliesData.push(Supply)
+    return this.http.post(this.Root_URL + 'create', Supply, { responseType: 'text' })
   }
 
   removeSupply(SupplyID: string) {
-    this.SuppliesData.forEach((item,index) => {
-      if(item.id === SupplyID) delete this.SuppliesData[index];
-    })
+    return this.http.delete(this.Root_URL + SupplyID, { responseType: 'text' })
   }
 
-  updateSupply(supply: Supply, type: string) {
-    this.SuppliesData.forEach((item) => {
-      if(item.id === supply.id) {
-        item.name = supply.name
-        if(type == 'add') item.total += supply.total
-        if(type == 'new') item.total = supply.total
-      }
-    })
+  updateSupply(model: {id:string, name:string, editType: string, count: number}) {
+    return this.http.post(this.Root_URL + 'edit', model, { responseType: 'text' })
   }
 }

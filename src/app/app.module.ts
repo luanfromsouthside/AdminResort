@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { RoomService } from './data/room.service';
 import { RoleProvider } from './data/role.provider';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
@@ -23,6 +24,7 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { DatePipe } from '@angular/common';
 // import { LayoutService } from './@core/utils';
 
 @NgModule({
@@ -42,6 +44,7 @@ import {
     NbLayoutModule,
     ThemeModule.forRoot(),
     HttpClientModule,
+    ReactiveFormsModule,
     NbAuthModule.forRoot({
       strategies: [
         NbPasswordAuthStrategy.setup({
@@ -90,7 +93,8 @@ import {
     {
       provide: NbRoleProvider,
       useClass: RoleProvider
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent],
 })

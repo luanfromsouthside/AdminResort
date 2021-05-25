@@ -1,5 +1,5 @@
 import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { StaffService } from './../../../data/staff.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -19,7 +19,8 @@ export class UpdateStaffComponent implements OnInit {
     private readonly staffService: StaffService,
     private readonly route: ActivatedRoute,
     private readonly dialog: NbDialogService,
-    private readonly router: Router) { }
+    private readonly router: Router,
+    private readonly toast: NbToastrService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -48,14 +49,14 @@ export class UpdateStaffComponent implements OnInit {
         Validators.pattern(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)
       ]],
       gender: [this.staff.gender, [Validators.required]],
-      birth: [this.staff.birth, [Validators.required]],
+      birth: [new Date(this.staff.birth), [Validators.required]],
       permission: [this.staff.permissionID, [Validators.required]],
       email: [this.staff.email, [Validators.email]]
     })
   }
 
   resetForm() {
-    this.frUpdateStaff.reset();
+    this.initForm()
   }
 
   updateStaff() {

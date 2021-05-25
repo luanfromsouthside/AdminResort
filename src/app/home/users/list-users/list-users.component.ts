@@ -51,10 +51,14 @@ export class ListUsersComponent implements OnInit {
         valuePrepareFunction: (gender)=>{
           return gender?"Nam":"Nữ"
         }
+      },
+      email: {
+        title: 'Email',
+        type: 'string'
       }
     }
   }
-  source: any
+  source: LocalDataSource = new LocalDataSource()
   constructor(
     private readonly customerService: CustomerService,
     private readonly router: Router,    
@@ -63,12 +67,18 @@ export class ListUsersComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.customerService.ListCustomer.subscribe(src => {
-      this.source = this.customerService.SrcDataTable
-    })
+    this.loadSrc()
     this.route.queryParams
     .subscribe(params => {
       if(typeof(params.search) === 'string') this.onSearch(params.search)
+    })
+  }
+
+  loadSrc() {
+    this.source.reset()
+    this.customerService.ListCustomer
+    .subscribe(res => {
+      this.source.load(res)
     })
   }
 
@@ -93,16 +103,11 @@ export class ListUsersComponent implements OnInit {
 
   onSearch(query){
     if(query.trim().length === 0) {
-      this.source.reset()
-      this.source = this.customerService.SrcDataTable    
+      this.loadSrc()
     }
     else {
       query = query.trim()
       this.source.setFilter([
-        {
-          field: 'id',
-          search: query
-        },
         {
           field: 'name',
           search: query
