@@ -4,7 +4,7 @@ import { RoomTypeService } from './../../../data/room-type.service';
 import { RoomType } from './../../../model/room-type.model';
 import { Component, OnInit } from '@angular/core';
 import { LocalDataSource, ServerDataSource } from 'ng2-smart-table';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-result.component';
 
 @Component({
@@ -48,7 +48,8 @@ export class RoomTypeComponent implements OnInit {
           return data.length
         },
         filter: false,
-        editable: false
+        editable: false,
+        addable: false,
       }
     }
   }
@@ -64,6 +65,9 @@ export class RoomTypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSrc()
+    this.route.paramMap.subscribe(params => {
+      console.log(params.get('search'))
+    })
   }
 
   loadSrc() {

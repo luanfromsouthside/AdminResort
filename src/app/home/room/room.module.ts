@@ -1,5 +1,6 @@
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { NbCardModule, NbIconModule, NbInputModule, NbActionsModule, NbAlertModule, NbButtonModule, NbDatepickerModule, NbLayoutModule, NbListModule, NbRadioModule, NbSelectModule, NbSidebarModule, NbUserModule } from '@nebular/theme';
+import { NbCardModule, NbIconModule, NbInputModule, NbActionsModule, NbAlertModule, NbButtonModule, NbDatepickerModule, NbLayoutModule, NbListModule, NbRadioModule, NbSelectModule, NbSidebarModule, NbUserModule, NbProgressBarModule } from '@nebular/theme';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,10 +14,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DialogModule } from '../../dialog/dialog.module';
 import { RoomDetailComponent } from './room-detail/room-detail.component';
+import { ImageRoomComponent } from './image-room/image-room.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 @NgModule({
-  declarations: [RoomComponent, RoomManagementComponent, AddRoomComponent, EditRoomComponent, RoomTypeComponent, RoomDetailComponent],
+  declarations: [RoomComponent, RoomManagementComponent, AddRoomComponent, EditRoomComponent, RoomTypeComponent, RoomDetailComponent, ImageRoomComponent],
   imports: [
     CommonModule,
     RoomRoutingModule,
@@ -37,7 +40,10 @@ import { RoomDetailComponent } from './room-detail/room-detail.component';
     NbListModule,
     ThemeModule.forRoot(),
     NbLayoutModule,
-    NbSidebarModule.forRoot()
+    NbSidebarModule.forRoot(),
+    NbProgressBarModule,
+    NgxDropzoneModule,
+    NgxGalleryModule
   ]
 })
 export class RoomModule { }

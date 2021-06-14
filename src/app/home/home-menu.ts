@@ -8,11 +8,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         children: [
             {
                 title: 'Loại phòng',
-                link: '/home/room/roomtype'
+                link: '/home/room/room-type'
             },
             {
                 title: 'Danh sách phòng',
-                link: '/home/room/management'
+                link: '/home/room'
             },
             {
                 title: 'Thêm phòng',
@@ -26,13 +26,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         children: [
             {
                 title:'Danh sách hóa đơn',
-                
+                link: '/home/booking'
             },
             {
-                title: 'Đặt phòng'
-            },
-            {
-                title: 'Thanh toán'
+                title: 'Đặt phòng',
+                link: '/home/booking/new'
             }
         ]
     },

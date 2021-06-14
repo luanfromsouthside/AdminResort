@@ -31,10 +31,6 @@ export class ListServiceComponent implements OnInit {
         title: 'Giá',
         type: 'number',
         filter: true
-      },
-      description: {
-        title: 'Mô tả',
-        type: 'string'
       }
     }
   }

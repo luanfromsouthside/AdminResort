@@ -1,3 +1,4 @@
+import { PermissionPipe } from './../../../@theme/pipes/permission.pipe';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +17,6 @@ export class ListStaffComponent implements OnInit {
       add: false,
       edit: false,
     },
-    hideSubHeader: true,
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
@@ -27,12 +27,10 @@ export class ListStaffComponent implements OnInit {
       id: {
         title: 'ID',
         type: 'string',
-        filter: true
       },
       name: {
         title: 'Tên nhân viên',
         type: 'string',
-        filter: false
       },
       birth: {
         title: 'Ngày sinh',
@@ -52,13 +50,35 @@ export class ListStaffComponent implements OnInit {
         type: 'boolean',
         valuePrepareFunction: (gender)=>{
           return gender?"Nam":"Nữ"
+        },
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Select',
+            list: [
+              {value: true, title:'Nam'},
+              {value: false, title:'Nữ'},
+            ],
+          }
         }
       },
-      permission: {
+      permissionID: {
         title: 'Chức vụ',
         type: 'string',
         valuePrepareFunction: (permission) => {
-          return permission.name;
+          return new PermissionPipe().transform(permission)
+        },
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Select',
+            list: [
+              {value: 'STAFF', title:'Nhân viên'},
+              {value: 'WAREHOUSE', title:'Nhân viên kho'},
+              {value: 'ADMIN', title:'Quản trị viên'},
+              {value: 'MANAGER', title:'Quản lý'},
+            ],
+          }
         }
       }
     }

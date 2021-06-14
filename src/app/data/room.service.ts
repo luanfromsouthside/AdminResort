@@ -4,6 +4,7 @@ import { BaseEndpoint } from './base-endpoint.api';
 import { ServerDataSource } from 'ng2-smart-table';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Image } from '../model/image.model';
 
 @Injectable({
   providedIn: 'root'
@@ -86,5 +87,18 @@ export class RoomService extends BaseEndpoint {
 
   deleteRoom(id: string) {
     return this.http.delete(this.Root_URL + id, {responseType: 'text'})
+  }
+
+  getListImg(id: string) {
+    return this.http.get<Image[]>(this.Root_URL + `img/${id}`)
+  }
+
+  addImage(id: string, url: string) {
+    console.log(this.Root_URL + 'add_img')
+    return this.http.post(this.Root_URL + 'add_img', { roomID: id, url: url }, {responseType: 'text'})
+  }
+
+  removeImage(url: string) {
+    return this.http.delete(this.Root_URL + `img/${url}` , {responseType: 'text'})
   }
 }

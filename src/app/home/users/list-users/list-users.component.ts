@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -16,7 +17,6 @@ export class ListUsersComponent implements OnInit {
       add: false,
       edit: false,
     },
-    hideSubHeader: true,
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
@@ -25,12 +25,12 @@ export class ListUsersComponent implements OnInit {
       id: {
         title: 'ID',
         type: 'string',
-        filter: false
+        filter: true
       },
       name: {
         title: 'Tên khách hàng',
         type: 'string',
-        filter: false
+        filter: true
       },
       birth: {
         title: 'Ngày sinh',
@@ -39,22 +39,35 @@ export class ListUsersComponent implements OnInit {
           var raw = new Date(date);
           var format = new DatePipe('en-EN').transform(raw, 'dd/MM/yyyy');
           return format;
-        }   
+        },
+        filter: true   
       },
       phone: {
         title: 'SDT',
-        type: 'string'
+        type: 'string',
+        filter: true
       },
       gender: {
         title: 'Giới tính',
         type: 'boolean',
         valuePrepareFunction: (gender)=>{
           return gender?"Nam":"Nữ"
+        },
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Select',
+            list: [
+              {value: true, title:'Nam'},
+              {value: false, title:'Nữ'},
+            ],
+          }
         }
       },
       email: {
         title: 'Email',
-        type: 'string'
+        type: 'string',
+        filter: true
       }
     }
   }

@@ -1,6 +1,7 @@
+import { filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { RoomService } from './../../../data/room.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { LocalDataSource, ServerDataSource } from 'ng2-smart-table';
 import { Component, OnInit } from '@angular/core';
 //import { RoomService } from '../../../shared/room.service';
@@ -13,42 +14,41 @@ export class RoomManagementComponent implements OnInit {
     actions:{
       add: false,
       edit: false,
-    },
-    hideSubHeader: true,
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
+      delete: false
     },
     columns: {
       id: {
         title: 'Room ID',
         type: 'string',
-        filter: false
+        filter: true
       },
       name: {
         title: 'Room name',
         type: 'string',
-        filter: false
+        filter: true
       },
       roomType: {
         title: 'Room type',
         type: 'string',
-        filter: false ,
+        filter: true ,
         valuePrepareFunction: (data: any) => {
           return data.nameType
         }    
       },
       adult: {
         title: 'Adult',
-        type: 'number'
+        type: 'number',
+        filter: true
       },
       child: {
         title: 'Child',
-        type: 'number'
+        type: 'number',
+        filter: true
       },
       price: {
         title: 'price',
-        type: 'number'
+        type: 'number',
+        filter: true
       }
     }
   }
@@ -57,22 +57,25 @@ export class RoomManagementComponent implements OnInit {
   constructor(
     private readonly roomService: RoomService, 
     private router: Router,
-    private http: HttpClient) { 
+    private route: ActivatedRoute) { 
   }
 
   ngOnInit(): void {
     this.loadSrc()
+    // this.route.queryParams.subscribe(params => {
+    //   this.onSearch(params.search)
+    // })
   }
 
   loadSrc() {
     this.source.reset()
     this.roomService.ListRooms
     .subscribe(
-      res => {this.source.load(res)}
+      res => {this.source.load(res); console.log(res)}
     )
   }
 
-  editRoom(room: any):void {
+  selectRoom(room: any):void {
     this.router.navigateByUrl("/home/room/details/"+room.data.id)
   }
 
@@ -85,6 +88,7 @@ export class RoomManagementComponent implements OnInit {
   }
 
   onSearch(query: string = ''){
+    query.trim()
     this.source.setFilter([
       {
         field: 'id',

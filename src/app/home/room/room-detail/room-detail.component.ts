@@ -35,6 +35,10 @@ export class RoomDetailComponent implements OnInit {
     this.router.navigateByUrl('/home/room/edit/' + this.room.id)
   }
 
+  editImg() {
+    this.router.navigateByUrl('/home/room/img/' + this.room.id)
+  }
+
   onRemove() {
     this.roomService.deleteRoom(this.room.id)
     .subscribe(

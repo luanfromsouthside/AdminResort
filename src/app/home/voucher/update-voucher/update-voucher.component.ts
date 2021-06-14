@@ -66,10 +66,12 @@ export class UpdateVoucherComponent implements OnInit {
   }
 
   update() {
+    let from = new Date(this.form.get('fromDate').value).toLocaleDateString()
+    let to = new Date(this.form.get('toDate').value).toLocaleDateString()
       this.voucherService.updateVoucher({
         code: this.voucher.code,
-        fromDate: new Date(this.getValueFrm('fromDate')),
-        toDate: new Date(this.getValueFrm('toDate')),
+        fromDate: this.getValueFrm('fromDate'),
+        toDate: this.getValueFrm('toDate'),
         condition: this.getValueFrm('condition'),
         discount: this.getValueFrm('discount')
       }).subscribe(

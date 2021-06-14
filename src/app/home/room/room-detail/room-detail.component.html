@@ -45,13 +45,15 @@
                 <button hero fullWidth nbButton shape="semi-round" status="info" (click)="onUpdate()"><i
                         class="fas fa-edit"></i>&emsp;Cập nhật thông tin </button>
             </div>
-            <div class="offset-md-4 col-md-4 col-12">
+            <div class="col-md-4 col-12">
+                <button hero fullWidth nbButton shape="semi-round" status="info" (click)="editImg()"><i
+                        class="fas fa-image"></i>&emsp;Cập nhật ảnh </button>
+            </div>
+            <div class="col-md-4 col-12">
                 <button hero fullWidth nbButton shape="semi-round" status="danger" (click)="onRemove()"><i
                         class="fas fa-user-times"></i>&emsp;Xóa phòng </button>
             </div>
         </div>
-
-
     </nb-card-footer>
 </nb-card>
 <ng-template #noRoom>

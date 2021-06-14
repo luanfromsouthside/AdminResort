@@ -1,3 +1,4 @@
+import { ImageRoomComponent } from './image-room/image-room.component';
 import { RoomDetailComponent } from './room-detail/room-detail.component';
 import { RoomTypeComponent } from './room-type/room-type.component';
 import { EditRoomComponent } from './edit-room/edit-room.component';
@@ -13,7 +14,7 @@ const routes: Routes = [
     component: RoomComponent,
     children: [
       {
-        path:'management',
+        path:'',
         component: RoomManagementComponent
       },
       {
@@ -29,13 +30,12 @@ const routes: Routes = [
         component: EditRoomComponent
       },
       {
-        path:'roomtype',
-        component: RoomTypeComponent
+        path:'img/:id',
+        component: ImageRoomComponent
       },
       {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'management'
+        path:'room-type',
+        component: RoomTypeComponent
       }
     ],
   },

@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseEndpoint } from './base-endpoint.api';
 import { Voucher } from './../model/voucher.model';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +22,6 @@ export class VoucherService extends BaseEndpoint {
   }
 
   addVoucher(voucher: Voucher) {
-    console.log(voucher)
     return this.http.post(this.Root_URL + 'create', voucher, { responseType: 'text'})
   }
 

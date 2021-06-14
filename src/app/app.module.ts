@@ -1,3 +1,5 @@
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { environment } from './../environments/environment.prod';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RoomService } from './data/room.service';
 import { RoleProvider } from './data/role.provider';
@@ -25,7 +27,9 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
-// import { LayoutService } from './@core/utils';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFirestoreModule } from '@angular/fire/firestore'
 
 @NgModule({
   declarations: [AppComponent],
@@ -87,7 +91,10 @@ import { DatePipe } from '@angular/common';
           },
         }
       }
-    })
+    }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   providers: [
     {
