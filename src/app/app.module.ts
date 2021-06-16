@@ -1,10 +1,6 @@
-import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { environment } from './../environments/environment.prod';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RoomService } from './data/room.service';
-import { RoleProvider } from './data/role.provider';
-import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
-import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy, NbPasswordAuthStrategyOptions } from '@nebular/auth';
+import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
@@ -66,7 +62,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore'
       ],
       forms: {
         login: {
-          redirectDelay: 20, // delay before redirect after a successful login, while success message is shown to the user
+          redirectDelay: 10, // delay before redirect after a successful login, while success message is shown to the user
           strategy: 'user',  // strategy id key.
           rememberMe: false,   // whether to show or not the `rememberMe` checkbox
           showMessages: {     // show/not show success/error messages
@@ -97,10 +93,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore'
     AngularFireStorageModule
   ],
   providers: [
-    {
-      provide: NbRoleProvider,
-      useClass: RoleProvider
-    },
+    // {
+    //   provide: NbRoleProvider,
+    //   useClass: RoleProvider
+    // },
     DatePipe
   ],
   bootstrap: [AppComponent],

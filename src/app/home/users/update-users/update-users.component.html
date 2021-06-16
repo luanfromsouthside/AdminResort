@@ -7,19 +7,20 @@
                     <div class="form-group row">
                         <label for="name" class="label col-sm-3 col-form-label">Họ tên: </label>
                         <div class="col-sm-9">
-                            <input type="text" formControlName="name" nbInput fullWidth id="name" placeholder="Name">
+                            <input type="text" formControlName="name" nbInput fullWidth id="name" placeholder="Name"
+                            [status]="frmUpdateUser.get('name').invalid && frmUpdateUser.get('name').touched ? 'danger' : 'basic'">
+                            <span *ngIf="frmUpdateUser.get('name').invalid && frmUpdateUser.get('name').touched"
+                                class="text-danger">
+                                <span *ngIf="frmUpdateUser.get('name').errors.required">Name is required</span>
+                                <span *ngIf="frmUpdateUser.get('name').errors?.minlength">
+                                    Name at least {{ frmUpdateUser.get('name').errors?.minlength.requiredLength }} characters
+                                </span>
+                                <span *ngIf="frmUpdateUser.get('name').errors?.maxlength">
+                                    Name at most {{ frmUpdateUser.get('name').errors?.maxlength.requiredLength }} characters
+                                </span>
+                            </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="frmUpdateUser.get('name').invalid && frmUpdateUser.get('name').touched"
-                        status="danger">
-                        <span *ngIf="frmUpdateUser.get('name').errors.required">Name is required</span>
-                        <span *ngIf="frmUpdateUser.get('name').errors?.minlength">
-                            Name at least {{ frmUpdateUser.get('name').errors?.minlength.requiredLength }} characters
-                        </span>
-                        <span *ngIf="frmUpdateUser.get('name').errors?.maxlength">
-                            Name at most {{ frmUpdateUser.get('name').errors?.maxlength.requiredLength }} characters
-                        </span>
-                    </nb-alert>
 
                     <div class="form-group row">
                         <label for="gender" class="label col-sm-3 col-form-label">Giới tính: </label>
@@ -35,47 +36,50 @@
                         <label for="birth" class="label col-sm-3 col-form-label">Ngày sinh: </label>
                         <div class="col-sm-9" id="birth">
                             <input formControlName="birth" nbInput fullWidth placeholder="Birthday"
-                                [nbDatepicker]="dateTimePicker">
+                                [nbDatepicker]="dateTimePicker"
+                                [status]="frmUpdateUser.get('birth').invalid && frmUpdateUser.get('birth').touched ? 'danger' : 'basic'">
                             <nb-datepicker #dateTimePicker></nb-datepicker>
+                            <span *ngIf="frmUpdateUser.get('birth').invalid && frmUpdateUser.get('birth').touched"
+                                class="text-danger">
+                                <span *ngIf="frmUpdateUser.get('birth').errors.required">Birth is required</span>
+                            </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="frmUpdateUser.get('birth').invalid && frmUpdateUser.get('birth').touched"
-                        status="danger">
-                        <span *ngIf="frmUpdateUser.get('birth').errors.required">Birth is required</span>
-                    </nb-alert>
 
                     <div class="form-group row">
                         <label for="pass" class="label col-sm-3 col-form-label">Mật khẩu: </label>
                         <div class="col-sm-9">
                             <input type="password" formControlName="password" nbInput fullWidth id="pass"
-                                placeholder="Password">
+                                placeholder="Password"
+                                [status]="frmUpdateUser.get('password').invalid && frmUpdateUser.get('password').touched ? 'danger' : 'basic'">
+                                <span *ngIf="frmUpdateUser.get('password').invalid && frmUpdateUser.get('password').touched"
+                                    class="text-danger">
+                                    <span *ngIf="frmUpdateUser.get('password').errors.required">Password is required</span>
+                                    <span *ngIf="frmUpdateUser.get('password').errors?.minlength">
+                                        Password at least {{ frmUpdateUser.get('password').errors?.minlength.requiredLength }} characters
+                                    </span>
+                                    <span *ngIf="frmUpdateUser.get('password').errors?.maxlength">
+                                        Password at most {{ frmUpdateUser.get('password').errors?.maxlength.requiredLength }} characters
+                                    </span>
+                                </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="frmUpdateUser.get('password').invalid && frmUpdateUser.get('password').touched"
-                        status="danger">
-                        <span *ngIf="frmUpdateUser.get('password').errors.required">Password is required</span>
-                        <span *ngIf="frmUpdateUser.get('password').errors?.minlength">
-                            Password at least {{ frmUpdateUser.get('password').errors?.minlength.requiredLength }} characters
-                        </span>
-                        <span *ngIf="frmUpdateUser.get('password').errors?.maxlength">
-                            Password at most {{ frmUpdateUser.get('password').errors?.maxlength.requiredLength }} characters
-                        </span>
-                    </nb-alert>
 
                     <div class="form-group row">
                         <label for="phone" class="label col-sm-3 col-form-label">SĐT: </label>
                         <div class="col-sm-9">
                             <input type="tel" formControlName="phone" nbInput fullWidth id="phone"
-                                placeholder="Phone number">
+                                placeholder="Phone number"
+                                [status]="frmUpdateUser.get('phone').invalid && frmUpdateUser.get('phone').touched ? 'danger' : 'basic'">
+                                <span *ngIf="frmUpdateUser.get('phone').invalid && frmUpdateUser.get('phone').touched"
+                                    class="text-danger">
+                                    <span *ngIf="frmUpdateUser.get('phone').errors.required">Phone is required</span>
+                                    <span *ngIf="frmUpdateUser.get('phone').errors?.pattern">
+                                        Phone is invalid
+                                    </span>
+                                </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="frmUpdateUser.get('phone').invalid && frmUpdateUser.get('phone').touched"
-                        status="danger">
-                        <span *ngIf="frmUpdateUser.get('phone').errors.required">Phone is required</span>
-                        <span *ngIf="frmUpdateUser.get('phone').errors?.pattern">
-                            Phone is invalid
-                        </span>
-                    </nb-alert>
                     <div class="form-group row">
                         <label for="email" class="label col-sm-3 col-form-label">Email: </label>
                         <div class="col-sm-9">
@@ -85,14 +89,14 @@
                                 nbInput fullWidth id="email"
                                 placeholder="Email"
                                 [status]="getConfig('email') ? 'danger' : 'basic'">
+                                <span *ngIf="frmUpdateUser.get('email').invalid && frmUpdateUser.get('email').touched"
+                                    class="text-danger">
+                                    <span *ngIf="frmUpdateUser.get('email').errors?.email">
+                                        Email is invalid
+                                    </span>
+                                </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="frmUpdateUser.get('email').invalid && frmUpdateUser.get('email').touched"
-                        status="danger">
-                        <span *ngIf="frmUpdateUser.get('email').errors?.email">
-                            Email is invalid
-                        </span>
-                    </nb-alert>
                 </form>
             </nb-card-body>
             <nb-card-footer>
@@ -110,7 +114,7 @@
 </div>
 
 <ng-template #noUser>
-    <nb-card status="danger">
+    <nb-card class="text-danger">
         <nb-card-header>User does not exist</nb-card-header>
     </nb-card>
 </ng-template>

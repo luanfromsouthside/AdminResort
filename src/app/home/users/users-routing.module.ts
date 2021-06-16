@@ -5,6 +5,7 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { UsersComponent } from './users.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../../auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,6 +18,8 @@ const routes: Routes = [
       },
       {
         path: 'add',
+        canActivate: [AuthGuard],
+        data: {roles: ['ADMIN', 'MANAGER']},
         component: AddUsersComponent
       },
       {
@@ -25,6 +28,8 @@ const routes: Routes = [
       },
       {
         path: 'update/:id',
+        canActivate: [AuthGuard],
+        data: {roles: ['ADMIN', 'MANAGER']},
         component: UpdateUsersComponent
       }
     ]

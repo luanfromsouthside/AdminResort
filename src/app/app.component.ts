@@ -1,11 +1,10 @@
+import { NbAuthService } from '@nebular/auth';
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 import { Component, OnInit } from '@angular/core';
-// import { AnalyticsService } from './@core/utils/analytics.service';
-// import { SeoService } from './@core/utils/seo.service';
 
 @Component({
   selector: 'ngx-app',
@@ -13,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {
+  constructor(private authService: NbAuthService) {
   }
 
   ngOnInit(): void {

@@ -4,6 +4,7 @@
         <nb-list>
             <nb-list-item>
                 <div class="col-4">
+                    <i class="fas fa-clipboard-check"></i>
                     Điều kiện áp dụng:
                 </div>
                 <div class="col-8">
@@ -12,6 +13,7 @@
             </nb-list-item>
             <nb-list-item>
                 <div class="col-4">
+                    <i class="fas fa-percentage"></i>
                     Giảm giá:
                 </div>
                 <div class="col-8">
@@ -20,15 +22,16 @@
             </nb-list-item>
             <nb-list-item>
                 <div class="col-4">
+                    <i class="far fa-calendar-check"></i>
                     Thời hạn áp dụng:
                 </div>
                 <div class="col-8">
-                    From: {{ voucher.fromDate | date:'dd/MM/yyyy' }} to: {{ voucher.toDate | date:'dd/MM/yyyy ' }} 
+                    From: {{ voucher.fromDate | date:'dd/MM/yyyy' }}   -   To: {{ voucher.toDate | date:'dd/MM/yyyy ' }} 
                 </div>
             </nb-list-item>
         </nb-list>
     </nb-card-body>
-    <nb-card-footer>
+    <nb-card-footer *ngIf="canEdit">
         <div class="row">
             <div class="col-md-4 col-12">
                 <button hero fullWidth nbButton shape="semi-round" status="info" (click)="onUpdate(voucher.code)"><i

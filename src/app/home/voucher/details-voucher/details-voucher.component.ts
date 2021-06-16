@@ -1,3 +1,4 @@
+import { NbAuthService } from '@nebular/auth';
 import { Voucher } from './../../../model/voucher.model';
 import { Component, OnInit } from '@angular/core';
 import { filter, pluck, switchMap } from 'rxjs/operators';
@@ -12,12 +13,14 @@ import { NbDialogService, NbToastrService } from '@nebular/theme';
 })
 export class DetailsVoucherComponent implements OnInit {
   voucher: Voucher;
+  canEdit:boolean
   constructor(
     private route: ActivatedRoute, 
     private voucherService: VoucherService,
     private dialog: NbDialogService,
     private router: Router,
-    private toast: NbToastrService) { }
+    private toast: NbToastrService,
+    private authService: NbAuthService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -29,6 +32,11 @@ export class DetailsVoucherComponent implements OnInit {
         }
       )
     })
+    this.authService.getToken().subscribe(
+      token => {
+        this.canEdit = token.getPayload().role == 'MANAGER'
+      }
+    )
   }
 
   onUpdate(id: string) {

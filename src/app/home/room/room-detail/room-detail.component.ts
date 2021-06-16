@@ -1,3 +1,4 @@
+import { NbAuthService } from '@nebular/auth';
 import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,23 +13,35 @@ import { Component, OnInit } from '@angular/core';
 export class RoomDetailComponent implements OnInit {
   room: Room
 
+  isAdmin: boolean
+  
   constructor(
     private roomService: RoomService,
     private route: ActivatedRoute,
     private router: Router,
     private dialog: NbDialogService,
-    private toast: NbToastrService
+    private toast: NbToastrService,
+    private authService: NbAuthService
   ) { }
 
   ngOnInit(): void {
+    this.loadRoom()
+    
+  }
+
+  loadRoom() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.roomService.SelectRoom(id)
       .subscribe(res => {
         this.room = res
-        console.log(this.room)
       })
     })
+    this.authService.getToken().subscribe(
+      token => {
+        this.isAdmin = token.getPayload().role == 'MANAGER'
+      }
+    )
   }
 
   onUpdate() {

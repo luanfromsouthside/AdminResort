@@ -1,3 +1,4 @@
+import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
 import { CallServiceComponent } from './../../../dialog/call-service/call-service.component';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -57,6 +58,23 @@ export class DetailsBookingComponent implements OnInit {
     this.router.navigateByUrl('/home/booking/edit/' + this.bill.id)
   }
 
+  RemoveBooking() {
+    this.bookingService.DeleteBooking(this.bill.id).subscribe(
+      res => {
+        this.toastr.show(`Remove bill #${this.bill.id} success`, 'Remove', {status:'success'})
+        this.router.navigateByUrl('/home/booking')
+      },
+      err => {
+        this.dialog.open(DialogResultComponent, {
+          context: {
+            title:'ERROR REMOVE',
+            content: err.error
+          }
+        })
+      }
+    )
+  }
+
   CheckBooking(status: string) {
     this.bookingService.CheckBooking(this.bill.id, status).subscribe(
       res => {
@@ -77,5 +95,13 @@ export class DetailsBookingComponent implements OnInit {
     }).onClose.subscribe(res => {
       this.loadData()
     })
+  }
+
+  get isCheckin() {
+    return (this.bill.status == 'confirm') && new Date(this.bill.checkinDate) <= new Date()
+  }
+
+  get isCheckout() {
+    return (this.bill.status == 'checkin') && new Date(this.bill.checkoutDate) <= new Date()
   }
 }

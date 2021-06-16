@@ -32,14 +32,14 @@
             </nb-list-item>
             <nb-list-item>
                 <div class="col-4">
-                    <i class="fas fa-phone"></i>
-                    Email: 
+                    <i class="fas fa-envelope"></i>
+                    Email:
                 </div>
                 <div class="col-6">{{ customer.email }}</div>
             </nb-list-item>
         </nb-list>
     </nb-card-body>
-    <nb-card-footer>
+    <nb-card-footer *ngIf="canUpdate">
         <div class="row">
             <div class="col-md-4 col-12">
                 <button hero fullWidth nbButton shape="semi-round" status="info" (click)="onUpdate()"><i

@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { NbDialogService } from '@nebular/theme';
 import { Router } from '@angular/router';
 import { BookingService } from './../../../data/booking.service';
@@ -66,9 +67,9 @@ export class ListBookingComponent implements OnInit {
         filter: {
           type: 'list',
           config: {
-            selectText: 'Select',
+            selectText: 'Select status',
             list: [
-              {value: '', title:'Chờ xác nhận'},
+              {value: null, title:'Chờ xác nhận'},
               {value: 'confirm', title:'Đã xác nhận'},
               {value: 'payment', title:'Đã thanh toán'},
               {value: 'cancel', title:'Đã hủy'},

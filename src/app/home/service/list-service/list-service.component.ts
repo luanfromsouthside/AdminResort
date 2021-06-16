@@ -30,7 +30,10 @@ export class ListServiceComponent implements OnInit {
       price: {
         title: 'Giá',
         type: 'number',
-        filter: true
+        filter: true,
+        valuePrepareFunction: (data) => {
+          return data + ' $'
+        }
       }
     }
   }

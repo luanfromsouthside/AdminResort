@@ -1,3 +1,5 @@
+import { NbAuthService } from '@nebular/auth';
+import { HttpHeaders } from '@angular/common/http';
 import { Customer } from './../model/customer.model';
 import { Booking } from './../model/booking.model';
 import { HttpClient } from '@angular/common/http';
@@ -8,50 +10,67 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class BookingService extends BaseEndpoint{
-
-  constructor(private http: HttpClient) { 
+  header: HttpHeaders;
+  constructor(private http: HttpClient, private authService: NbAuthService) { 
     super('Booking')
   }
 
+  setHeader() {
+    this.authService.onTokenChange().subscribe(
+      token => {
+          this.header = new HttpHeaders().set("Authorization", "Bearer " + token.getValue());
+      })
+  }
+
   get ListBooking() {
-    return this.http.get<Booking[]>(this.Root_URL)
+    this.setHeader()
+    return this.http.get<Booking[]>(this.Root_URL, { headers: this.header})
   }
 
   SelectBooking(id:number) {
-    return this.http.get<Booking>(this.Root_URL + id)
+    this.setHeader()
+    return this.http.get<Booking>(this.Root_URL + id, { headers: this.header})
   }
 
   NewBooking(booking: Booking) {
+    this.setHeader()
     booking.voucherCode = booking.voucherCode.trim().toUpperCase()
-    return this.http.post(this.Root_URL + 'create', booking, {responseType: 'text'})
+    return this.http.post(this.Root_URL + 'create', booking, { headers: this.header, responseType: 'text'})
   }
 
   EditBooking(booking: Booking) {
+    this.setHeader()
     booking.voucherCode = booking.voucherCode.trim().toUpperCase()
-    return this.http.post(this.Root_URL + 'edit', booking, {responseType: 'text'})
+    return this.http.post(this.Root_URL + 'edit', booking, { headers: this.header, responseType: 'text'})
   }
 
   DeleteBooking(id: number) {
-    return this.http.delete(this.Root_URL + id, { responseType: 'text' })
+    this.setHeader()
+    return this.http.delete(this.Root_URL + id, { headers: this.header, responseType: 'text' })
   }
 
   CheckBooking(id: number, stt: string) {
-    return this.http.post(this.Root_URL + `check/${id}?status=${stt}`,null, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL + `check/${id}?status=${stt}`,null, { headers: this.header, responseType: 'text'})
   }
 
   AddSV(bill: number, service: string) {
-    return this.http.post(this.Root_URL + 'add-sv', { bookingID: bill, serviceID: service}, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'add-sv', { bookingID: bill, serviceID: service}, { headers: this.header, responseType: 'text'})
   }
 
   RemoveSV(bill: number, service: string) {
-    return this.http.post(this.Root_URL + 'remove-sv', { bookingID: bill, serviceID: service}, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'remove-sv', { bookingID: bill, serviceID: service}, { headers: this.header, responseType: 'text'})
   }
 
   get ListCustomerAvailable() {
-    return this.http.get<Customer[]>(this.Root_URL + 'customer')
+    this.setHeader()
+    return this.http.get<Customer[]>(this.Root_URL + 'customer', { headers: this.header})
   }
 
   ServicesOfBill(id: number) {
-    return this.http.get<string[]>(this.Root_URL + 'service/' + id)
+    this.setHeader()
+    return this.http.get<string[]>(this.Root_URL + 'service/' + id, { headers: this.header})
   }
 }

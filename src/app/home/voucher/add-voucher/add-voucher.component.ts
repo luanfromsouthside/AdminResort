@@ -1,5 +1,5 @@
 import { DialogResultComponent } from './../../../dialog/dialog-result/dialog-result.component';
-import { NbToastrService, NbDialogService } from '@nebular/theme';
+import { NbToastrService, NbDialogService, NbDateService } from '@nebular/theme';
 import { VoucherService } from './../../../data/voucher.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +16,8 @@ export class AddVoucherComponent implements OnInit {
     private fb: FormBuilder,
     private readonly router: Router,
     private readonly toast: NbToastrService,
-    private readonly dialog: NbDialogService
+    private readonly dialog: NbDialogService,
+    private dateService: NbDateService<Date>
   ) { }
 
   ngOnInit(): void {
@@ -29,7 +30,7 @@ export class AddVoucherComponent implements OnInit {
       fromDate: [new Date(), [
         Validators.required
       ]],
-      toDate: ['', [
+      toDate: [this.dateService.addDay(new Date(),1), [
         Validators.required
       ]],
       condition: ['',[
@@ -47,8 +48,8 @@ export class AddVoucherComponent implements OnInit {
   addVoucher() {
     this.voucherService.addVoucher({
       code: this.getValueFrm('code'),
-      fromDate: this.getValueFrm('fromDate'),
-      toDate: this.getValueFrm('toDate'),
+      fromDate: new Date(this.getValueFrm('fromDate')),
+      toDate: new Date(this.getValueFrm('toDate')),
       condition: this.getValueFrm('condition'),
       discount: this.getValueFrm('discount')
     }).subscribe(
@@ -69,6 +70,10 @@ export class AddVoucherComponent implements OnInit {
 
   getDate() {
     return new Date()
+  }
+
+  get minToDate() {
+    return this.dateService.addDay(new Date(this.getValueFrm('fromDate')), 1)
   }
 
   getValueFrm(ctrl: string) {

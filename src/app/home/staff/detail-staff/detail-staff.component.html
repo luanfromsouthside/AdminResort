@@ -21,7 +21,7 @@
                     <i class="fas fa-birthday-cake"></i>
                     Ngày sinh:
                 </div>
-                <div class="col-6">{{ staff.birth | date:'mediumDate' }}</div>
+                <div class="col-6">{{ staff.birth | date:'dd/MM/yyyy' }}</div>
             </nb-list-item>
             <nb-list-item>
                 <div class="col-4">
@@ -29,6 +29,13 @@
                     Số diện thoại:
                 </div>
                 <div class="col-6">{{ staff.phone }}</div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="col-4">
+                    <i class="fas fa-envelope"></i>
+                    Email:
+                </div>
+                <div class="col-6">{{ staff.email }}</div>
             </nb-list-item>
             <nb-list-item>
                 <div class="col-4">

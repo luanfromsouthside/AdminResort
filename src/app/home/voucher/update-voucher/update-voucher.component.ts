@@ -23,7 +23,8 @@ export class UpdateVoucherComponent implements OnInit {
     private readonly toast: NbToastrService,
     private readonly router: Router,
     private readonly fb: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private readonly dateService: NbDateService<Date>
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +33,6 @@ export class UpdateVoucherComponent implements OnInit {
       this.voucherService.getByID(id)
       .subscribe(res => {
         this.voucher = res
-        let from = this.datePipe.transform(this.voucher.fromDate, "dd/MM/yyyy hh:mm:ss a")
         this.form = this.fb.group({
           fromDate: [new Date(this.voucher.fromDate), [
             Validators.required
@@ -66,12 +66,10 @@ export class UpdateVoucherComponent implements OnInit {
   }
 
   update() {
-    let from = new Date(this.form.get('fromDate').value).toLocaleDateString()
-    let to = new Date(this.form.get('toDate').value).toLocaleDateString()
       this.voucherService.updateVoucher({
         code: this.voucher.code,
-        fromDate: this.getValueFrm('fromDate'),
-        toDate: this.getValueFrm('toDate'),
+        fromDate: new Date(this.getValueFrm('fromDate')),
+        toDate: new Date(this.getValueFrm('toDate')),
         condition: this.getValueFrm('condition'),
         discount: this.getValueFrm('discount')
       }).subscribe(
@@ -109,7 +107,12 @@ export class UpdateVoucherComponent implements OnInit {
     return this.form.get(ctrl).invalid && this.form.get(ctrl).touched
   }
 
-  getDate(date: Date){
-    return new Date(date)
+  getMinDate() {
+    let today = new Date().getTime();
+    let fromdate = new Date(this.voucher.fromDate).getTime();
+    let min;
+    if(fromdate >= today) min = new Date();
+    else min = new Date(this.voucher.fromDate)
+    return this.dateService.addDay(min,0)
   }
 }

@@ -1,3 +1,5 @@
+import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { NbAuthService } from '@nebular/auth';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Room } from './../model/room.model';
 import { BaseEndpoint } from './base-endpoint.api';
@@ -10,10 +12,19 @@ import { Image } from '../model/image.model';
   providedIn: 'root'
 })
 export class RoomService extends BaseEndpoint {
+  header: HttpHeaders
   constructor(
     private http: HttpClient,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private authService: NbAuthService) {
     super('Room');
+  }
+
+  setHeader() {
+    this.authService.onTokenChange().subscribe(
+      token => {
+          this.header = new HttpHeaders().set("Authorization", "Bearer " + token.getValue());
+      })
   }
 
   get ListRooms() {
@@ -25,8 +36,8 @@ export class RoomService extends BaseEndpoint {
   }
 
   addRoom(room: Room) {
-    //console.log(room)
-    return this.http.post(this.Root_URL + 'create', room, {responseType: 'text'})
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'create', room, { headers: this.header, responseType: 'text' })
   }
 
   get formAddRoom() {
@@ -82,11 +93,13 @@ export class RoomService extends BaseEndpoint {
   }
 
   updateRoom(room: Room) {
-    return this.http.post(this.Root_URL + 'edit_info', room, {responseType: 'text'})
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'edit_info', room, { headers: this.header, responseType: 'text' })
   }
 
   deleteRoom(id: string) {
-    return this.http.delete(this.Root_URL + id, {responseType: 'text'})
+    this.setHeader()
+    return this.http.delete(this.Root_URL + id, { headers: this.header, responseType: 'text' })
   }
 
   getListImg(id: string) {
@@ -94,11 +107,13 @@ export class RoomService extends BaseEndpoint {
   }
 
   addImage(id: string, url: string) {
-    console.log(this.Root_URL + 'add_img')
-    return this.http.post(this.Root_URL + 'add_img', { roomID: id, url: url }, {responseType: 'text'})
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'add_img', { roomID: id, url: url }, { headers: this.header, responseType: 'text' })
   }
 
   removeImage(url: string) {
-    return this.http.delete(this.Root_URL + `img/${url}` , {responseType: 'text'})
+    let params = new HttpParams();
+    params = params.append('url', url);
+    return this.http.post(this.Root_URL + `remove_img`, null, {params: params, responseType: 'text' })
   }
 }

@@ -4,21 +4,21 @@
         <nb-list>
             <nb-list-item>
                 <div class="col-4">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-tv"></i>
                     Tên vật tư:
                 </div>
                 <div class="col-6">{{ supply.name }}</div>
             </nb-list-item>
             <nb-list-item>
                 <div class="col-4">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-exclamation"></i>
                     Số lượng khả dụng:
                 </div>
                 <div class="col-6">{{ supply.total }}</div>
             </nb-list-item>
             <nb-list-item *ngIf="supply.rooms.length > 0">
                 <div class="col-4">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-door-closed"></i>
                     Số phòng sử dụng:
                 </div>
                 <div class="col-8">{{ supply.rooms.length }}</div>
@@ -37,7 +37,7 @@
             </div>
             <div class="col-md-4 col-12">
                 <button hero fullWidth nbButton shape="semi-round" status="danger" (click)="onRemove(supply.id)"><i
-                        class="fas fa-user-times"></i>&emsp;Xóa vật tư </button>
+                        class="fas fa-minus-circle"></i>&emsp;Xóa vật tư </button>
             </div>
         </div>
     </nb-card-footer>

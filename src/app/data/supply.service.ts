@@ -1,3 +1,5 @@
+import { HttpHeaders } from '@angular/common/http';
+import { NbAuthService } from '@nebular/auth';
 import { HttpClient } from '@angular/common/http';
 import { BaseEndpoint } from './base-endpoint.api';
 import { Supply } from './../model/supply.model';
@@ -9,9 +11,16 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class SupplyService extends BaseEndpoint{
-
-  constructor(private http: HttpClient) {
+  header: HttpHeaders
+  constructor(private http: HttpClient, private authService: NbAuthService) {
     super('Supply')
+  }
+
+  setHeader() {
+    this.authService.onTokenChange().subscribe(
+      token => {
+          this.header = new HttpHeaders().set("Authorization", "Bearer " + token.getValue());
+      })
   }
 
   get List() {
@@ -23,14 +32,17 @@ export class SupplyService extends BaseEndpoint{
   }
 
   addSupply(Supply: Supply) {
-    return this.http.post(this.Root_URL + 'create', Supply, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'create', Supply, { headers: this.header, responseType: 'text'})
   }
 
   removeSupply(SupplyID: string) {
-    return this.http.delete(this.Root_URL + SupplyID, { responseType: 'text' })
+    this.setHeader()
+    return this.http.delete(this.Root_URL + SupplyID, { headers: this.header, responseType: 'text'})
   }
 
   updateSupply(model: {id:string, name:string, editType: string, count: number}) {
-    return this.http.post(this.Root_URL + 'edit', model, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'edit', model, { headers: this.header, responseType: 'text'})
   }
 }

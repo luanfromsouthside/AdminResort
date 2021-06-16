@@ -10,18 +10,18 @@
                     nbInput fullWidth id="Name"
                     placeholder="Supply name"
                     [status]="getConfig('name') ? 'danger' : 'basic'">
+                    <span *ngIf="getConfig('name')"
+                        class="text-danger">
+                        <span *ngIf="form.get('name').errors.required">Name is required</span>
+                        <span *ngIf="form.get('name').errors?.minlength">
+                            Name at least {{ form.get('name').errors?.minlength.requiredLength }} characters
+                        </span>
+                        <span *ngIf="form.get('name').errors?.maxlength">
+                            Name at most {{ form.get('name').errors?.maxlength.requiredLength }} characters
+                        </span>
+                    </span>
                 </div>
             </div>
-            <nb-alert *ngIf="getConfig('name')"
-                status="danger">
-                <span *ngIf="form.get('name').errors.required">Name is required</span>
-                <span *ngIf="form.get('name').errors?.minlength">
-                    Name at least {{ form.get('name').errors?.minlength.requiredLength }} characters
-                </span>
-                <span *ngIf="form.get('name').errors?.maxlength">
-                    Name at most {{ form.get('name').errors?.maxlength.requiredLength }} characters
-                </span>
-            </nb-alert>
             <div class="row">
                 <div class="col-md-6 col-12">
                     <div class="form-group row">
@@ -46,15 +46,15 @@
                             nbInput fullWidth id="Total"
                             placeholder="Supply total"
                             [status]="getConfig('total') ? 'danger' : 'basic'">
+                            <span *ngIf="getConfig('total')"
+                                class="text-danger">
+                                <span *ngIf="form.get('total').errors.required">Total is required</span>
+                                <span *ngIf="form.get('total').errors?.min">
+                                    Total at min {{ form.get('total').errors?.min.min }}
+                                </span>
+                            </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="getConfig('total')"
-                        status="danger">
-                        <span *ngIf="form.get('total').errors.required">Total is required</span>
-                        <span *ngIf="form.get('total').errors?.min">
-                            Total at min {{ form.get('total').errors?.min.min }}
-                        </span>
-                    </nb-alert>
                 </div>
             </div>
         </form>
@@ -71,7 +71,7 @@
     </nb-card-footer>
 </nb-card>
 <ng-template #noSer>
-    <nb-card status="danger">
+    <nb-card class="text-danger">
         <nb-card-header>Service does not exist</nb-card-header>
     </nb-card>
 </ng-template>

@@ -1,3 +1,5 @@
+import { HttpHeaders } from '@angular/common/http';
+import { NbAuthService } from '@nebular/auth';
 import { ServerDataSource } from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
 import { BaseEndpoint } from './base-endpoint.api';
@@ -10,10 +12,18 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CustomerService extends BaseEndpoint {
-
-  constructor(private http: HttpClient) {
+  header: HttpHeaders;
+  constructor(private http: HttpClient, private authService: NbAuthService) {
     super('Customer')
   }
+
+  setHeader() {
+    this.authService.onTokenChange().subscribe(
+      token => {
+          this.header = new HttpHeaders().set("Authorization", "Bearer " + token.getValue());
+      })
+  }
+
   get ListCustomer() {
     return this.http.get<Customer[]>(this.Root_URL)
   }
@@ -23,15 +33,17 @@ export class CustomerService extends BaseEndpoint {
   }
 
   addCustomer(Customer: Customer) {
-    //console.log(Customer)
-    return this.http.post(this.Root_URL + 'create', Customer, {responseType: 'text'})
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'create', Customer, { headers: this.header ,responseType: 'text'})
   }
 
   updateCustomer(customer: Customer) {
-    return this.http.post(this.Root_URL + 'update', customer, {responseType: 'text'})
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'update', customer, { headers: this.header, responseType: 'text'})
   }
 
   deleteCustomer(id: string) {
-    return this.http.delete(this.Root_URL + id, { responseType: 'text' })
+    this.setHeader()
+    return this.http.delete(this.Root_URL + id, { headers: this.header, responseType: 'text' })
   }
 }

@@ -1,5 +1,5 @@
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { NbAuthService, NbAuthJWTToken, NbAuthOAuth2JWTToken } from '@nebular/auth';
+import { NbAuthService, NbAuthJWTToken, NbAuthOAuth2JWTToken, NbTokenService } from '@nebular/auth';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSearchService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [ { title: 'Log out' } ];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
@@ -47,19 +47,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private breakpointService: NbMediaBreakpointsService,
               private authService: NbAuthService,
               private search: NbSearchService,
-              private router: Router) {
+              private router: Router,
+              private token: NbTokenService) {
   }
 
   ngOnInit() {
 
     this.currentTheme = this.themeService.currentTheme;
-    this.user = { name : 'Thanh Luan'}
-    this.authService.onTokenChange()
+    this.authService.getToken()
       .subscribe((token: NbAuthJWTToken) => {
         if(token.isValid()){
-          // this.user = token
-          // console.log(token)
-          // console.log(token.toString())
           this.user = token.getPayload()
         }
       })
@@ -81,8 +78,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         const url = this.router.url.split('/')[2].split('?')[0]
         this.router.navigate([`home/${url}`], { queryParams: { search: data.term }})
-        // console.log(this.router.url)
-        //console.log(this.router.url.split('/')[2].split('?')[0]);
       })
     this.menuService.onItemClick()
       .pipe(
@@ -90,8 +85,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
       .subscribe(title => {
         if(title == 'Log out'){
-          this.authService.logout('user')
-          this.authService.getToken().subscribe(token=> console.log(token))
+          this.token.clear()
           this.router.navigateByUrl('/auth')
         }
       });

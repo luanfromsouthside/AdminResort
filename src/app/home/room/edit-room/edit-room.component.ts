@@ -70,7 +70,7 @@ export class EditRoomComponent implements OnInit {
       res => {
         console.log(res)
         this.toast.show('Edit room success', 'EDIT ROOM', {status:'success'})
-        this.router.navigateByUrl('/room/details/' + this.id)
+        this.router.navigateByUrl('/home/room/details/' + this.id)
       },
       err => {
         console.log(err)

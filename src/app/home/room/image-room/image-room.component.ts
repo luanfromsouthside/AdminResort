@@ -128,7 +128,10 @@ export class ImageRoomComponent implements OnInit {
       if(res) {
         this.roomService.removeImage(this.listImg[index].url).subscribe(
           res => this.loadData(),
-          err => this.toastr.show('Error when remove image', 'ERROR', {status:'danger'})
+          err => {
+            this.toastr.show('Error when remove image', 'ERROR', {status:'danger'})
+            console.log(err)
+          }
         )
       }
     })

@@ -1,3 +1,4 @@
+import { NbAuthService } from '@nebular/auth';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
@@ -13,17 +14,24 @@ import { Service } from '../../../model/service.model';
 })
 export class DetailServiceComponent implements OnInit {
   service$: Observable<Service>;
+  canEdit: boolean
   constructor(
     private route: ActivatedRoute, 
     private svService: ServiceService,
     private dialog: NbDialogService,
-    private router: Router) { }
+    private router: Router,
+    private authService: NbAuthService) { }
 
   ngOnInit(): void {
     this.service$ = this.route.params.pipe(
       pluck('id'),
       switchMap(id => this.svService.getByID(id)),
       filter(staff => !!staff)
+    )
+    this.authService.getToken().subscribe(
+      token => {
+        this.canEdit = token.getPayload().role == 'MANAGER'
+      }
     )
   }
 

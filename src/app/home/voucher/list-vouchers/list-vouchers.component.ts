@@ -15,6 +15,7 @@ export class ListVouchersComponent implements OnInit {
     actions:{
       add: false,
       edit: false,
+      delete: false
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',

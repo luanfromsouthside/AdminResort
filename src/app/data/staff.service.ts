@@ -1,3 +1,5 @@
+import { HttpHeaders } from '@angular/common/http';
+import { NbAuthService } from '@nebular/auth';
 import { ServerDataSource } from 'ng2-smart-table';
 import { HttpClient } from '@angular/common/http';
 import { BaseEndpoint } from './base-endpoint.api';
@@ -10,28 +12,40 @@ import { of, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StaffService extends BaseEndpoint {
-
-  constructor(private http: HttpClient) {
+  header: HttpHeaders;
+  constructor(private http: HttpClient, private authService: NbAuthService) {
     super('Staff');
   }
 
+  setHeader() {
+    this.authService.onTokenChange().subscribe(
+      token => {
+          this.header = new HttpHeaders().set("Authorization", "Bearer " + token.getValue());
+      })
+  }
+
   get ListStaff() {
-    return this.http.get<Staff[]>(this.Root_URL)
+    this.setHeader()
+    return this.http.get<Staff[]>(this.Root_URL, { headers: this.header })
   }
 
   getByID(id: string) {
-    return this.http.get<Staff>(this.Root_URL + id)
+    this.setHeader()
+    return this.http.get<Staff>(this.Root_URL + id, { headers: this.header })
   }
 
   addStaff(staff: Staff) {
-    return this.http.post(this.Root_URL + 'add', staff, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'add', staff, { headers: this.header, responseType: 'text' })
   }
 
   updateStaff(staff: Staff) {
-    return this.http.post(this.Root_URL +'update', staff, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL +'update', staff, { headers: this.header, responseType: 'text' })
   }
 
   removeStaff(id: string) {
-    return this.http.delete(this.Root_URL + id, { responseType: 'text' })
+    this.setHeader()
+    return this.http.delete(this.Root_URL + id, { headers: this.header, responseType: 'text' })
   }
 }

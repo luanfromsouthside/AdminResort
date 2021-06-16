@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DetailStaffComponent } from './detail-staff/detail-staff.component';
 import { UpdateStaffComponent } from './update-staff/update-staff.component';
+import { AuthGuard } from '../../auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -22,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'details/:id',
-        component: DetailStaffComponent
+        component: DetailStaffComponent,
       },
       {
         path: 'update/:id',

@@ -1,3 +1,5 @@
+import { HttpHeaders } from '@angular/common/http';
+import { NbAuthService } from '@nebular/auth';
 import { SupplyService } from './supply.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -8,16 +10,25 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DistributionService extends BaseEndpoint {
-
-  constructor(private http: HttpClient, private fb: FormBuilder, private supplyService: SupplyService) {
+  header: HttpHeaders
+  constructor(private http: HttpClient, private authService: NbAuthService) {
     super('DistributionSP')
   }
 
+  setHeader() {
+    this.authService.onTokenChange().subscribe(
+      token => {
+          this.header = new HttpHeaders().set("Authorization", "Bearer " + token.getValue());
+      })
+  }
+
   GiveSp(model: { roomID: string, supplyID: string, count: number }) {
-    return this.http.post(this.Root_URL + 'givesp4room', model, { responseType: 'text'})
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'givesp4room', model, { headers: this.header, responseType: 'text'})
   }
 
   RemoveSP(model: { roomID: string, supplyID: string, count: number }) {
-    return this.http.post(this.Root_URL + 'removespFromRoom', model, {responseType: 'text'})
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'removespFromRoom', model, { headers: this.header, responseType: 'text'})
   }
 }

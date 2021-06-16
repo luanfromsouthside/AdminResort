@@ -1,3 +1,4 @@
+import { NbAuthService } from '@nebular/auth';
 import { CustomerService } from '../../../data/customer.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,11 +14,13 @@ import { DialogResultComponent } from '../../../dialog/dialog-result/dialog-resu
 })
 export class DetailUsersComponent implements OnInit {
   customer: Customer;
+  canUpdate:boolean
   constructor(
     private route: ActivatedRoute, 
     private customerService: CustomerService,
     private dialog: NbDialogService,
-    private router: Router) { }
+    private router: Router,
+    private authService: NbAuthService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -25,6 +28,11 @@ export class DetailUsersComponent implements OnInit {
       this.customerService.getByID(id)
       .subscribe(res => this.customer = res)
     })
+    this.authService.getToken().subscribe(
+      token => {
+        this.canUpdate = token.getPayload().role == 'ADMIN' || token.getPayload().role == 'MANAGER'
+      }
+    )
   }
 
   onRemove() {

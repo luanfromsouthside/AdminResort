@@ -16,10 +16,7 @@ export class ListUsersComponent implements OnInit {
     actions:{
       add: false,
       edit: false,
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
+      delete: false
     },
     columns: {
       id: {

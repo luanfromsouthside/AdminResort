@@ -81,7 +81,6 @@ export class UpdateUsersComponent implements OnInit {
       }).onClose.subscribe(result => {
         if(result) {
           this.update();
-          this.router.navigateByUrl(`/home/user/details/${u.id}`);
         }
       })
     });

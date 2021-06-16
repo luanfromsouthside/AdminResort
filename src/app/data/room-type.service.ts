@@ -1,3 +1,5 @@
+import { NbAuthService } from '@nebular/auth';
+import { HttpHeaders } from '@angular/common/http';
 import { BaseEndpoint } from './base-endpoint.api';
 import { HttpClient } from '@angular/common/http';
 import { RoomType } from './../model/room-type.model';
@@ -10,9 +12,17 @@ import { ServerDataSource } from 'ng2-smart-table';
   providedIn: 'root'
 })
 export class RoomTypeService extends BaseEndpoint{
-  constructor(private http: HttpClient) 
+  header: HttpHeaders;
+  constructor(private http: HttpClient, private authService: NbAuthService) 
   {
     super('RoomType')
+  }
+
+  setHeader() {
+    this.authService.onTokenChange().subscribe(
+      token => {
+          this.header = new HttpHeaders().set("Authorization", "Bearer " + token.getValue());
+      })
   }
 
   get List() {
@@ -24,14 +34,17 @@ export class RoomTypeService extends BaseEndpoint{
   }
 
   addRoomType(RoomType: RoomType) {
-    return this.http.post(this.Root_URL + 'create', RoomType, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'create', RoomType, { headers: this.header, responseType: 'text' })
   }
 
   removeRoomType(id: string) {
-    return this.http.delete(this.Root_URL + id, { responseType: 'text' })
+    this.setHeader()
+    return this.http.delete(this.Root_URL + id, { headers: this.header, responseType: 'text'})
   }
 
   updateRoomType(RoomType: RoomType) {
-    return this.http.post(this.Root_URL +'edit', RoomType, { responseType: 'text' })
+    this.setHeader()
+    return this.http.post(this.Root_URL +'edit', RoomType, { headers: this.header, responseType: 'text'})
   }
 }

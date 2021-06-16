@@ -5,6 +5,7 @@ import { ListVouchersComponent } from './list-vouchers/list-vouchers.component';
 import { VoucherComponent } from './voucher.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../../auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,6 +18,8 @@ const routes: Routes = [
       },
       {
         path: 'add',
+        canActivate: [AuthGuard],
+        data: {roles: ['MANAGER']},
         component: AddVoucherComponent,
       },
       {
@@ -25,6 +28,8 @@ const routes: Routes = [
       },
       {
         path: 'update/:id',
+        canActivate: [AuthGuard],
+        data: {roles: ['MANAGER']},
         component: UpdateVoucherComponent,
       }
     ]

@@ -5,6 +5,7 @@ import { ListServiceComponent } from './list-service/list-service.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ServiceComponent } from './service.component';
+import { AuthGuard } from '../../auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,6 +18,8 @@ const routes: Routes = [
       },
       {
         path: 'add',
+        canActivate: [AuthGuard],
+        data: {roles: ['MANAGER']},
         component: AddServiceComponent
       },
       {
@@ -25,6 +28,8 @@ const routes: Routes = [
       },
       {
         path: 'update/:id',
+        canActivate: [AuthGuard],
+        data: {roles: ['MANAGER']},
         component: UpdateServiceComponent
       }
     ]

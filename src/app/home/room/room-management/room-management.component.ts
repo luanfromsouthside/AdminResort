@@ -1,3 +1,5 @@
+import { RoomType } from './../../../model/room-type.model';
+import { RoomTypeService } from './../../../data/room-type.service';
 import { filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { RoomService } from './../../../data/room.service';
@@ -30,10 +32,16 @@ export class RoomManagementComponent implements OnInit {
       roomType: {
         title: 'Room type',
         type: 'string',
-        filter: true ,
         valuePrepareFunction: (data: any) => {
           return data.nameType
-        }    
+        },
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Select type',
+            list: this.getListType(),
+          }
+        }
       },
       adult: {
         title: 'Adult',
@@ -46,9 +54,12 @@ export class RoomManagementComponent implements OnInit {
         filter: true
       },
       price: {
-        title: 'price',
+        title: 'Price per day',
         type: 'number',
-        filter: true
+        filter: true,
+        valuePrepareFunction: (data: any) => {
+          return data + ' $'
+        }
       }
     }
   }
@@ -56,6 +67,7 @@ export class RoomManagementComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   constructor(
     private readonly roomService: RoomService, 
+    private readonly roomtypeService: RoomTypeService,
     private router: Router,
     private route: ActivatedRoute) { 
   }
@@ -67,12 +79,18 @@ export class RoomManagementComponent implements OnInit {
     // })
   }
 
+  getListType() {
+    let types: { value: string, title: string }[] = [];
+    this.roomtypeService.List.subscribe(res => {
+      res.forEach(type => types.push({value: type.nameType, title: type.nameType}))
+      return types
+    })
+  }
+
   loadSrc() {
     this.source.reset()
     this.roomService.ListRooms
-    .subscribe(
-      res => {this.source.load(res); console.log(res)}
-    )
+    .subscribe(res => this.source.load(res))
   }
 
   selectRoom(room: any):void {

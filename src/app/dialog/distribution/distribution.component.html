@@ -34,6 +34,11 @@
                     nbInput fullWidth id="Count"
                     placeholder="Count"
                     [status]="getConfig('count') ? 'danger' : 'basic'">
+                    <span class="text-danger" *ngIf="getConfig('count')">
+                        <span *ngIf="formDistribute.get('count').errors?.required">Count is required</span>
+                        <span *ngIf="formDistribute.get('count').errors?.min">Count is min at {{ formDistribute.get('count').errors.min.min }}</span>
+                        <span *ngIf="formDistribute.get('count').errors?.max">Count is max at {{ formDistribute.get('count').errors.max.max }}</span>
+                    </span>
                 </div>
             </div>
         </form>

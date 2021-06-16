@@ -4,27 +4,6 @@
             <nb-card-header>CẬP NHẬT PHÒNG {{ room.id }}</nb-card-header>
             <nb-card-body>
                 <form novalidate [formGroup]="formEdit">
-                    <!-- ID -->
-                    <div class="form-group row">
-                        <label for="RoomID" class="label col-sm-3 col-form-label">Mã số phòng: </label>
-                        <div class="col-sm-9">
-                            <input type="text" 
-                            formControlName="id" 
-                            nbInput fullWidth id="RoomID"
-                            placeholder="Room ID"
-                            [status]="getConfig('id') ? 'danger' : 'basic'">
-                        </div>
-                    </div>
-                    <nb-alert *ngIf="getConfig('id')"
-                        status="danger">
-                        <span *ngIf="formEdit.get('id').errors.required">ID is required</span>
-                        <span *ngIf="formEdit.get('id').errors?.minlength">
-                            Room ID at least {{ formEdit.get('id').errors?.minlength.requiredLength }} characters
-                        </span>
-                        <span *ngIf="formEdit.get('id').errors?.maxlength">
-                            Room ID at most {{ formEdit.get('id').errors?.maxlength.requiredLength }} characters
-                        </span>
-                    </nb-alert>
                     <!-- Name -->
                     <div class="form-group row">
                         <label for="name" class="label col-sm-3 col-form-label">Tên phòng: </label>
@@ -34,18 +13,17 @@
                             nbInput fullWidth id="name"
                             placeholder="Room name"
                             [status]="getConfig('name') ? 'danger' : 'basic'">
+                            <span *ngIf="getConfig('name')"class="text-danger">
+                                <span *ngIf="formEdit.get('name').errors.required">Name is required</span>
+                                <span *ngIf="formEdit.get('name').errors?.minlength">
+                                    Room name at least {{ formEdit.get('name').errors?.minlength.requiredLength }} characters
+                                </span>
+                                <span *ngIf="formEdit.get('name').errors?.maxlength">
+                                    Room name at most {{ formEdit.get('name').errors?.maxlength.requiredLength }} characters
+                                </span>
+                            </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="getConfig('name')"
-                        status="danger">
-                        <span *ngIf="formEdit.get('name').errors.required">Name is required</span>
-                        <span *ngIf="formEdit.get('name').errors?.minlength">
-                            Room name at least {{ formEdit.get('name').errors?.minlength.requiredLength }} characters
-                        </span>
-                        <span *ngIf="formEdit.get('name').errors?.maxlength">
-                            Room name at most {{ formEdit.get('name').errors?.maxlength.requiredLength }} characters
-                        </span>
-                    </nb-alert>
                     <div class="form-group row">
                         <label for="type" class="label col-sm-3 col-form-label">Loại phòng: </label>
                         <div class="col-sm-9">
@@ -58,11 +36,11 @@
                                 [status]="getConfig('type') ? 'danger' : 'basic'">
                                 <nb-option *ngFor="let item of listType" [value]="item.id">{{ item.nameType }} (ID: {{ item.id }})</nb-option>
                             </nb-select>
+                            <span *ngIf="getConfig('type')" class="text-danger">
+                                <span *ngIf="formEdit.get('type').errors.required">Type is required</span>
+                            </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="getConfig('type')" status="danger">
-                        <span *ngIf="formEdit.get('type').errors.required">Type is required</span>
-                    </nb-alert>
 
                     
                     <div class="form-group row">
@@ -73,12 +51,12 @@
                                 nbInput fullWidth id="price"
                                 placeholder="Price"
                                 [status]="getConfig('price') ? 'danger' : 'basic'">
+                                <span *ngIf="getConfig('price')" class="text-danger">
+                                    <span *ngIf="formEdit.get('price').errors.required">Price is required</span>
+                                    <span *ngIf="formEdit.get('price').errors.min">Price is min at {{formEdit.get('price').errors.min.min}}</span>
+                                </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="getConfig('price')" status="danger">
-                        <span *ngIf="formEdit.get('price').errors.required">Price is required</span>
-                        <span *ngIf="formEdit.get('price').errors.min">Price is min at {{formEdit.get('price').errors.min.min}}</span>
-                    </nb-alert>
 
                     <div class="row">
                         <!-- Adult -->
@@ -91,14 +69,13 @@
                                     nbInput fullWidth id="adult"
                                     placeholder="Adult"
                                     [status]="getConfig('adult') ? 'danger' : 'basic'">
+                                    <span *ngIf="getConfig('adult')" class="text-danger">
+                                        <span *ngIf="formEdit.get('adult').errors.required">Adult is required</span>
+                                        <span *ngIf="formEdit.get('adult').errors.min">Adult is min at {{formEdit.get('adult').errors.min.min}}</span>
+                                        <span *ngIf="formEdit.get('adult').errors.max">Adult is max at {{formEdit.get('adult').errors.max.max}}</span>
+                                    </span>
                                 </div>
                             </div>
-                            
-                            <nb-alert *ngIf="getConfig('adult')" status="danger">
-                                <span *ngIf="formEdit.get('adult').errors.required">Adult is required</span>
-                                <span *ngIf="formEdit.get('adult').errors.min">Adult is min at {{formEdit.get('adult').errors.min.min}}</span>
-                                <span *ngIf="formEdit.get('adult').errors.max">Adult is max at {{formEdit.get('adult').errors.max.max}}</span>
-                            </nb-alert>
                         </div>
                         <!-- Child -->
                         <div class="col-md-6">
@@ -110,19 +87,19 @@
                                     nbInput fullWidth id="child"
                                     placeholder="Child"
                                     [status]="getConfig('child') ? 'danger' : 'basic'">
+                                    <span *ngIf="getConfig('child')" class="text-danger">
+                                        <span *ngIf="formEdit.get('child').errors.required">Child is required</span>
+                                        <span *ngIf="formEdit.get('child').errors.min">Child is min at {{formEdit.get('child').errors.min.min}}</span>
+                                        <span *ngIf="formEdit.get('child').errors.max">Child is max at {{formEdit.get('child').errors.max.max}}</span>
+                                    </span>
                                 </div>
                             </div>
                             
-                            <nb-alert *ngIf="getConfig('child')" status="danger">
-                                <span *ngIf="formEdit.get('child').errors.required">Child is required</span>
-                                <span *ngIf="formEdit.get('child').errors.min">Child is min at {{formEdit.get('child').errors.min.min}}</span>
-                                <span *ngIf="formEdit.get('child').errors.max">Child is max at {{formEdit.get('child').errors.max.max}}</span>
-                            </nb-alert>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="description" class="label col-sm-3 col-form-label">Giá thuê phòng: </label>
+                        <label for="description" class="label col-sm-3 col-form-label">Mô tả phòng: </label>
                         <div class="col-sm-9">
                             <textarea type="text" 
                                 formControlName="description" 
@@ -130,11 +107,11 @@
                                 placeholder="Description"
                                 [status]="getConfig('description') ? 'danger' : 'basic'">
                             </textarea> 
+                            <span *ngIf="getConfig('description')" class="text-danger">
+                                <span *ngIf="formEdit.get('description').errors.required">Description is required</span>
+                            </span>
                         </div>
                     </div>
-                    <nb-alert *ngIf="getConfig('description')" status="danger">
-                        <span *ngIf="formEdit.get('description').errors.required">Description is required</span>
-                    </nb-alert>
                 </form>  
             </nb-card-body>
             <nb-card-footer>
@@ -152,7 +129,7 @@
 </div>
 
 <ng-template #noRoom>
-    <nb-card status="danger">
+    <nb-card class="text-danger">
         <nb-card-header>Room does not exist</nb-card-header>
     </nb-card>
 </ng-template>

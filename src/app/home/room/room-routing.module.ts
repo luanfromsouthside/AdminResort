@@ -7,6 +7,7 @@ import { RoomComponent } from './room.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AddRoomComponent } from './add-room/add-room.component';
+import { AuthGuard } from '../../auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -23,18 +24,26 @@ const routes: Routes = [
       },
       {
         path:'add',
+        canActivate: [AuthGuard],
+        data: {roles: ['MANAGER']},
         component: AddRoomComponent
       },
       {
         path:'edit/:id',
+        canActivate: [AuthGuard],
+        data: {roles: ['MANAGER']},
         component: EditRoomComponent
       },
       {
         path:'img/:id',
+        canActivate: [AuthGuard],
+        data: {roles: ['MANAGER']},
         component: ImageRoomComponent
       },
       {
         path:'room-type',
+        canActivate: [AuthGuard],
+        data: {roles: ['MANAGER']},
         component: RoomTypeComponent
       }
     ],

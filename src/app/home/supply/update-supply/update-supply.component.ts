@@ -42,8 +42,7 @@ export class UpdateSupplyComponent implements OnInit {
           Validators.required,
         ]],
         total: [s.total, [
-          Validators.required,
-          Validators.min(1)
+          Validators.min(0)
         ]]
       })
     })

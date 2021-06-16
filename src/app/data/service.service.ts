@@ -1,3 +1,5 @@
+import { NbAuthService } from '@nebular/auth';
+import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { BaseEndpoint } from './base-endpoint.api';
 import { Injectable } from '@angular/core';
@@ -10,9 +12,16 @@ import { id } from '@swimlane/ngx-charts';
   providedIn: 'root'
 })
 export class ServiceService extends BaseEndpoint{
-
-  constructor(private http: HttpClient) {
+  header: HttpHeaders
+  constructor(private http: HttpClient, private authService: NbAuthService) {
     super('Service')
+  }
+
+  setHeader() {
+    this.authService.onTokenChange().subscribe(
+      token => {
+          this.header = new HttpHeaders().set("Authorization", "Bearer " + token.getValue());
+      })
   }
 
   get List() {
@@ -24,14 +33,17 @@ export class ServiceService extends BaseEndpoint{
   }
 
   addService(Service: Service) {
-    return this.http.post(this.Root_URL + 'create', Service, { responseType: 'text'})
+    this.setHeader()
+    return this.http.post(this.Root_URL + 'create', Service, { headers: this.header, responseType: 'text'})
   }
 
   removeService(ServiceID: string) {
-    return this.http.delete(this.Root_URL + id, {responseType:'text'})
+    this.setHeader
+    return this.http.delete(this.Root_URL + id, { headers: this.header, responseType: 'text'})
   }
 
   updateService(service: Service) {
-    return this.http.post(this.Root_URL + 'edit', service, {responseType:'text'})
+    this.setHeader
+    return this.http.post(this.Root_URL + 'edit', service, { headers: this.header, responseType: 'text'})
   }
 }

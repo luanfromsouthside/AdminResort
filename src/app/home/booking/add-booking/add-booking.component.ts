@@ -42,9 +42,7 @@ export class AddBookingComponent implements OnInit {
           this.booking = res;
           this.isAdd = false;
           this.customerService.getByID(this.booking.customerID).subscribe(res => {
-            console.log(this.customers)
             this.customers.push(res)
-            console.log(this.customers)
           })
           this.loadValue()
         })
@@ -67,7 +65,7 @@ export class AddBookingComponent implements OnInit {
       room: ['', [Validators.required]],
       customer: ['', [Validators.required]],
       checkin: [new Date(), [Validators.required]],
-      checkout: [new Date(), [Validators.required]],
+      checkout: [this.dateService.addDay(new Date(), 1), [Validators.required]],
       adult: [0, [Validators.required, Validators.min(1)]],
       child: [0, [Validators.min(0)]],
       voucher: ['']
@@ -89,14 +87,14 @@ export class AddBookingComponent implements OnInit {
     this.booking.customerID = this.getValue('customer'),
     this.booking.adult = this.getValue('adult'),
     this.booking.child = this.getValue('child'),
-    this.booking.checkinDate = this.getValue('checkin'),
-    this.booking.checkoutDate = this.getValue('checkout'),
+    this.booking.checkinDate = new Date(this.getValue('checkin')),
+    this.booking.checkoutDate = new Date(this.getValue('checkout')),
     this.booking.voucherCode = this.getValue('voucher')
   }
 
   submitForm() {
-    this.getFormData()
-    if(this.isAdd) this.addNew 
+    console.log(this.isAdd)
+    if(this.isAdd) this.addNew()
     else this.update()
   }
 
@@ -108,7 +106,28 @@ export class AddBookingComponent implements OnInit {
     return this.dateService.addMonth(this.getValue('checkin'),1)
   }
 
+  get minCheckin() {
+    if(this.isAdd) return new Date();
+    if(new Date(this.booking.checkinDate) < new Date()){
+      return new Date(this.booking.checkinDate)
+    }
+  }
+
+  get maxCheckin() {
+    return this.dateService.addMonth(new Date(), 1)
+  }
+
   addNew() {
+    console.log('add')
+    this.booking = {
+      roomID: this.getValue('room'),
+      customerID: this.getValue('customer'),
+      adult: this.getValue('adult'),
+      child: this.getValue('child'),
+      checkinDate: new Date(this.getValue('checkin')),
+      checkoutDate: new Date(this.getValue('checkout')),
+      voucherCode: this.getValue('voucher')
+    }
     this.bookingService.NewBooking(this.booking).subscribe(res => {
       this.toast.show('Create', 'Create booking successful', {status:'success'})
       this.router.navigateByUrl('/home/booking')
@@ -124,6 +143,7 @@ export class AddBookingComponent implements OnInit {
   }
 
   update() {
+    this.getFormData()
     this.bookingService.EditBooking(this.booking).subscribe(res => {
       this.toast.show('Edit', 'Edit booking successful', {status:'success'})
       this.router.navigateByUrl('/home/booking/details/' + this.booking.id)
