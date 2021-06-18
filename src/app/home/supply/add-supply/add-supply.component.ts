@@ -23,7 +23,8 @@ export class AddSupplyComponent implements OnInit {
       id: ['', [
         Validators.required, 
         Validators.minLength(2),
-        Validators.maxLength(10)
+        Validators.maxLength(10),
+        Validators.pattern('^[0-9A-Z]{2,10}$')
       ]],
       name: ['', [
         Validators.required,

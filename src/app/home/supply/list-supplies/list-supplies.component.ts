@@ -40,14 +40,9 @@ export class ListSuppliesComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.supplyService.List.subscribe(src => {
-      this.source.load(src);
-    })
-    this.route.queryParams
-    .subscribe(params => {
-      if(typeof(params.search) === 'string') {
-        //search params
-      }
+    this.loadSrc()
+    this.route.queryParams.subscribe(params => {
+      if(params.search != null) { this.onSearch(params.search)}
     })
   }
 
@@ -59,5 +54,15 @@ export class ListSuppliesComponent implements OnInit {
 
   rowSelect(row: any):void {
     this.router.navigateByUrl('/home/supply/details/' + row.data.id)
+  }
+
+  onSearch(query){
+    query.trim()
+    this.source.setFilter([
+      {
+        field: 'id',
+        search: query
+      },
+    ], false)
   }
 }

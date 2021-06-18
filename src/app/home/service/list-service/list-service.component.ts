@@ -46,9 +46,8 @@ export class ListServiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSrc()
-    this.route.queryParams
-    .subscribe(params => {
-      if(typeof(params.search) === 'string') {}
+    this.route.queryParams.subscribe(params => {
+      if(params.search != null) { this.onSearch(params.search)}
     })
   }
 
@@ -60,5 +59,15 @@ export class ListServiceComponent implements OnInit {
 
   rowSelect(row: any):void {
     this.router.navigateByUrl('/home/service/details/' + row.data.id)
+  }
+
+  onSearch(query: string = ''){
+    query.trim()
+    this.source.setFilter([
+      {
+        field: 'id',
+        search: query
+      },
+    ], false)
   }
 }

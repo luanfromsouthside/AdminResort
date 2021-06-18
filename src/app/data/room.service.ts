@@ -45,7 +45,8 @@ export class RoomService extends BaseEndpoint {
       id: [null,[
         Validators.required,
         Validators.minLength(4),
-        Validators.maxLength(10)
+        Validators.maxLength(10),
+        Validators.pattern('^[0-9A-Z]{4,10}$')
       ]],
       name: [null,[
         Validators.required,

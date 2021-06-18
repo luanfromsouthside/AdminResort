@@ -16,10 +16,13 @@
                                 class="text-danger">
                                 <span *ngIf="form.get('id').errors.required">ID is required</span>
                                 <span *ngIf="form.get('id').errors?.minlength">
-                                    Staff ID at least {{ form.get('id').errors?.minlength.requiredLength }} characters
+                                    Supply ID at least {{ form.get('id').errors?.minlength.requiredLength }} characters
                                 </span>
                                 <span *ngIf="form.get('id').errors?.maxlength">
-                                    Staff ID at most {{ form.get('id').errors?.maxlength.requiredLength }} characters
+                                    Supply ID at most {{ form.get('id').errors?.maxlength.requiredLength }} characters
+                                </span>
+                                <span *ngIf="form.get('id').errors?.pattern">
+                                    Supply ID is invalid
                                 </span>
                             </span>
                         </div>

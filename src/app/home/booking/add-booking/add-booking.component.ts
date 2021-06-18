@@ -110,7 +110,7 @@ export class AddBookingComponent implements OnInit {
     if(this.isAdd) return new Date();
     if(new Date(this.booking.checkinDate) < new Date()){
       return new Date(this.booking.checkinDate)
-    }
+    } else return new Date();
   }
 
   get maxCheckin() {

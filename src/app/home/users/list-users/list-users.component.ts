@@ -78,9 +78,8 @@ export class ListUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSrc()
-    this.route.queryParams
-    .subscribe(params => {
-      if(typeof(params.search) === 'string') this.onSearch(params.search)
+    this.route.queryParams.subscribe(params => {
+      if(params.search != null) { this.onSearch(params.search)}
     })
   }
 
@@ -112,17 +111,12 @@ export class ListUsersComponent implements OnInit {
   }
 
   onSearch(query){
-    if(query.trim().length === 0) {
-      this.loadSrc()
-    }
-    else {
-      query = query.trim()
+    query = query.trim()
       this.source.setFilter([
         {
-          field: 'name',
+          field: 'id',
           search: query
         },
       ], false)
-    }
   }
 }

@@ -25,7 +25,8 @@ export class AddVoucherComponent implements OnInit {
       code: ['', [
         Validators.required, 
         Validators.minLength(2),
-        Validators.maxLength(10)
+        Validators.maxLength(10),
+        Validators.pattern('^[0-9A-Z]{2,10}$')
       ]],
       fromDate: [new Date(), [
         Validators.required

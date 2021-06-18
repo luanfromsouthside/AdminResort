@@ -18,6 +18,9 @@
                                     <span *ngIf="form.get('code').errors?.maxlength">
                                         Code at most {{ form.get('code').errors?.maxlength.requiredLength }} characters
                                     </span>
+                                    <span *ngIf="form.get('code').errors?.pattern">
+                                        Code is invalid
+                                    </span>
                                 </span>
                         </div>
                     </div>

@@ -95,9 +95,8 @@ export class ListStaffComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSrc()
-    this.route.queryParams
-    .subscribe(params => {
-      if(typeof(params.search) === 'string') this.onSearch(params.search)
+    this.route.queryParams.subscribe(params => {
+      if(params.search != null) { this.onSearch(params.search)}
     })
   }
 
@@ -135,16 +134,12 @@ export class ListStaffComponent implements OnInit {
   }
 
   onSearch(query){
-    if(query.trim().length === 0) {
-      this.loadSrc()
-    }
-    else {
-      this.source.setFilter([
-        {
-          field: 'id',
-          search: query
-        },
-      ])
-    }
+    query.trim()
+    this.source.setFilter([
+      {
+        field: 'id',
+        search: query
+      },
+    ], false)
   }
 }

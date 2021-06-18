@@ -21,6 +21,9 @@
                                 <span *ngIf="frmRoom.get('id').errors?.maxlength">
                                     Room ID at most {{ frmRoom.get('id').errors?.maxlength.requiredLength }} characters
                                 </span>
+                                <span *ngIf="frmRoom.get('id').errors?.pattern">
+                                    Room ID is invalid
+                                </span>
                             </span>
                         </div>
                     </div>

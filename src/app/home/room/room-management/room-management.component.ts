@@ -35,13 +35,7 @@ export class RoomManagementComponent implements OnInit {
         valuePrepareFunction: (data: any) => {
           return data.nameType
         },
-        filter: {
-          type: 'list',
-          config: {
-            selectText: 'Select type',
-            list: this.getListType(),
-          }
-        }
+        filter: true
       },
       adult: {
         title: 'Adult',
@@ -67,23 +61,14 @@ export class RoomManagementComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   constructor(
     private readonly roomService: RoomService, 
-    private readonly roomtypeService: RoomTypeService,
     private router: Router,
     private route: ActivatedRoute) { 
   }
 
   ngOnInit(): void {
     this.loadSrc()
-    // this.route.queryParams.subscribe(params => {
-    //   this.onSearch(params.search)
-    // })
-  }
-
-  getListType() {
-    let types: { value: string, title: string }[] = [];
-    this.roomtypeService.List.subscribe(res => {
-      res.forEach(type => types.push({value: type.nameType, title: type.nameType}))
-      return types
+    this.route.queryParams.subscribe(params => {
+      if(params.search != null) { this.onSearch(params.search)}
     })
   }
 

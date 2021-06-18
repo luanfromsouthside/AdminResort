@@ -61,6 +61,9 @@
                                     <span *ngIf="frmUpdateUser.get('password').errors?.maxlength">
                                         Password at most {{ frmUpdateUser.get('password').errors?.maxlength.requiredLength }} characters
                                     </span>
+                                    <span *ngIf="frmUpdateUser.get('password').errors?.pattern">
+                                        Password is invalid
+                                    </span>
                                 </span>
                         </div>
                     </div>

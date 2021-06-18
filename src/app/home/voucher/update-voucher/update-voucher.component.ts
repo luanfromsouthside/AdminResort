@@ -30,7 +30,7 @@ export class UpdateVoucherComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      this.voucherService.getByID(id)
+    this.voucherService.getByID(id)
       .subscribe(res => {
         this.voucher = res
         this.form = this.fb.group({

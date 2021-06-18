@@ -20,6 +20,9 @@
                                     Staff ID at most {{ formAddStaff.get('id').errors?.maxlength.requiredLength }}
                                     characters
                                 </span>
+                                <span *ngIf="formAddStaff.get('id').errors?.pattern">
+                                    Staff ID is invalid
+                                </span>
                             </span>
                         </div>
                     </div>
@@ -82,6 +85,9 @@
                                 <span *ngIf="formAddStaff.get('password').errors?.maxlength">
                                     Password at most {{ formAddStaff.get('password').errors?.maxlength.requiredLength }}
                                     characters
+                                </span>
+                                <span *ngIf="formAddStaff.get('password').errors?.pattern">
+                                    Password is invalid
                                 </span>
                             </span>
                         </div>

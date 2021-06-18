@@ -38,7 +38,8 @@ export class UpdateUsersComponent implements OnInit {
         password: [u.password, [
           Validators.required, 
           Validators.minLength(6),
-          Validators.maxLength(20)
+          Validators.maxLength(20),
+          Validators.pattern('^[a-z0-9A-Z]{6,20}$')
         ]],
         phone: [u.phone, [
           Validators.required,

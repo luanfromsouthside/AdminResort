@@ -19,6 +19,9 @@
                                     <span *ngIf="formAddUser.get('id').errors?.maxlength">
                                         User ID at most {{ formAddUser.get('id').errors?.maxlength.requiredLength }} characters
                                     </span>
+                                    <span *ngIf="formAddUser.get('id').errors?.pattern">
+                                        User ID is invalid
+                                    </span>
                                 </span>
                         </div>
                     </div>
@@ -79,6 +82,9 @@
                                     </span>
                                     <span *ngIf="formAddUser.get('password').errors?.maxlength">
                                         Password at most {{ formAddUser.get('password').errors?.maxlength.requiredLength }} characters
+                                    </span>
+                                    <span *ngIf="formAddUser.get('password').errors?.pattern">
+                                        Password is invalid
                                     </span>
                                 </span>
                         </div>

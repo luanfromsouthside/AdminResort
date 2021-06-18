@@ -72,9 +72,8 @@ export class ListVouchersComponent implements OnInit {
     this.voucherService.List.subscribe(src => {
       this.source.load(src)
     })
-    this.route.queryParams
-    .subscribe(params => {
-      if(typeof(params.search) === 'string') {}
+    this.route.queryParams.subscribe(params => {
+      if(params.search != null) { this.onSearch(params.search)}
     })
   }
   voucherSelect(row: any){
@@ -94,5 +93,15 @@ export class ListVouchersComponent implements OnInit {
       }
       else event.confirm.reject()
     })
+  }
+
+  onSearch(query: string = ''){
+    query.trim()
+    this.source.setFilter([
+      {
+        field: 'code',
+        search: query
+      },
+    ], false)
   }
 }

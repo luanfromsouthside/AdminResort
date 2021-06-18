@@ -1,6 +1,6 @@
 import { filter } from 'rxjs/operators';
 import { NbDialogService } from '@nebular/theme';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BookingService } from './../../../data/booking.service';
 import { StatusBillPipe } from './../../../@theme/pipes/status-bill.pipe';
 import { DatePipe } from '@angular/common';
@@ -69,7 +69,7 @@ export class ListBookingComponent implements OnInit {
           config: {
             selectText: 'Select status',
             list: [
-              {value: null, title:'Chờ xác nhận'},
+              {value: 'wait', title:'Chờ xác nhận'},
               {value: 'confirm', title:'Đã xác nhận'},
               {value: 'payment', title:'Đã thanh toán'},
               {value: 'cancel', title:'Đã hủy'},
@@ -77,6 +77,13 @@ export class ListBookingComponent implements OnInit {
               {value: 'checkout', title:'Checkout'},
             ],
           }
+        },
+        filterFunction(cell?: any, search?: string): boolean {   
+          if (search === '' || search === cell || (search === 'wait' && cell === '')) {
+            return true;
+          } else {
+            return false;
+          }     
         }
       }
     }
@@ -85,16 +92,30 @@ export class ListBookingComponent implements OnInit {
 
   constructor(
     private bookingService: BookingService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.bookingService.ListBooking.subscribe(data => {
       this.source.load(data)
     })
+    this.route.queryParams.subscribe(params => {
+      if(params.search != null) { this.onSearch(params.search)}
+    })
   }
 
   SelectBill(bill: any) {
     this.router.navigateByUrl('/home/booking/details/' + bill.data.id)
+  }
+
+  onSearch(query: string = ''){
+    query.trim()
+    this.source.setFilter([
+      {
+        field: 'id',
+        search: query
+      },
+    ], false)
   }
 }

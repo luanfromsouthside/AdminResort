@@ -148,6 +148,7 @@ export class RoomTypeComponent implements OnInit {
     if(isAdd) {
       if(idLength<= 0) return result.set(false,"ID is required");
       else if (idLength >10) return result.set(false, "ID constain at most 10 characters");
+      else if (!model.id.match('^[0-9A-Z]{4,10}$')) return result.set(false, 'Type ID is invalid')
     }
     if(nameLength<= 0) return result.set(false,"Name is required");
     else if (nameLength >30) return result.set(false, "Name constain at most 30 characters");
