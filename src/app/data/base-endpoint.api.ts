@@ -2,7 +2,7 @@ import { NbAuthService } from '@nebular/auth';
 import { HttpHeaders } from "@angular/common/http";
 
 export class BaseEndpoint {
-    private readonly baseEndpoint: string = 'https://localhost:44344/api/';
+    private readonly baseEndpoint: string = 'http://luanaspnet-001-site1.ftempurl.com/api/';
     private controller: string;
 
     constructor(ctrl: string) {

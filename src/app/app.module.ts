@@ -53,7 +53,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore'
             class: NbAuthJWTToken,
             key: 'token'
           },
-          baseEndpoint: 'https://localhost:44344/api/Auth',
+          baseEndpoint: 'http://luanaspnet-001-site1.ftempurl.com/api/Auth',
           login: {
             endpoint: '/staff',
             method: 'post',
